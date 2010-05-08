@@ -1,0 +1,49 @@
+-rename Test to [MethodName_StateUnderTest_ExpectedBehavior]
+-rename Test XML Files
+
+-Test that Globaloptions behave also very deep in subcommandstructure as expected
+
+-maybe use of TypeConverter somewhere
+-implement required option; means if you have one option you have also to use the other option
+-implement all this what Mono.Options can do
+-maybe xdocument to xelement to allow also parts of an xml file
+
+-when occurance is over 1 its possible that a option is recognized as command argument, find solution for this
+-what if --o option without argument is defined and on commandline is --ofoo, it should not jump in arguments branch, it should throw an error
+-think about to implement more then 1 command argument
+             * for example: git checkout -b new v1.3.4
+             * "new" and "v.1.3.4" is her in order ;  
+             * give context in cutomvalidator;
+             * user should give back error message when customvalidator fails
+-decide depend on messagetype when severity error or warning or other
+-move sendvalidation event in errorhelper class
+-You should also be differ by argumentsplitter
+
+
+
+--------
+
+-Shortcut in Parser ob option command oder argument available bevore entering the execution path
+
+==V 0.5==
+
+  * Parse the Commandline Successfull and generate a Objectstructure
+  * Support for Subcommands...
+  * Globaloptions
+  * Options
+  * Arguments
+  * XML Schema validation
+
+==V 1.0==
+
+  * Integrated Help
+
+==Future==
+
+  * integrated Statistic (how often is a command called)
+  * Shortcut commands which calls commands with other options
+  * configuration via fluent interface
+  * aliascommand
+  * excludings and includings
+  * DI of commands in proper classes
+  * shortcut options; instead of hg clone -v -k -t do something like hg clone -vkt

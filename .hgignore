@@ -1,0 +1,4 @@
+glob:src/_ReSharper.MPOptions/*
+glob:src/MPOptions.suo
+glob:src/MPOptions.Test/bin/*
+glob:src/MPOptions.4.5.resharper.user

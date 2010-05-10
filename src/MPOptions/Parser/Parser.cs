@@ -311,7 +311,7 @@ namespace MPOptions.Parser
 
                     if (option != null)
                     {
-                        if (!option.IsSet)
+                        if (!option.IsSet)  //MP: check if the Value is already set by a value optional option; if yes, should it break with error message???
                         {
                             option.Set=true;
                             pos = savedpos;

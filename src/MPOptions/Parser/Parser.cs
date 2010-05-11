@@ -6,16 +6,9 @@ using MPOptions.Internal;
 
 namespace MPOptions.Parser
 {
+    
     internal class Parser
     {
-        private const char OptionStarter = '-';
-        private const char OptionStarter2 = '/';
-        private const char OptionDivider = ':';
-        private const char OptionDivider2 = '=';
-
-
-
-        
         private enum Token
         {
             AlphaNumeric = 0x1,
@@ -42,14 +35,14 @@ namespace MPOptions.Parser
             char testvalue = charArray[pos];
             switch (testvalue )
             {
-                case OptionStarter:
+                case '-':
                     return Token.OptionStarter;
-                case OptionStarter2:
+                case '/':
                     return Token.OptionStarter2;
                 case '\\':
                     return Token.AmperAmper;
-                case OptionDivider:
-                case OptionDivider2:
+                case ':':
+                case '=':
                     return Token.OptionDivider;
                 case '"':
                     return Token.Amper;
@@ -147,7 +140,7 @@ namespace MPOptions.Parser
             {
                 StringBuilder sb = new StringBuilder(50);
 
-                if (ParseAmperString(sb, ref savedpos) && sb.Length > 0)
+                if (ParseAmperString(sb, ref savedpos))
                 {
                     if (TestForArgument(sb.ToString()))
                     {
@@ -164,7 +157,7 @@ namespace MPOptions.Parser
                 {
                     sb.Append(charArray[savedpos]);
                     savedpos++;
-                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End);
+                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End);  //MP: should this not be a || instead of &&
 
                 if (TestForArgument(sb.ToString()))
                 {
@@ -211,7 +204,8 @@ namespace MPOptions.Parser
                 if (ParseValue(pos) == Token.Amper)
                 {
                     pos++;
-                    return true;
+
+                    return retval.Length > 0;
                 }
                 else if (ParseValue(pos) == Token.AmperAmper && ParseValue(pos + 1) == Token.Amper)
                 {
@@ -268,7 +262,7 @@ namespace MPOptions.Parser
                     {
                         StringBuilder sb2=new StringBuilder(50);
 
-                        if (ParseAmperString(sb2, ref savedpos) && sb2.Length > 0)
+                        if (ParseAmperString(sb2, ref savedpos))
                         {
                             if (TestForOption(sb.ToString(), sb2.ToString()))
                             {

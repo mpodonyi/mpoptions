@@ -1,8 +1,6 @@
 -rename Test to [MethodName_StateUnderTest_ExpectedBehavior]
 -rename Test XML Files
 
--Test that Globaloptions behave also very deep in subcommandstructure as expected
-
 -maybe use of TypeConverter somewhere
 -implement required option; means if you have one option you have also to use the other option
 -implement all this what Mono.Options can do
@@ -24,6 +22,7 @@
 --------
 
 -Shortcut in Parser ob option command oder argument available bevore entering the execution path
+-OptionValidator which allows passes through everything to option
 
 ==V 0.5==
 
@@ -42,7 +41,6 @@
 
   * integrated Statistic (how often is a command called)
   * Shortcut commands which calls commands with other options
-  * configuration via fluent interface
   * aliascommand
   * excludings and includings
   * DI of commands in proper classes

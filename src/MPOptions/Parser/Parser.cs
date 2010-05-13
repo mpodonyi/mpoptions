@@ -17,9 +17,10 @@ namespace MPOptions.Parser
             AmperAmper = 0x8,
             WhiteSpace = 0x10,
             End = 0x20,
-            Error = 0x40,
+            Unknown = 0x40,
             Amper = 0x80,
-            OptionStarter2 = 0x100
+            OptionStarter2 = 0x100,
+           // Special = 0x200
         }
 
         private char[] charArray = null;
@@ -53,7 +54,7 @@ namespace MPOptions.Parser
                         return Token.AlphaNumeric;
                     else
                     {
-                        return Token.Error;
+                        return Token.Unknown;
                     }
             }
 
@@ -228,14 +229,21 @@ namespace MPOptions.Parser
             }
         }
 
+        private bool IsValidOptionToken(int pos)
+        {
+            var retval = ParseValue(pos);
+            return !(retval == Token.WhiteSpace || retval == Token.OptionDivider || retval == Token.End);
+        }
+
         private bool TryOption(ref int pos)
         {
             int savedpos = pos;
 
             if (ParseValue(savedpos) == Token.OptionStarter2)
+            {
                 savedpos++;
-
-            if (ParseValue(savedpos) == Token.OptionStarter)
+            }
+            else if (ParseValue(savedpos) == Token.OptionStarter)
             {
                 savedpos++;
                 if (ParseValue(savedpos) == Token.OptionStarter)
@@ -244,7 +252,7 @@ namespace MPOptions.Parser
                 }
             }
 
-            if (ParseValue(savedpos) == Token.AlphaNumeric)
+            if (IsValidOptionToken(savedpos))
             {
                 StringBuilder sb = new StringBuilder(50);
 
@@ -252,7 +260,7 @@ namespace MPOptions.Parser
                 {
                     sb.Append(charArray[savedpos]);
                     savedpos++;
-                } while (ParseValue(savedpos) == Token.AlphaNumeric);
+                } while (IsValidOptionToken(savedpos));
 
                 if (ParseValue(savedpos) == Token.OptionDivider)
                 {

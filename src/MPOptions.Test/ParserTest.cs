@@ -386,10 +386,21 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
-        public void Parse_DifferentOptionSplitter_Successful()
+        public void Parse_OptionWithDifferentSplitter_Successful()
         {
             bool error;
             var option = Command.GetRoot().AddOption("test", "alpha;beta", new RegularExpressionOptionValueValidator(@"^\d+$") { MaximumOccurrence = 2 }).Parse(" -alpha:1 -beta=2", out error);
+
+            Assert.AreEqual(2, option.Values.Length);
+            Assert.AreEqual("1", option.Values[0]);
+            Assert.AreEqual("2", option.Values[1]);
+        }
+
+        [TestMethod]
+        public void Parse_OptionWithNonAlphaNumericToken_Successful()
+        {
+            bool error;
+            var option = Command.GetRoot().AddOption("test", "?;@", new RegularExpressionOptionValueValidator(@"^\d+$") { MaximumOccurrence = 2 }).Parse(" -?:1 --@=2", out error);
 
             Assert.AreEqual(2, option.Values.Length);
             Assert.AreEqual("1", option.Values[0]);

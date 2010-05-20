@@ -23,7 +23,7 @@ namespace MPOptions.Validator
                  where ob.StartsWith("-") || ob.EndsWith("=") || ob.EndsWith(":") || ob.Any(o => char.IsWhiteSpace(o))
                       select ob).Any())
             {
-                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm,ExceptionArgument.token);
             }
 
             //Test that no sibling has same Name
@@ -32,7 +32,7 @@ namespace MPOptions.Validator
                        select ii;
             if (name.Count() > 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.name);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
             }
 
 

@@ -18,7 +18,7 @@ namespace MPOptions.Validator
             //Test that CommandValues meet the RegexRequirements
             if (!Regex.IsMatch(obj.Token, TokenRegex))
             {
-                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm, ExceptionArgument.token);
             }
 
             //Test that no sibling has same Name
@@ -27,7 +27,7 @@ namespace MPOptions.Validator
                        select ii;
             if(name.Count()>0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.name);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
             }
 
             //Test that no sibling has same Token
@@ -38,7 +38,7 @@ namespace MPOptions.Validator
                           select iiii;
             if(strings.Count()>0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.token);
             }
         }
     }

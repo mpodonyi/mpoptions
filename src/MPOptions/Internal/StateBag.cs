@@ -18,15 +18,5 @@ namespace MPOptions.Internal
         internal readonly IDictionary<string, Option> Options = new Dictionary<string, Option>();
 
         internal readonly IDictionary<string, Argument> Arguments = new Dictionary<string, Argument>();
-
-        //internal IDictionary<string, Option> GlobalOptions
-        //{
-        //    get
-        //    {
-        //        return (from i in Options
-        //                where i.Key.StartsWith("::")
-        //                select i).ToDictionary(k=>k.Key,v=>v.Value);
-        //    }
-        //}
     }
 }

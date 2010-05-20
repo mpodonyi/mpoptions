@@ -61,6 +61,12 @@ namespace MPOptions
 
         public Command AddCommand(string name, string token)
         {
+            if (name == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
+
+            if (token == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.token);
+
             Command command = new Command(this as Command ?? ContextParent, name, token);
             //Command command = new Command(this as Command ?? ParentCommand, name, token);
             ValidationFactory.Validate(command);
@@ -93,6 +99,12 @@ namespace MPOptions
 
         private Option AddOptionInternal(string name, string token, IOptionValueValidator optionValueValidator,bool globalOption)
         {
+            if (name == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
+
+            if (token==null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.token);
+
             Option option = new Option(this as Command ?? ContextParent, name, token, globalOption);
             //Option option = new Option(this as Command ?? ParentCommand, name, token, globalOption);
             option.OptionValueValidator = optionValueValidator;
@@ -105,6 +117,9 @@ namespace MPOptions
 
         public Argument AddArgument(string name, IArgumentValidator argumentValidator)
         {
+            if (name==null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
+
             Argument argument = new Argument(this as Command ?? ContextParent, name, argumentValidator);
             //Argument argument = new Argument(this as Command ?? ParentCommand, name, argumentValidator);
             ValidationFactory.Validate(argument);

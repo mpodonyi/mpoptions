@@ -71,7 +71,7 @@ namespace MPOptions
 
         public Option Parse(string commandLine, out bool error)
         {
-            var parser = new Parser.Parser(this.RootCommand, commandLine);
+            var parser = new Parser(this.RootCommand, commandLine);
             error = parser.Parse();
             return this;
         }

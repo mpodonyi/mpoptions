@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.Internal;
 
 namespace MPOptions
 {
@@ -48,7 +49,7 @@ namespace MPOptions
 
         public Argument Parse(string commandLine, out bool error)
         {
-            var parser = new Parser.Parser(this.RootCommand, commandLine);
+            var parser = new Parser(this.RootCommand, commandLine);
             error = parser.Parse();
             return this;
         }

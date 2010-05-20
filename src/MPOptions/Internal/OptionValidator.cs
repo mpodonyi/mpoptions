@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MPOptions.Internal;
 
-namespace MPOptions.Validator
+namespace MPOptions.Internal
 {
     internal class OptionValidator : Validator<Option>
     {
@@ -21,7 +20,7 @@ namespace MPOptions.Validator
             //if (!Regex.IsMatch(obj.Token, TokenRegex))
             if ((from ob in obj.Token.SplitInternal()
                  where ob.StartsWith("-") || ob.EndsWith("=") || ob.EndsWith(":") || ob.Any(o => char.IsWhiteSpace(o))
-                      select ob).Any())
+                 select ob).Any())
             {
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm,ExceptionArgument.token);
             }
@@ -49,20 +48,20 @@ namespace MPOptions.Validator
             {
                 //test that only one exist with regex validator
                 var countOptionWithRegex = (from i in optionsWithSameToken
-                                      where i.OptionValueValidator is RegularExpressionOptionValueValidator
-                                      select i).Count();
+                                            where i.OptionValueValidator is RegularExpressionOptionValueValidator
+                                            select i).Count();
                 if (countOptionWithRegex > 1)
                     ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
 
 
                 //test that staticvalidator values are unique over every option with same token value
                 var countOptionWithSameStaticValidationValue = (from i in optionsWithSameToken
-                                                          where i.OptionValueValidator is StaticOptionValueValidator
-                                                          from i2 in ((StaticOptionValueValidator) i.OptionValueValidator).values
-                                                          group i by i2
-                                                          into g
-                                                              where g.Count() > 1
-                                                              select g).Count();
+                                                                where i.OptionValueValidator is StaticOptionValueValidator
+                                                                from i2 in ((StaticOptionValueValidator) i.OptionValueValidator).values
+                                                                group i by i2
+                                                                into g
+                                                                    where g.Count() > 1
+                                                                    select g).Count();
                 if (countOptionWithSameStaticValidationValue>0)
                     ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
             }

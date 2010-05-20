@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace MPOptions.Validator
+namespace MPOptions.Internal
 {
     interface IValidator
     {

@@ -61,17 +61,17 @@
     <Compile Include="Element.cs" />
     <Compile Include="Internal\Helper.cs" />
     <Compile Include="Option.cs" />
-    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Internal\Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegularExpressionArgumentValidator.cs" />
     <Compile Include="RegularExpressionOptionValueValidator.cs" />
     <Compile Include="Internal\StateBag.cs" />
     <Compile Include="StaticOptionValueValidator.cs" />
-    <Compile Include="Validator\CommandValidator.cs" />
-    <Compile Include="Validator\Validator.cs" />
-    <Compile Include="Validator\OptionValidator.cs" />
-    <Compile Include="Validator\ThrowHelper.cs" />
-    <Compile Include="Validator\ValidationFactory.cs" />
+    <Compile Include="Internal\CommandValidator.cs" />
+    <Compile Include="Internal\Validator.cs" />
+    <Compile Include="Internal\OptionValidator.cs" />
+    <Compile Include="Internal\ThrowHelper.cs" />
+    <Compile Include="Internal\ValidationFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

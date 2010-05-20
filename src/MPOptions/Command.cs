@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MPOptions.Internal;
-using MPOptions.Validator;
 
 namespace MPOptions
 {
@@ -71,7 +70,7 @@ namespace MPOptions
 
         public Command Parse(string commandLine, out bool error)
         {
-            var parser = new Parser.Parser(this.RootCommand, commandLine);
+            var parser = new Parser(this.RootCommand, commandLine);
             error = parser.Parse();
             return this;
         }

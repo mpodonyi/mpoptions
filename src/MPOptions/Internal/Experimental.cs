@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MPOptions
+namespace MPOptions.Internal
 {
     internal class OptionImpl: Option
     {
@@ -37,7 +37,6 @@ namespace MPOptions
        
 
     }
-    
 
     public static class CommandExtensions
     {

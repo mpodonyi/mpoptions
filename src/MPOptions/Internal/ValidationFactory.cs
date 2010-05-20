@@ -1,4 +1,4 @@
-namespace MPOptions.Validator
+namespace MPOptions.Internal
 {
     internal static class ValidationFactory
     {

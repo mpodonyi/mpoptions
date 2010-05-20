@@ -132,7 +132,7 @@ namespace MPOptions.Test
 
             foreach (string invalidToken in invalidTokens)
             {
-                AssertHelper.Throws<ArgumentOutOfRangeException>(() =>
+                AssertHelper.Throws<ArgumentException>(() =>
                 {
                     Command cmd = Command.GetRoot().AddCommand("test", invalidToken);
                 });
@@ -147,7 +147,7 @@ namespace MPOptions.Test
             Command cmd = Command.GetRoot();
 
             cmd.AddCommand("test", "mike;was;here");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => { cmd.AddCommand("test2", "john;was;not"); });
+            AssertHelper.Throws<ArgumentException>(() => { cmd.AddCommand("test2", "john;was;not"); });
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace MPOptions.Test
             Command cmd = Command.GetRoot();
 
             cmd.AddCommand("test", "mike;was;here");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => { cmd.AddCommand("test", "john;wasnt;not"); });
+            AssertHelper.Throws<ArgumentException>(() => { cmd.AddCommand("test", "john;wasnt;not"); });
         }
 
         [TestMethod]
@@ -200,11 +200,11 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddGlobalOption("mike", "t1");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike", "t2"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike", "t2"));
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddGlobalOption("mike", "t2"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mike", "t2"));
         }
 
         //[TestMethod]
@@ -283,10 +283,10 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddOption_InvalidToken_ThrowsException()
         {
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => Command.GetRoot().AddOption("mike", "-test"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => Command.GetRoot().AddOption("mike", "te st"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => Command.GetRoot().AddOption("mike", "test="));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => Command.GetRoot().AddOption("mike", "test:"));
+            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "-test"));
+            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "te st"));
+            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "test="));
+            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "test:"));
 
             AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", "?"));
             AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", " ? "));
@@ -300,7 +300,7 @@ namespace MPOptions.Test
             Command cmd = Command.GetRoot();
             cmd = cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand;
 
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddGlobalOption("mikeopt", "t4"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mikeopt", "t4"));
         }
 
         [TestMethod]

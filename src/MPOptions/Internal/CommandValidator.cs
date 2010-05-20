@@ -1,8 +1,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
-using MPOptions.Internal;
 
-namespace MPOptions.Validator
+namespace MPOptions.Internal
 {
     internal class CommandValidator:Validator<Command>
     {

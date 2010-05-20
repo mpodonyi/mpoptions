@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MPOptions.Validator
+namespace MPOptions.Internal
 {
     internal enum ExceptionArgument
     {

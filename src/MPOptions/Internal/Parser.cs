@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MPOptions.Internal;
 
-namespace MPOptions.Parser
+namespace MPOptions.Internal
 {
-    
     internal class Parser
     {
         private enum Token
@@ -20,7 +18,7 @@ namespace MPOptions.Parser
             Unknown = 0x40,
             Amper = 0x80,
             OptionStarter2 = 0x100,
-           // Special = 0x200
+            // Special = 0x200
         }
 
         private char[] charArray = null;
@@ -178,14 +176,14 @@ namespace MPOptions.Parser
                              where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                                    && obj.ArgumentValidator is RegularExpressionArgumentValidator
                              select obj).Concat(
-                                from obj in currentCommand.Arguments
-                                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                                      && obj.ArgumentValidator is CustomArgumentValidator
-                                select obj).Concat(
-                                    from obj in currentCommand.Arguments
-                                    where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                                          && obj.ArgumentValidator is FallThroughArgumentValidator
-                                    select obj);
+                from obj in currentCommand.Arguments
+                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+                      && obj.ArgumentValidator is CustomArgumentValidator
+                select obj).Concat(
+                from obj in currentCommand.Arguments
+                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+                      && obj.ArgumentValidator is FallThroughArgumentValidator
+                select obj);
 
             foreach(var argument in arguments)
             {
@@ -312,7 +310,7 @@ namespace MPOptions.Parser
                                   from obj2 in obj.Token.SplitInternal()
                                   where sb.ToString() == obj2
                                   select obj).SingleOrDefault();
-                        //MP: exist there an validation that this can only be single value
+                    //MP: exist there an validation that this can only be single value
 
 
                     if (option != null)
@@ -334,45 +332,45 @@ namespace MPOptions.Parser
         private bool TestForOption(string token,string value)
         {
             var options = from obj in currentCommand.Options
-                         where obj.OptionValueValidator is StaticOptionValueValidator
-                         from obj2 in obj.Token.SplitInternal()
-                         where token == obj2
-                         select obj;
+                          where obj.OptionValueValidator is StaticOptionValueValidator
+                          from obj2 in obj.Token.SplitInternal()
+                          where token == obj2
+                          select obj;
 
             foreach (var option in options)
             {
                 if (CanSetValueOption(option))
-                if(option.OptionValueValidator.IsMatch(value))
-                {
-                    if(!option.IsSet)
+                    if(option.OptionValueValidator.IsMatch(value))
                     {
-                        option._Values.Add(value);
-                        option.Set=true;
-                        return true;
-                    }
+                        if(!option.IsSet)
+                        {
+                            option._Values.Add(value);
+                            option.Set=true;
+                            return true;
+                        }
                     
-                }
+                    }
             }
 
             var options2 = (from obj in currentCommand.Options
-                          where obj.OptionValueValidator is RegularExpressionOptionValueValidator
-                          from obj2 in obj.Token.SplitInternal()
-                          where token == obj2
-                          select obj).SingleOrDefault();
+                            where obj.OptionValueValidator is RegularExpressionOptionValueValidator
+                            from obj2 in obj.Token.SplitInternal()
+                            where token == obj2
+                            select obj).SingleOrDefault();
 
             if (options2!=null)
             {
                 if (CanSetValueOption(options2))
                     if (options2.OptionValueValidator.IsMatch(value))
-                {
-                    if (options2._Values.Count < options2.OptionValueValidator.MaximumOccurrence)
                     {
-                        options2._Values.Add(value);
-                        options2.Set = true;
-                        return true;
-                    }
+                        if (options2._Values.Count < options2.OptionValueValidator.MaximumOccurrence)
+                        {
+                            options2._Values.Add(value);
+                            options2.Set = true;
+                            return true;
+                        }
 
-                }
+                    }
             }
 
             var options3 = (from obj in currentCommand.Options

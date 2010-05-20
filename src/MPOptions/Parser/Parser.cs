@@ -178,9 +178,13 @@ namespace MPOptions.Parser
                              where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                                    && obj.ArgumentValidator is RegularExpressionArgumentValidator
                              select obj).Concat(
+                                from obj in currentCommand.Arguments
+                                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+                                      && obj.ArgumentValidator is CustomArgumentValidator
+                                select obj).Concat(
                                     from obj in currentCommand.Arguments
                                     where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                                          && obj.ArgumentValidator is CustomArgumentValidator
+                                          && obj.ArgumentValidator is FallThroughArgumentValidator
                                     select obj);
 
             foreach(var argument in arguments)

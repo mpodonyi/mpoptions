@@ -21,6 +21,9 @@ namespace MPOptions.Internal
             // Special = 0x200
         }
 
+        internal ParserErrorContext ErrorContext
+        { get; private set; }
+
         private char[] charArray = null;
         private bool error = false;
 
@@ -58,6 +61,11 @@ namespace MPOptions.Internal
 
         }
 
+        internal Parser(Element element)
+        {
+            currentCommand = element.RootCommand;
+            charArray = System.Environment.CommandLine.ToCharArray();
+        }
 
         internal Parser(Command rootCommand, string commandLine)
         {
@@ -96,9 +104,12 @@ namespace MPOptions.Internal
             //Parse(SwallowExe());
             Parse(0);
 
-            if(error)
+            if (error)
+            {
                 Clean();
-            
+                ErrorContext=new ParserErrorContext();
+            }
+
             return error;
         }
 

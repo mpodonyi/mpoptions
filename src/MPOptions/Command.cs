@@ -66,13 +66,55 @@ namespace MPOptions
                 return new ArgumentCollection(this);
             }
         }
-        
 
-        public Command Parse(string commandLine, out bool error)
+
+        /// <summary>
+        /// Parses this instance.
+        /// </summary>
+        /// <exception cref="ParserException">Thrown when the Commandline can not be parsed successful.</exception>
+        /// <returns>Return the current command.</returns>
+        public Command Parse()
         {
-            var parser = new Parser(this.RootCommand, commandLine);
-            error = parser.Parse();
+            var parser = new Parser(this);
+            if (parser.Parse())
+                ThrowHelper.ThrowParserError(parser.ErrorContext);
             return this;
+        }
+
+        /// <summary>
+        /// Parses this instance.
+        /// </summary>
+        /// <exception cref="ParserException">Thrown when the Commandline can not be parsed successful.</exception>
+        /// <returns>Return the current command.</returns>
+        public Command Parse(out ParserErrorContext parserErrorContext)
+        {
+            var parser = new Parser(this);
+            if (parser.Parse())
+            {
+                parserErrorContext = parser.ErrorContext;
+                return null;
+            }
+
+            parserErrorContext = null;
+            return this;
+        }
+
+
+        internal Command Parse(string commandLine, out ParserErrorContext parserErrorContext)
+        {
+            var parser = new Parser(this.RootCommand,commandLine);
+            if (parser.Parse())
+            {
+                parserErrorContext = parser.ErrorContext;
+                return null;
+            }
+
+            parserErrorContext = null;
+            return this;
+
+            //var parser = new Parser(this.RootCommand, commandLine);
+            //error = parser.Parse();
+            //return this;
         }
     }
 }

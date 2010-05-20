@@ -56,6 +56,8 @@
     <Compile Include="FallThroughOptionValueValidator.cs" />
     <Compile Include="IArgumentValidator.cs" />
     <Compile Include="Internal\Experimental.cs" />
+    <Compile Include="ParserErrorContext.cs" />
+    <Compile Include="ParserException.cs" />
     <Compile Include="IOptionValueValidator.cs" />
     <Compile Include="OptionCollection.cs" />
     <Compile Include="Element.cs" />

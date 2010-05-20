@@ -53,5 +53,10 @@ namespace MPOptions.Internal
         //    }
         //    return string.Empty;
         //}
+
+        internal static void ThrowParserError(ParserErrorContext parserErrorContext)
+        {
+            throw new ParserException(parserErrorContext);
+        }
     }
 }

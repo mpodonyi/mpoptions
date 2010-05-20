@@ -408,6 +408,35 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
+        public void Parse_OptionWithFallThroughOptionValidator_Successful()
+        {
+            bool error;
+            
+            var option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator()).Parse(" -m:k", out error);
+            Assert.AreEqual(1, option.Values.Length);
+            Assert.AreEqual("k", option.Values[0]);
+            Assert.IsFalse(error);
+
+            option =Command.GetRoot().AddOption("test", "m",new FallThroughOptionValueValidator()).Parse(" -m:k -m:l", out error);
+            Assert.IsTrue(error);
+
+            option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator(){MaximumOccurrence = 2}).Parse(" -m:k -m:l", out error);
+            Assert.IsFalse(error);
+
+            option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator()).Parse(" -m", out error);
+            Assert.IsTrue(error);
+
+            option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator(){ValueOptional = true}).Parse(" -m", out error);
+            Assert.IsFalse(error);
+
+            option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator() { ValueOptional = true,MaximumOccurrence = 2}).Parse(" -m -m", out error);
+            Assert.IsTrue(error);
+
+            option = Command.GetRoot().AddOption("test", "m", new FallThroughOptionValueValidator() { ValueOptional = true, MaximumOccurrence = 2 }).Parse(" -m -m:6", out error);
+            Assert.IsTrue(error);
+        }
+
+        [TestMethod]
         public void Experimental()
         {
 

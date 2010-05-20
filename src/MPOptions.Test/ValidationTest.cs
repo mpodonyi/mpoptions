@@ -380,6 +380,17 @@ namespace MPOptions.Test
             Assert.IsNotNull(rootcommand.Commands["com1"].Commands["com2"].Options["option2"]);
         }
 
-        //==============  Parser Tests
+        [TestMethod]
+        public void AddOption_OptionWithFallThroughValidatorHasAlreadyOtherOptionsWithSameTokenValue_ThrowsException()
+        {
+            Command cmd = Command.GetRoot();
+            cmd.AddOption("mike", "t2", new RegularExpressionOptionValueValidator(@"\d"));
+            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
+
+            cmd = Command.GetRoot();
+            cmd.AddOption("mike", "t1", new RegularExpressionOptionValueValidator(@"\d"));
+            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
+
+        }
     }
 }

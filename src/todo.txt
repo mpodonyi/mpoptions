@@ -22,7 +22,7 @@
 --------
 
 -Shortcut in Parser ob option command oder argument available bevore entering the execution path
--OptionValidator which allows passes through everything to option
+-FallthroughOptionValidator could be fired after Regexoptionvalidator
 
 ==V 0.5==
 

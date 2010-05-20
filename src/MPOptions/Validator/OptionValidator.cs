@@ -80,7 +80,9 @@ namespace MPOptions.Validator
             if(optionsWithSameToken.Count(opt => opt.OptionValueValidator == null || opt.OptionValueValidator.ValueOptional) > 1)
                 ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
 
-
+            //test that when Option with OptionValidator FallThrough Exist that no other options exist with same token value
+            if (optionsWithSameToken.Any(opt => opt.OptionValueValidator is FallThroughOptionValueValidator) && optionsWithSameToken.Count > 1)
+                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
         }
     }
 }

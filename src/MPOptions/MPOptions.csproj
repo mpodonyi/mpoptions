@@ -52,6 +52,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="CommandCollection.cs" />
     <Compile Include="CustomArgumentValidator.cs" />
+    <Compile Include="FallThroughOptionValueValidator.cs" />
     <Compile Include="IArgumentValidator.cs" />
     <Compile Include="Internal\Experimental.cs" />
     <Compile Include="IOptionValueValidator.cs" />

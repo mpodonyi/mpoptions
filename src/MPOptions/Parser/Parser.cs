@@ -350,25 +350,46 @@ namespace MPOptions.Parser
                 }
             }
 
-            var options2 = from obj in currentCommand.Options
+            var options2 = (from obj in currentCommand.Options
                           where obj.OptionValueValidator is RegularExpressionOptionValueValidator
                           from obj2 in obj.Token.SplitInternal()
                           where token == obj2
-                          select obj;
+                          select obj).SingleOrDefault();
 
-            foreach (var option in options2)
+            if (options2!=null)
             {
-                if (CanSetValueOption(option))
-                if (option.OptionValueValidator.IsMatch(value))
+                if (CanSetValueOption(options2))
+                    if (options2.OptionValueValidator.IsMatch(value))
                 {
-                    if (option._Values.Count < option.OptionValueValidator.MaximumOccurrence)
+                    if (options2._Values.Count < options2.OptionValueValidator.MaximumOccurrence)
                     {
-                        option._Values.Add(value);
-                        option.Set=true;
+                        options2._Values.Add(value);
+                        options2.Set = true;
                         return true;
                     }
 
                 }
+            }
+
+            var options3 = (from obj in currentCommand.Options
+                            where obj.OptionValueValidator is FallThroughOptionValueValidator
+                            from obj2 in obj.Token.SplitInternal()
+                            where token == obj2
+                            select obj).SingleOrDefault();
+
+            if (options3 != null)
+            {
+                if (CanSetValueOption(options3))
+                    if (options3.OptionValueValidator.IsMatch(value))  //not necessary; just here to be consistent with previous statement
+                    {
+                        if (options3._Values.Count < options3.OptionValueValidator.MaximumOccurrence)
+                        {
+                            options3._Values.Add(value);
+                            options3.Set = true;
+                            return true;
+                        }
+
+                    }
             }
 
             return false;

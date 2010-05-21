@@ -28,6 +28,8 @@ namespace MPOptions.Internal
 
         private Command currentCommand;
 
+        private readonly bool cleancls = false;
+
         private Token ParseValue(int pos)
         {
             if (pos >= charArray.Length)
@@ -60,22 +62,31 @@ namespace MPOptions.Internal
 
         }
 
-        internal Parser(Element element)
+        private Parser(Element element, char[] charArray, bool cleancls)
         {
-            currentCommand = element.RootCommand;
-            charArray = System.Environment.CommandLine.ToCharArray();
+            this.currentCommand = element.RootCommand;
+            this.charArray = charArray;
+            this.cleancls = cleancls;
         }
 
-        internal Parser(Command rootCommand, string commandLine)
+        internal Parser(Element element)
+            : this(element, System.Environment.CommandLine.ToCharArray(),true)
         {
-            charArray = commandLine.ToCharArray();
-            currentCommand = rootCommand;
+        }
+
+        internal Parser(Element element, string commandLine):this(element,commandLine.ToCharArray(),false)
+        {
         }
 
         private int SwallowExe()
         {
-            int retval = Environment.GetCommandLineArgs()[0].Length;
-            return charArray[0] == '"' ? retval + 2 : retval;
+            if (cleancls)
+            {
+                int retval = Environment.GetCommandLineArgs()[0].Length;
+                return charArray[0] == '"' ? retval + 2 : retval;
+            }
+
+            return 0;
         }
 
         private void Clean()
@@ -100,8 +111,7 @@ namespace MPOptions.Internal
         internal ParserErrorContext Parse()
         {
             Clean();
-            //Parse(SwallowExe());
-            Parse(0);
+            Parse(SwallowExe());
 
             if (ErrorContext != null)
             {

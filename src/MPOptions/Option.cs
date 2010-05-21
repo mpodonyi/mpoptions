@@ -92,7 +92,7 @@ namespace MPOptions
 
         internal Option Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
-            var parser = new Parser(this.RootCommand, commandLine);
+            var parser = new Parser(this, commandLine);
             parserErrorContext = parser.Parse();
             return this;
         }

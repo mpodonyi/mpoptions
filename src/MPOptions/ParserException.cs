@@ -8,7 +8,7 @@ namespace MPOptions
 {
     public class ParserException: Exception, ISerializable
     {
-        internal ParserException(ParserErrorContext parserErrorContext)
+        internal ParserException(ParserErrorContext parserErrorContext):base(parserErrorContext.ToString())
         {
             ErrorContext = parserErrorContext;
         }
@@ -18,20 +18,6 @@ namespace MPOptions
             get; private set;
         }
 
-        internal ParserException()
-        {
-            // Add implementation.
-        }
-        
-        internal ParserException(string message)
-        {
-            // Add implementation.
-        }
-        
-        internal ParserException(string message, Exception inner)
-        {
-            // Add implementation.
-        }
 
         // This constructor is needed for serialization.
         internal ParserException(SerializationInfo info, StreamingContext context)

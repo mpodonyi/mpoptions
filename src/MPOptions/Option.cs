@@ -77,8 +77,9 @@ namespace MPOptions
         public Option Parse()
         {
             var parser = new Parser(this);
-            if (parser.Parse())
-                ThrowHelper.ThrowParserError(parser.ErrorContext);
+            ParserErrorContext errorContext = parser.Parse();
+            if (errorContext != null)
+                ThrowHelper.ThrowParserError(errorContext);
             return this;
         }
 
@@ -92,18 +93,8 @@ namespace MPOptions
         internal Option Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var parser = new Parser(this.RootCommand, commandLine);
-            if (parser.Parse())
-            {
-                parserErrorContext = parser.ErrorContext;
-                return null;
-            }
-
-            parserErrorContext = null;
+            parserErrorContext = parser.Parse();
             return this;
-
-            //var parser = new Parser(this.RootCommand, commandLine);
-            //error = parser.Parse();
-            //return this;
         }
 
         //should global option give back the rootcommand or null

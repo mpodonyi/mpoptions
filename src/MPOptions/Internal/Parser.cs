@@ -21,11 +21,10 @@ namespace MPOptions.Internal
             // Special = 0x200
         }
 
-        internal ParserErrorContext ErrorContext
-        { get; private set; }
+        private ParserErrorContext ErrorContext
+        { get; set; }
 
-        private char[] charArray = null;
-        private bool error = false;
+        private readonly char[] charArray = null;
 
         private Command currentCommand;
 
@@ -98,24 +97,23 @@ namespace MPOptions.Internal
             }
         }
 
-        internal bool Parse()
+        internal ParserErrorContext Parse()
         {
             Clean();
             //Parse(SwallowExe());
             Parse(0);
 
-            if (error)
+            if (ErrorContext != null)
             {
                 Clean();
-                ErrorContext=new ParserErrorContext();
             }
-
-            return error;
+         
+            return ErrorContext;
         }
 
         private void Parse(int pos)
         {
-            while(ParseValue(pos) != Token.End && !error)
+            while(ParseValue(pos) != Token.End && ErrorContext == null)
             {
                 while (ParseValue(pos) == Token.WhiteSpace)
                     pos++;
@@ -137,8 +135,7 @@ namespace MPOptions.Internal
                         continue;
                 }
 
-                error = true;
-
+                ErrorContext=new ParserErrorContext(charArray,pos);
             }
         }
 

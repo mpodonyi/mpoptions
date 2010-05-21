@@ -473,6 +473,15 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
+        public void ToString_ParserErrorContextStringRepresentation_Successful()
+        {
+            ParserErrorContext error;
+            Command.GetRoot().AddOption("test", "m", new StaticOptionValueValidator("k")).Parse(" -m:k -m:l", out error);
+
+            Assert.AreEqual(" -m:k -m:l\r\n      ^", error.ToString());
+        }
+
+        [TestMethod]
         public void Experimental()
         {
 

@@ -76,45 +76,30 @@ namespace MPOptions
         public Command Parse()
         {
             var parser = new Parser(this);
-            if (parser.Parse())
-                ThrowHelper.ThrowParserError(parser.ErrorContext);
+            ParserErrorContext errorContext = parser.Parse();
+            if (errorContext != null)
+                ThrowHelper.ThrowParserError(errorContext);
             return this;
         }
 
-        /// <summary>
-        /// Parses this instance.
-        /// </summary>
-        /// <exception cref="ParserException">Thrown when the Commandline can not be parsed successful.</exception>
-        /// <returns>Return the current command.</returns>
-        public Command Parse(out ParserErrorContext parserErrorContext)
-        {
-            var parser = new Parser(this);
-            if (parser.Parse())
-            {
-                parserErrorContext = parser.ErrorContext;
-                return null;
-            }
-
-            parserErrorContext = null;
-            return this;
-        }
+        ///// <summary>
+        ///// Parses this instance.
+        ///// </summary>
+        ///// <param name="parserErrorContext">The Error Reported by the Parser. Otherwise Null.</param>
+        ///// <returns>Return the current command.</returns>
+        //public Command Parse(out ParserErrorContext parserErrorContext)
+        //{
+        //    var parser = new Parser(this);
+        //    parserErrorContext = parser.Parse();
+        //    return this;
+        //}
 
 
         internal Command Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
-            var parser = new Parser(this.RootCommand,commandLine);
-            if (parser.Parse())
-            {
-                parserErrorContext = parser.ErrorContext;
-                return null;
-            }
-
-            parserErrorContext = null;
+            var parser = new Parser(this.RootCommand, commandLine);
+            parserErrorContext = parser.Parse();
             return this;
-
-            //var parser = new Parser(this.RootCommand, commandLine);
-            //error = parser.Parse();
-            //return this;
         }
     }
 }

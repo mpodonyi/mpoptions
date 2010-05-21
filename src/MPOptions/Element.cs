@@ -58,6 +58,15 @@ namespace MPOptions
         }
 
 
+        /// <summary>
+        /// Adds a command to the current command.
+        /// </summary>
+        /// <param name="name">The name of the Command.</param>
+        /// <param name="token">A semicolon seperated list of values which identify the command at the command line.</param>
+        /// <returns>The created command object.</returns>
+        /// <example>
+        /// For an Exmemple see <see cref="Command"/>
+        /// </example>
         public Command AddCommand(string name, string token)
         {
             if (name == null)
@@ -104,6 +113,9 @@ namespace MPOptions
             if (token==null)
                 ThrowHelper.ThrowArgumentNullException(ExceptionArgument.token);
 
+            if(optionValueValidator == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
+
             Option option = new Option(this as Command ?? ContextParent, name, token, globalOption);
             //Option option = new Option(this as Command ?? ParentCommand, name, token, globalOption);
             option.OptionValueValidator = optionValueValidator;
@@ -118,6 +130,9 @@ namespace MPOptions
         {
             if (name==null)
                 ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
+
+            if (argumentValidator == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.argumentvalidator);
 
             Argument argument = new Argument(this as Command ?? ContextParent, name, argumentValidator);
             //Argument argument = new Argument(this as Command ?? ParentCommand, name, argumentValidator);

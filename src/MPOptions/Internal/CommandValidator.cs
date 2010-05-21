@@ -10,7 +10,6 @@ namespace MPOptions.Internal
 
         private const string TokenRegex = @"^((\s*\w+\s*)|(\s*\w+\s*;\s*)|(\s*\w+(\s*;\s*\w+\s*(;)?\s*)*))$";
 
-        //Expresso comma seperated value: ^(?:(?<Item>[^,\n]+),)+(?<LastItem>[^,\n]+)[\r\n]*$
 
         public override void Validate()
         {

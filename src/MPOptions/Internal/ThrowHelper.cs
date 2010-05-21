@@ -5,13 +5,18 @@ namespace MPOptions.Internal
     internal enum ExceptionArgument
     {
         token,
-        name
+        name,
+        staticoptionvalue,
+        argumentvalidator,
+        optionvaluevalidator
     }
 
     internal enum ExceptionResource
     {
         Argument_InValidForm,
         Argument_AlreadyInDictionary,
+        MoreThenOneRegularExpression,
+        DoubleStaticValue
     }
 
     internal static class ThrowHelper
@@ -26,10 +31,17 @@ namespace MPOptions.Internal
             throw new ArgumentNullException();
         }
 
-        internal static void ThrowArgumentOutOfRangeException(ExceptionArgument argument)
-        {
-            throw new ArgumentOutOfRangeException();
-        }
+        //internal static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument,string value)
+        //{
+        //    throw new ArgumentException();
+        //}
+
+        
+
+        //internal static void ThrowArgumentOutOfRangeException(ExceptionArgument argument)
+        //{
+        //    throw new ArgumentOutOfRangeException();
+        //}
 
 
         //private static string GetArgumentName(ExceptionArgument argument)

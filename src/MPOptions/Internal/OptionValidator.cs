@@ -10,11 +10,6 @@ namespace MPOptions.Internal
             : base(obj)
         {}
 
-        //private const string TokenRegexInnerValue = @"[^-\s]\S*";
-
-        //private const string TokenRegex = @"^((\s*" + TokenRegexInnerValue + @"\s*)|(\s*" + TokenRegexInnerValue + @"\s*;\s*)|(\s*" + TokenRegexInnerValue + @"(\s*;\s*" + TokenRegexInnerValue + @"\s*(;)?\s*)*))$";
-
-
         public override void Validate()
         {
             //if (!Regex.IsMatch(obj.Token, TokenRegex))
@@ -31,7 +26,7 @@ namespace MPOptions.Internal
                        select ii;
             if (name.Count() > 0)
             {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
             }
 
 
@@ -40,7 +35,7 @@ namespace MPOptions.Internal
                                                  from iii in ii.Token.SplitInternal()
                                                  from iiii in obj.Token.SplitInternal()
                                                  where iii == iiii
-                                                 select ii).ToList();
+                                                 select ii).ToList();  //MP: should provide which token breaks the rules (for better exception handling)
             optionsWithSameToken.Add(obj);
 
 
@@ -51,7 +46,7 @@ namespace MPOptions.Internal
                                             where i.OptionValueValidator is RegularExpressionOptionValueValidator
                                             select i).Count();
                 if (countOptionWithRegex > 1)
-                    ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.MoreThenOneRegularExpression);
 
 
                 //test that staticvalidator values are unique over every option with same token value
@@ -63,7 +58,7 @@ namespace MPOptions.Internal
                                                                     where g.Count() > 1
                                                                     select g).Count();
                 if (countOptionWithSameStaticValidationValue>0)
-                    ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.token);
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue,ExceptionArgument.staticoptionvalue);
             }
 
             //test that only option without validator or with validator exist

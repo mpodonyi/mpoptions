@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,19 @@ namespace MPOptions.Internal
 
         }
 
-        private Option savedInstance;
+        internal Option savedInstance;
+
+        internal override IOptionValueValidator OptionValueValidator
+        {
+            get
+            {
+                return savedInstance.OptionValueValidator;
+            }
+            set
+            {
+                savedInstance.OptionValueValidator = value;
+            }
+        }
 
         internal override bool Set
         {
@@ -33,9 +46,6 @@ namespace MPOptions.Internal
                 return savedInstance.Set;
             }
         }
-
-       
-
     }
 
     public static class CommandExtensions

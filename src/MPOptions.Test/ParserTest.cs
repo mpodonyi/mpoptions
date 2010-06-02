@@ -481,6 +481,23 @@ namespace MPOptions.Test
             Assert.AreEqual(" -m:k -m:l\r\n      ^", error.ToString());
         }
 
+        //=====================================================
+        
+        [TestMethod]
+        public void Test_MoreFluentOptionValidatorSyntax()
+        {
+            ParserErrorContext error;
+            Command.GetRoot().AddOption("test", "m").WithStaticValidator("k","l").Parse(" -m:k", out error);
+
+            Assert.IsNull(error);
+
+            
+            Command.GetRoot().AddOption("test", "m").ParentCommand.Options["test"].WithStaticValidator("k", "l").Parse(" -m:k", out error);
+
+            Assert.IsNull(error);
+        }
+
+
         [TestMethod]
         public void Experimental()
         {

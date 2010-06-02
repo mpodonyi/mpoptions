@@ -27,6 +27,9 @@
 -maybe a order field would be great to make same validators for same tokenvalue possible
 -implement global fallthrough
 
+-implement generic exceptionmessages
+-find a better way to compare optionimpl and option
+
 ==V 0.5==
 
   * Parse the Commandline Successfull and generate a Objectstructure

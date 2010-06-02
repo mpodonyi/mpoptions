@@ -10,6 +10,29 @@ namespace MPOptions.Internal
             : base(obj)
         {}
 
+        private bool CompareHelper(Option left, Option right)
+        {
+            OptionImpl leftimpl = left as OptionImpl;
+            OptionImpl rightimpl = right as OptionImpl;
+
+            if (leftimpl != null && rightimpl != null)
+            {
+                return leftimpl.savedInstance == rightimpl.savedInstance;
+            }
+            else if (leftimpl != null && rightimpl == null)
+            {
+                return leftimpl.savedInstance == right;
+            }
+            else if (leftimpl == null && rightimpl != null)
+            {
+                return left == rightimpl.savedInstance;
+            }
+            else
+            {
+                return left == right;
+            }
+        }
+
         public override void Validate()
         {
             //if (!Regex.IsMatch(obj.Token, TokenRegex))
@@ -23,6 +46,7 @@ namespace MPOptions.Internal
             //Test that no sibling has same Name
             var name = from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>) 
                        where ii.Name == obj.Name
+                       && !CompareHelper(ii,obj)
                        select ii;
             if (name.Count() > 0)
             {
@@ -34,6 +58,7 @@ namespace MPOptions.Internal
                                                  from iii in ii.Token.SplitInternal()
                                                  from iiii in obj.Token.SplitInternal()
                                                  where iii == iiii
+                                                 && !CompareHelper(ii, obj)
                                                  select ii).Distinct().ToList();  //MP: should provide which token breaks the rules (for better exception handling)
             
             optionsWithSameToken.Add(obj);

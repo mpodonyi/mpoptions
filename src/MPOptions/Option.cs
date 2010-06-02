@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace MPOptions
             private set;
         }
 
-        internal IOptionValueValidator OptionValueValidator
+        internal virtual IOptionValueValidator OptionValueValidator
         {
             set; get;
         }
@@ -104,6 +105,23 @@ namespace MPOptions
             {
                 return IsGlobalOption ? RootCommand: base.ParentCommand;
             }
+        }
+
+        public Option WithStaticValidator(params string[] values)
+        {
+            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            try
+            {
+                this.OptionValueValidator = new StaticOptionValueValidator(values);
+                ValidationFactory.Validate(this);    
+            }
+            catch
+            {
+                this.OptionValueValidator = optionValueValidator;
+                throw;
+            }
+            
+            return this;
         }
     }
 }

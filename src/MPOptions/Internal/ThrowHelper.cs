@@ -9,8 +9,6 @@ namespace MPOptions.Internal
         staticoptionvalue,
         argumentvalidator,
         optionvaluevalidator,
-        
-        
     }
 
     internal enum ExceptionResource
@@ -19,7 +17,6 @@ namespace MPOptions.Internal
         Argument_AlreadyInDictionary,
         MoreThenOneRegularExpression,
         DoubleStaticValue,
-        Argument_NameAlreadyInDictionary,
         Argument_TokenPartAlreadyInDictionary,
         Maximumoccurenceminimum,
 
@@ -28,10 +25,10 @@ namespace MPOptions.Internal
 
     internal static class ThrowHelper
     {
-        internal static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument, string value)
-        {
-            throw new ArgumentException(string.Format(GetResource(resource), GetArgumentName(argument), value), GetArgumentName(argument));
-        }
+        //internal static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument, string value)
+        //{
+        //    throw new ArgumentException(string.Format(GetResource(resource), GetArgumentName(argument), value), GetArgumentName(argument));
+        //}
 
         //internal static void ThrowArgumentException(ExceptionResource resource, string value)
         //{
@@ -100,7 +97,7 @@ namespace MPOptions.Internal
                 case ExceptionResource.Argument_AlreadyInDictionary:
                     return "The Argument \"{0}\" is already in dictionary.";
                 case ExceptionResource.Argument_TokenPartAlreadyInDictionary:
-                    return "A Part or the whole of the argument Token with value \"{1}\" is already in dictionary.";
+                    return "A Part or the whole of the argument \"{0}\" is already in dictionary.";
                 case ExceptionResource.MoreThenOneRegularExpression:
                     return "Option with RegularExpressionValidator and Same Token Exist already.";
                 case ExceptionResource.DoubleStaticValue:

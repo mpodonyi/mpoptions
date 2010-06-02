@@ -36,7 +36,7 @@ namespace MPOptions.Internal
                           select iiii;
             if(strings.Count()>0)
             {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_TokenPartAlreadyInDictionary, ExceptionArgument.token, strings.First());
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_TokenPartAlreadyInDictionary, ExceptionArgument.token);
             }
         }
     }

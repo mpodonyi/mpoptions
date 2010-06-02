@@ -25,7 +25,7 @@ namespace MPOptions.Internal
                        select ii;
             if(name.Count()>0)
             {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
             }
 
             //Test that no sibling has same Token
@@ -36,7 +36,7 @@ namespace MPOptions.Internal
                           select iiii;
             if(strings.Count()>0)
             {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.token);
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_TokenPartAlreadyInDictionary, ExceptionArgument.token, strings.First());
             }
         }
     }

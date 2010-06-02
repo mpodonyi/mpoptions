@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using MPOptions.Internal;
 
 namespace MPOptions
 {
@@ -29,7 +30,7 @@ namespace MPOptions
 
         void  ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            ThrowHelper.ThrowNotImplementedException();
         }
 
         #endregion

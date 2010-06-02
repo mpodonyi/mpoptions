@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.Internal;
 
 namespace MPOptions
 {
@@ -49,7 +50,7 @@ namespace MPOptions
 
         public void CopyTo(Array array, int index)
         {
-            throw new NotImplementedException();
+            ThrowHelper.ThrowNotImplementedException();
         }
 
         public int Count
@@ -64,12 +65,13 @@ namespace MPOptions
 
         public bool IsSynchronized
         {
-            get { throw new NotImplementedException(); }
+            get { ThrowHelper.ThrowNotImplementedException();
+                return true; }
         }
 
         public object SyncRoot
         {
-            get { throw new NotImplementedException(); }
+            get { ThrowHelper.ThrowNotImplementedException(); return true; }
         }
 
         #endregion

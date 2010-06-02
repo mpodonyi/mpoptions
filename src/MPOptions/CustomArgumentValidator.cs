@@ -28,7 +28,7 @@ namespace MPOptions
             set
             {
                 if (value < 0)
-                    throw new ArgumentException("maximumOccurrence can not be less then 0");
+                    throw new ArgumentOutOfRangeException("maximumOccurrence can not be less then 0");
                 _MaximumOccurrence = value;
             }
         }

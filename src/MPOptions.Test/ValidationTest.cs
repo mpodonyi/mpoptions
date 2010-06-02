@@ -220,7 +220,7 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1", new RegularExpressionOptionValueValidator(@"\d"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1", new RegularExpressionOptionValueValidator(@"\d")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new RegularExpressionOptionValueValidator(@"\d")));
         }
 
         [TestMethod]
@@ -228,7 +228,7 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1", new StaticOptionValueValidator("mike", "was"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
         }
 
         [TestMethod]
@@ -244,13 +244,13 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
 
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike2", "t1", new RegularExpressionOptionValueValidator("\\d")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t1", new RegularExpressionOptionValueValidator("\\d")));
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1", new StaticOptionValueValidator("john", "was"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1"));
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1;t2;t3");
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t4;t2;t5"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t4;t2;t5"));
         }
 
         [TestMethod]
@@ -267,12 +267,12 @@ namespace MPOptions.Test
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1;t2;t3", new StaticOptionValueValidator("x,y") { ValueOptional = true });
 
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1;t2;t3");
 
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1;t2;t3", new StaticOptionValueValidator("x,y"));
@@ -309,7 +309,7 @@ namespace MPOptions.Test
             Command cmd = Command.GetRoot();
             cmd = cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand;
 
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddGlobalOption("mikeglobopt", "t4;t2;t3"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mikeglobopt", "t4;t2;t3"));
         }
 
         [TestMethod]
@@ -389,7 +389,7 @@ namespace MPOptions.Test
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1", new RegularExpressionOptionValueValidator(@"\d"));
-            AssertHelper.Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
 
         }
     }

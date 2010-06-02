@@ -102,6 +102,8 @@ namespace MPOptions
 
         public Option AddGlobalOption(string name, string token, IOptionValueValidator optionValueValidator)
         {
+            if (optionValueValidator == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
             return AddOptionInternal(name,token,optionValueValidator,true);
         }
 
@@ -112,9 +114,6 @@ namespace MPOptions
 
             if (token==null)
                 ThrowHelper.ThrowArgumentNullException(ExceptionArgument.token);
-
-            if(optionValueValidator == null)
-                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
 
             Option option = new Option(this as Command ?? ContextParent, name, token, globalOption);
             //Option option = new Option(this as Command ?? ParentCommand, name, token, globalOption);

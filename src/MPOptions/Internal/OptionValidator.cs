@@ -29,7 +29,6 @@ namespace MPOptions.Internal
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
             }
 
-
             //Test that no sibling has same Token
             List<Option> optionsWithSameToken = (from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>) 
                                                  from iii in ii.Token.SplitInternal()
@@ -46,7 +45,7 @@ namespace MPOptions.Internal
                                             where i.OptionValueValidator is RegularExpressionOptionValueValidator
                                             select i).Count();
                 if (countOptionWithRegex > 1)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.MoreThenOneRegularExpression);
 
 
                 //test that staticvalidator values are unique over every option with same token value
@@ -58,7 +57,7 @@ namespace MPOptions.Internal
                                                                     where g.Count() > 1
                                                                     select g).Count();
                 if (countOptionWithSameStaticValidationValue>0)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue,ExceptionArgument.staticoptionvalue);
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue);
             }
 
             //test that only option without validator or with validator exist

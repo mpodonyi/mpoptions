@@ -57,7 +57,7 @@ namespace MPOptions
             var parser = new Parser(this);
             ParserErrorContext errorContext = parser.Parse();
             if (errorContext != null)
-                ThrowHelper.ThrowParserError(errorContext);
+                ThrowHelper.ThrowParserException(errorContext);
             return this;
         }
 

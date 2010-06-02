@@ -92,6 +92,8 @@ namespace MPOptions
 
         public Option AddOption(string name, string token, IOptionValueValidator optionValueValidator)
         {
+            if (optionValueValidator == null)
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
             return AddOptionInternal(name, token, optionValueValidator, false);
         }
 

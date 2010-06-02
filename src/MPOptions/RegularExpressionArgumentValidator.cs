@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using MPOptions.Internal;
 
 namespace MPOptions
 {
@@ -28,8 +29,8 @@ namespace MPOptions
             }
             set
             {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("maximumOccurrence can not be less then 0");
+                if (value < 1)
+                    ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionResource.Maximumoccurenceminimum, value);
                 _MaximumOccurrence = value;
             }
         }

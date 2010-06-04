@@ -5,3 +5,4 @@ glob:src/MPOptions.4.5.resharper.user
 glob:src/MPOptions.Test/obj/*
 glob:src/MPOptions/bin/*
 glob:src/MPOptions/obj/*
+glob:src/TestResults/*

@@ -87,29 +87,29 @@ namespace MPOptions
 
         public Option AddOption(string name, string token)
         {
-            return AddOptionInternal(name, token, null, false);
+            return AddOptionInternal(name, token, false);
         }
 
-        public Option AddOption(string name, string token, IOptionValueValidator optionValueValidator)
-        {
-            if (optionValueValidator == null)
-                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
-            return AddOptionInternal(name, token, optionValueValidator, false);
-        }
+        //public Option AddOption(string name, string token, IOptionValueValidator optionValueValidator)
+        //{
+        //    if (optionValueValidator == null)
+        //        ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
+        //    return AddOptionInternal(name, token, optionValueValidator, false);
+        //}
 
         public Option AddGlobalOption(string name, string token)
         {
-            return AddOptionInternal(name, token, null, true);
+            return AddOptionInternal(name, token, true);
         }
 
-        public Option AddGlobalOption(string name, string token, IOptionValueValidator optionValueValidator)
-        {
-            if (optionValueValidator == null)
-                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
-            return AddOptionInternal(name,token,optionValueValidator,true);
-        }
+        //public Option AddGlobalOption(string name, string token, IOptionValueValidator optionValueValidator)
+        //{
+        //    if (optionValueValidator == null)
+        //        ThrowHelper.ThrowArgumentNullException(ExceptionArgument.optionvaluevalidator);
+        //    return AddOptionInternal(name,token,optionValueValidator,true);
+        //}
 
-        private Option AddOptionInternal(string name, string token, IOptionValueValidator optionValueValidator,bool globalOption)
+        private Option AddOptionInternal(string name, string token, bool globalOption)
         {
             if (name == null)
                 ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
@@ -119,7 +119,6 @@ namespace MPOptions
 
             Option option = new Option(this as Command ?? ContextParent, name, token, globalOption);
             //Option option = new Option(this as Command ?? ParentCommand, name, token, globalOption);
-            option.OptionValueValidator = optionValueValidator;
             ValidationFactory.Validate(option);
 
             this.StateBag.Options.Add(option.Path, option);

@@ -91,14 +91,14 @@ namespace MPOptions
         //    return this;
         //}
 
-        internal Option Parse(string commandLine, out ParserErrorContext parserErrorContext)
+        public Option Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var parser = new Parser(this, commandLine);
             parserErrorContext = parser.Parse();
             return this;
         }
 
-        //should global option give back the rootcommand or null
+        //MP: should global option give back the rootcommand or null
         public override Command ParentCommand
         {
             get
@@ -109,18 +109,87 @@ namespace MPOptions
 
         public Option WithStaticValidator(params string[] values)
         {
+            return WithStaticValidator(false, values);
+        }
+
+        public Option WithStaticValidator(bool valueOptional,params string[] values)
+        {
             IOptionValueValidator optionValueValidator = this.OptionValueValidator;
             try
             {
-                this.OptionValueValidator = new StaticOptionValueValidator(values);
-                ValidationFactory.Validate(this);    
+                this.OptionValueValidator = new StaticOptionValueValidator(values) {ValueOptional = valueOptional};
+                ValidationFactory.Validate(this);
             }
             catch
             {
                 this.OptionValueValidator = optionValueValidator;
                 throw;
             }
-            
+
+            return this;
+        }
+
+        public Option WithRegexValidator(string pattern)
+        {
+            return WithRegexValidator(pattern, false, 1);
+        }
+
+        public Option WithRegexValidator(string pattern,int maximumOccurrence)
+        {
+            return WithRegexValidator(pattern, false, maximumOccurrence);
+        }
+
+        public Option WithRegexValidator(string pattern, bool valueOptional)
+        {
+            return WithRegexValidator(pattern, valueOptional, 1);
+        }
+
+        public Option WithRegexValidator(string pattern, bool valueOptional, int maximumOccurrence)
+        {
+            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            try
+            {
+                this.OptionValueValidator = new RegularExpressionOptionValueValidator(pattern) {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
+                ValidationFactory.Validate(this);
+            }
+            catch
+            {
+                this.OptionValueValidator = optionValueValidator;
+                throw;
+            }
+
+            return this;
+        }
+
+        public Option WithNoValidator()
+        {
+            return WithNoValidator(false,1);
+        }
+
+        public Option WithNoValidator(int maximumOccurrence)
+        {
+            return WithNoValidator(false, maximumOccurrence);
+        }
+
+        public Option WithNoValidator(bool valueOptional)
+        {
+            return WithNoValidator(valueOptional, 1);
+        }
+
+        public Option WithNoValidator(bool valueOptional, int maximumOccurrence)
+        {
+            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            try
+            {
+                this.OptionValueValidator = new FallThroughOptionValueValidator() {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
+                ValidationFactory.Validate(this);
+            }
+            catch
+            {
+                this.OptionValueValidator = optionValueValidator;
+                throw;
+            }
+
             return this;
         }
     }

@@ -219,24 +219,24 @@ namespace MPOptions.Test
         public void AddOption_OptionWithRegularExpressionAlreadyExist_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1", new RegularExpressionOptionValueValidator(@"\d"));
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new RegularExpressionOptionValueValidator(@"\d")));
+            cmd.AddOption("mike", "t1").WithRegexValidator(@"\d");
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithRegexValidator(@"\d"));
         }
 
         [TestMethod]
         public void AddOption_OptionWhereStaticValueOfStaticValueValidatorExistAlready_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1", new StaticOptionValueValidator("mike", "was"));
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
+            cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was");
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithStaticValidator("john", "was"));
         }
 
         [TestMethod]
         public void AddOption_OptionWhereStaticValueOfStaticValueValidatorDoesNotExistForOptionWithSameToken_Successful()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1", new StaticOptionValueValidator("mike", "was"));
-            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "not")));
+            cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was");
+            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike1", "t1").WithStaticValidator("john", "not"));
         }
 
         [TestMethod]
@@ -244,12 +244,12 @@ namespace MPOptions.Test
         {
             Command cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1");
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new StaticOptionValueValidator("john", "was")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithStaticValidator("john", "was"));
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t1", new RegularExpressionOptionValueValidator("\\d")));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t1").WithRegexValidator("\\d"));
 
             cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1", new StaticOptionValueValidator("john", "was"));
+            cmd.AddOption("mike", "t1").WithStaticValidator("john", "was");
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1"));
         }
 
@@ -265,19 +265,19 @@ namespace MPOptions.Test
         public void AddOption_2OptionsWithTokenAndValueOptional_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3", new StaticOptionValueValidator("x,y") { ValueOptional = true });
+            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator(true,"x,y");
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$",true ));
 
             cmd = Command.GetRoot();
             cmd.AddOption("mike", "t1;t2;t3");
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true ));
 
             cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3", new StaticOptionValueValidator("x,y"));
+            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator("x,y");
 
-            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike2", "t4;t2;t5", new RegularExpressionOptionValueValidator(@"^\d+$") { ValueOptional = true }));
+            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true ));
         }
 
         [TestMethod]
@@ -384,12 +384,12 @@ namespace MPOptions.Test
         public void AddOption_OptionWithFallThroughValidatorHasAlreadyOtherOptionsWithSameTokenValue_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t2", new RegularExpressionOptionValueValidator(@"\d"));
-            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
+            cmd.AddOption("mike", "t2").WithRegexValidator(@"\d");
+            AssertHelper.ThrowsNoException(() => cmd.AddOption("mike1", "t1").WithNoValidator());
 
             cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1", new RegularExpressionOptionValueValidator(@"\d"));
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1", new FallThroughOptionValueValidator()));
+            cmd.AddOption("mike", "t1").WithRegexValidator(@"\d");
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithNoValidator());
 
         }
     }

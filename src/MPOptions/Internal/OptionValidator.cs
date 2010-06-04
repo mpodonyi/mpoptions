@@ -15,22 +15,13 @@ namespace MPOptions.Internal
             OptionImpl leftimpl = left as OptionImpl;
             OptionImpl rightimpl = right as OptionImpl;
 
-            if (leftimpl != null && rightimpl != null)
-            {
-                return leftimpl.savedInstance == rightimpl.savedInstance;
-            }
-            else if (leftimpl != null && rightimpl == null)
-            {
-                return leftimpl.savedInstance == right;
-            }
-            else if (leftimpl == null && rightimpl != null)
-            {
-                return left == rightimpl.savedInstance;
-            }
-            else
-            {
-                return left == right;
-            }
+            if (leftimpl != null)
+                left = leftimpl.savedInstance;
+
+            if (rightimpl != null)
+                right = rightimpl.savedInstance;
+
+            return left == right;
         }
 
         public override void Validate()

@@ -4,7 +4,7 @@ using MPOptions.Internal;
 
 namespace MPOptions
 {
-    public class RegularExpressionOptionValueValidator : IOptionValueValidator
+    internal class RegularExpressionOptionValueValidator : IOptionValueValidator
     {
         public RegularExpressionOptionValueValidator(string pattern)
         {

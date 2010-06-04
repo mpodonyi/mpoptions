@@ -3,7 +3,7 @@ namespace MPOptions
     /// <summary>
     /// Provides functionality to validate OptionValues.
     /// </summary>
-    public interface IOptionValueValidator
+    internal interface IOptionValueValidator
     {
         /// <summary>
         /// Determines whether the specified value is match.

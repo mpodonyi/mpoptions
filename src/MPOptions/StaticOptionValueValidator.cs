@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace MPOptions
 {
-    public sealed class StaticOptionValueValidator : IOptionValueValidator
+    internal sealed class StaticOptionValueValidator : IOptionValueValidator
     {
         public StaticOptionValueValidator(params string[] values)
         {

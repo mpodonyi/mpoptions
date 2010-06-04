@@ -3,7 +3,7 @@ using MPOptions.Internal;
 
 namespace MPOptions
 {
-    public class FallThroughOptionValueValidator : IOptionValueValidator
+    internal class FallThroughOptionValueValidator : IOptionValueValidator
     {
         #region IOptionValidator Members
 

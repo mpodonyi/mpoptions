@@ -24,6 +24,22 @@ namespace MPOptions.Internal
             return left == right;
         }
 
+        public override void PostValidate()
+        {
+            List<Option> optionsWithSameToken = (from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>)
+                                                 from iii in ii.Token.SplitInternal()
+                                                 from iiii in obj.Token.SplitInternal()
+                                                 where iii == iiii
+                                                 && !CompareHelper(ii, obj)
+                                                 select ii).Distinct().ToList();  //MP: should provide which token breaks the rules (for better exception handling)
+
+            optionsWithSameToken.Add(obj);
+            
+            //test that only option without validator or with validator exist
+            if (optionsWithSameToken.Any(opt => opt.OptionValueValidator == null) && optionsWithSameToken.Any(opt => opt.OptionValueValidator != null))
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+        }
+
         public override void Validate()
         {
             //if (!Regex.IsMatch(obj.Token, TokenRegex))
@@ -75,11 +91,7 @@ namespace MPOptions.Internal
                 if (countOptionWithSameStaticValidationValue>0)
                     ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue);
             }
-
-            //test that only option without validator or with validator exist
-            if (optionsWithSameToken.Any(opt => opt.OptionValueValidator == null) && optionsWithSameToken.Any(opt => opt.OptionValueValidator != null))
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
+            
             //test that only 1 option without validator and same token exist
             //should maybe also test if optionvalue starts with other optionvalue; not just equal; like in ValidateOptionArguments6 in Oldstyle project
             if (optionsWithSameToken.Count(opt => opt.OptionValueValidator == null) > 1)

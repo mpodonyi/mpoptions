@@ -6,6 +6,7 @@ namespace MPOptions.Internal
     interface IValidator
     {
         void Validate();
+        void PostValidate();
     }
 
     internal abstract class Validator<T> : IValidator
@@ -25,6 +26,10 @@ namespace MPOptions.Internal
         #region IValidator Members
 
         public virtual void Validate()
+        {
+        }
+
+        public virtual void PostValidate()
         {
         }
 

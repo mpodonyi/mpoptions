@@ -207,13 +207,14 @@ namespace MPOptions.Test
             AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mike", "t2"));
         }
 
-        //[TestMethod]
-        //public void AddOption_TokenAlreadyTokenOfGlobalOption_ThrowsException()
-        //{
-        //    Command cmd = Command.GetRoot();
-        //    cmd.AddGlobalOption("mike", "t1");
-        //    Throws<ArgumentOutOfRangeException>(() => cmd.AddOption("mike1", "t1"));
-        //}
+
+        [TestMethod]
+        public void AddOption_TokenAlreadyTokenOfGlobalOption_ThrowsException()
+        {
+            Command cmd = Command.GetRoot();
+            cmd.AddGlobalOption("mike", "t1");
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1"));
+        }
 
         [TestMethod]
         public void AddOption_OptionWithRegularExpressionAlreadyExist_ThrowsException()
@@ -247,11 +248,7 @@ namespace MPOptions.Test
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithStaticValidator("john", "was"));
 
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t1").WithRegexValidator("\\d"));
-
-            cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").WithStaticValidator("john", "was");
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1"));
-        }
+       }
 
         [TestMethod]
         public void AddOption_2OptionsWithSameValueAndNoValidator_ThrowsException()
@@ -392,5 +389,23 @@ namespace MPOptions.Test
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").WithNoValidator());
 
         }
+
+        [TestMethod]
+        public void Parse_PostValidation2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
+        {
+            Command cmd = Command.GetRoot();
+            cmd.AddOption("mike", "t1").WithStaticValidator("john", "was");
+
+            ParserErrorContext error;
+            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").Parse(" -t1", out error));
+        }
+
+        
+
+        
+           
+
+
+
     }
 }

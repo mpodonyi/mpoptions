@@ -24,6 +24,18 @@ namespace MPOptions.Internal
             validator.Validate();
         }
 
+        internal static void PostValidate<T>(T obj)
+        {
+            IValidator validator = new NullValidator();
+
+            if (typeof(T) == typeof(Option))
+            {
+                validator = new OptionValidator(obj as Option);
+            }
+           
+            validator.PostValidate();
+        }
+
         internal class NullValidator : Validator<string>
         {
             internal NullValidator()

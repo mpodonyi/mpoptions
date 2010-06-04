@@ -394,10 +394,10 @@ namespace MPOptions.Test
         public void Parse_PostValidation2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").WithStaticValidator("john", "was");
+            cmd.AddOption("mike", "t1").WithStaticValidator("john", "was").AddOption("mike1", "t1");
 
             ParserErrorContext error;
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike1", "t1").Parse(" -t1", out error));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
         }
 
         

@@ -110,6 +110,9 @@ namespace MPOptions.Internal
 
         internal ParserErrorContext Parse()
         {
+            foreach(Option opt in currentCommand.StateBag.Options.Values) //MP: optimize this and postvalidation process
+                ValidationFactory.PostValidate(opt);
+            
             Clean();
             Parse(SwallowExe());
 
@@ -329,7 +332,6 @@ namespace MPOptions.Internal
                                   where sb.ToString() == obj2
                                   select obj).SingleOrDefault();
                     //MP: exist there an validation that this can only be single value
-
 
                     if (option != null)
                     {

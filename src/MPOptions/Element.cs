@@ -126,15 +126,17 @@ namespace MPOptions
             return option;
         }
 
-        public Argument AddArgument(string name, IArgumentValidator argumentValidator)
+        public Argument AddArgument(string name) //should this really be thefallthroughargumentvalidator
+        {
+            return AddArgument(name, 1);
+        }
+
+        public Argument AddArgument(string name, int maximumOccurrence) //should this really be thefallthroughargumentvalidator
         {
             if (name==null)
                 ThrowHelper.ThrowArgumentNullException(ExceptionArgument.name);
 
-            if (argumentValidator == null)
-                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.argumentvalidator);
-
-            Argument argument = new Argument(this as Command ?? ContextParent, name, argumentValidator);
+            Argument argument = new Argument(this as Command ?? ContextParent, name, new FallThroughArgumentValidator() { MaximumOccurrence = maximumOccurrence });
             //Argument argument = new Argument(this as Command ?? ParentCommand, name, argumentValidator);
             ValidationFactory.Validate(argument);
 

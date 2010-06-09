@@ -302,7 +302,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new RegularExpressionArgumentValidator(@"^\d+$")).Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -317,7 +317,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new RegularExpressionArgumentValidator(@"^\d+\s\d+$")).Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -332,7 +332,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new RegularExpressionArgumentValidator(@"^\d+\s\d+$") { MaximumOccurrence = 2 }).Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$",2 ).Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -348,9 +348,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument",
-                                                                   new RegularExpressionArgumentValidator(@"^\d+\s\d+$"))
-                .Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNotNull(error);
@@ -364,7 +362,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new CustomArgumentValidator(s => s == "123")).Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithCustomValidator(s => s == "123").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -379,7 +377,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new CustomArgumentValidator(s => s == "1234")).Parse(testvalues, out error);
+            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithCustomValidator(s => s == "1234").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
             Assert.IsNotNull(error);
@@ -393,7 +391,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new FallThroughArgumentValidator(){MaximumOccurrence = 2}).Parse(testvalues, out error);
+            var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument",2).Parse(testvalues, out error);
 
             Assert.IsNull(error);
             Assert.IsTrue(arg.IsSet);
@@ -408,7 +406,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             Command cmd = Command.GetRoot();
-            var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument", new FallThroughArgumentValidator()).Parse(testvalues, out error);
+            var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").Parse(testvalues, out error);
             Assert.IsNotNull(error);
         }
 
@@ -483,21 +481,6 @@ namespace MPOptions.Test
 
         //=====================================================
         
-        [TestMethod]
-        public void Test_MoreFluentOptionValidatorSyntax()
-        {
-            ParserErrorContext error;
-            Command.GetRoot().AddOption("test", "m").WithStaticValidator("k","l").Parse(" -m:k", out error);
-
-            Assert.IsNull(error);
-
-            
-            Command.GetRoot().AddOption("test", "m").ParentCommand.Options["test"].WithStaticValidator("k", "l").Parse(" -m:k", out error);
-
-            Assert.IsNull(error);
-        }
-
-
         [TestMethod]
         public void Experimental()
         {

@@ -78,5 +78,75 @@ namespace MPOptions
             //error = parser.Parse();
             //return this;
         }
+
+        public Argument WithCustomValidator(Func<string, bool> validator)
+        {
+            return WithCustomValidator(validator, 1);
+        }
+
+        public Argument WithCustomValidator(Func<string,bool> validator, int maximumOccurrence)
+        {
+            IArgumentValidator argumentValueValidator = this.ArgumentValidator;
+            try
+            {
+                this.ArgumentValidator = new CustomArgumentValidator(validator) { MaximumOccurrence = maximumOccurrence };
+                ValidationFactory.Validate(this);
+            }
+            catch
+            {
+                this.ArgumentValidator = argumentValueValidator;
+                throw;
+            }
+
+            return this;
+
+        }
+
+
+        public Argument WithRegexValidator(string pattern)
+        {
+            return WithRegexValidator(pattern,1);
+        }
+
+        public Argument WithRegexValidator(string pattern,int maximumOccurrence)
+        {
+            IArgumentValidator argumentValueValidator = this.ArgumentValidator;
+            try
+            {
+                this.ArgumentValidator = new RegularExpressionArgumentValidator(pattern){ MaximumOccurrence = maximumOccurrence };
+                ValidationFactory.Validate(this);
+            }
+            catch
+            {
+                this.ArgumentValidator = argumentValueValidator;
+                throw;
+            }
+
+            return this;
+
+        }
+
+        //public Argument WithNoValidator()
+        //{
+        //    return WithNoValidator(1);
+        //}
+
+        //public Argument WithNoValidator(int maximumOccurrence)
+        //{
+        //    IArgumentValidator argumentValueValidator = this.ArgumentValidator;
+        //    try
+        //    {
+        //        this.ArgumentValidator= new FallThroughArgumentValidator(){ MaximumOccurrence = maximumOccurrence};
+        //        ValidationFactory.Validate(this);
+        //    }
+        //    catch
+        //    {
+        //        this.ArgumentValidator= argumentValueValidator;
+        //        throw;
+        //    }
+
+        //    return this;
+
+        //}
     }
 }

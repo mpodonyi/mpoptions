@@ -312,7 +312,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddArgument_Execute_ReturnsArgument()
         {
-            Command cmd = Command.GetRoot().AddArgument("arg", new RegularExpressionArgumentValidator(@"^\d+$")).ParentCommand;
+            Command cmd = Command.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
             Assert.IsNotNull(cmd.Arguments["arg"]);
         }
 

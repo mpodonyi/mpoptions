@@ -479,6 +479,17 @@ namespace MPOptions.Test
             Assert.AreEqual(" -m:k -m:l\r\n      ^", error.ToString());
         }
 
+        [TestMethod]
+        public void Parse_OnlyWhiteSpace_Successful()
+        {
+            ParserErrorContext error;
+            Command.GetRoot().AddOption("test", "m").Parse(" ", out error);
+            Assert.IsNull(error);
+
+            Command.GetRoot().AddOption("test", "m").Parse("", out error);
+            Assert.IsNull(error);
+        }
+
         //=====================================================
         
         [TestMethod]

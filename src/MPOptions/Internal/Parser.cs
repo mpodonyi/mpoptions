@@ -131,6 +131,9 @@ namespace MPOptions.Internal
                 while (ParseValue(pos) == Token.WhiteSpace)
                     pos++;
 
+                if (ParseValue(pos) == Token.End)
+                    return;
+
                 if (ParseValue(pos) == Token.AlphaNumeric)
                 {
                     if (TryCommand(ref pos))
@@ -142,11 +145,8 @@ namespace MPOptions.Internal
                         continue;
                 }
                 
-                if (ParseValue(pos) != Token.End)
-                {
-                    if (TryArgument(ref pos))
-                        continue;
-                }
+                if (TryArgument(ref pos))
+                    continue;
 
                 ErrorContext=new ParserErrorContext(charArray,pos);
             }

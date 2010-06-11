@@ -23,7 +23,7 @@ namespace MPOptions
             get { return 1; }
         }
 
-        public bool ValueOptional
+        public bool ValueOptional //MP: makes this really sense for staticoptions
         {
             get;
             set;

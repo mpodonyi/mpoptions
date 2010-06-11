@@ -262,7 +262,7 @@ namespace MPOptions.Test
         public void AddOption_2OptionsWithTokenAndValueOptional_ThrowsException()
         {
             Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator(true,"x,y");
+            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator(true,"x","y");
 
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$",true ));
 
@@ -272,7 +272,7 @@ namespace MPOptions.Test
             AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true ));
 
             cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator("x,y");
+            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator("x","y");
 
             AssertHelper.ThrowsNoException(() => cmd.AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true ));
         }

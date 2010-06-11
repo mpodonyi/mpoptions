@@ -357,9 +357,9 @@ namespace MPOptions.Internal
                           where token == obj2
                           select obj;
 
-            foreach (var option in options)
+            foreach (var option in options)  
             {
-                if (CanSetValueOption(option))
+                if (CanSetValueOption(option))  
                     if(option.OptionValueValidator.IsMatch(value))
                     {
                         if(!option.IsSet)
@@ -368,7 +368,13 @@ namespace MPOptions.Internal
                             option.Set=true;
                             return true;
                         }
-                    
+                        else
+                        {
+                            //MP: what if the staticoptionvalue option is already set by previous option; 
+                            // its possible that it jumps to regularexpression option and gets there successful parsed; 
+                            // but this should be considered an error
+                            // to implement this block should fix the issues
+                        }
                     }
             }
 
@@ -419,13 +425,9 @@ namespace MPOptions.Internal
 
         private bool CanSetValueOption(Option option)
         {
-            if (    (option.OptionValueValidator.ValueOptional && !option.IsSet) ||
-                    (option.OptionValueValidator.ValueOptional && option.IsSet && option._Values.Count > 0) ||
-                    (!option.OptionValueValidator.ValueOptional)
-                )
-                return true;
-
-            return false;
+            return (option.OptionValueValidator.ValueOptional && !option.IsSet) ||
+                   (option.OptionValueValidator.ValueOptional && option.IsSet && option._Values.Count > 0) ||
+                   (!option.OptionValueValidator.ValueOptional);
         }
 
         private bool TryCommand(ref int pos)

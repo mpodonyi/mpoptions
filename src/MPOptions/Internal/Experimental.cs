@@ -6,6 +6,37 @@ using System.Text;
 
 namespace MPOptions.Internal
 {
+    internal class OptionEqualityComparer : EqualityComparer<Option>
+    {
+        #region IEqualityComparer<Option> Members
+
+        public override bool  Equals(Option x, Option y)
+        {
+            OptionImpl leftimpl = x as OptionImpl;
+            OptionImpl rightimpl = y as OptionImpl;
+
+            if (leftimpl != null)
+                x = leftimpl.savedInstance;
+
+            if (rightimpl != null)
+                y = rightimpl.savedInstance;
+
+            return x == y;
+        }
+
+        public override int GetHashCode(Option obj)
+        {
+            OptionImpl leftimpl = obj as OptionImpl;
+
+            if (leftimpl != null)
+                return leftimpl.savedInstance.GetHashCode();
+
+            return obj.GetHashCode();
+        }
+
+        #endregion
+    }
+
     internal class OptionImpl: Option
     {
         internal OptionImpl(Option option, Command contextParent)

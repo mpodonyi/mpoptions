@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -9,7 +10,64 @@ namespace MPOptions.Internal
         {}
 
         private const string TokenRegex = @"^((\s*\w+\s*)|(\s*\w+\s*;\s*)|(\s*\w+(\s*;\s*\w+\s*(;)?\s*)*))$";
+        
+        public override void PostValidate()
+        {
+            ValidateAllOptionsOnLevel(obj);
 
+            //List<Option> optionsWithSameToken = (from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>)
+            //                                     from iii in ii.Token.SplitInternal()
+            //                                     from iiii in obj.Token.SplitInternal()
+            //                                     where iii == iiii
+            //                                     && !CompareHelper(ii, obj)
+            //                                     select ii).Distinct().ToList();  //MP: should provide which token breaks the rules (for better exception handling)
+
+            //optionsWithSameToken.Add(obj);
+
+            ////test that only option without validator or with validator exist
+            //if (optionsWithSameToken.Any(opt => opt.OptionValueValidator == null) && optionsWithSameToken.Any(opt => opt.OptionValueValidator != null))
+            //    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+        }
+
+       
+
+        private void ValidateAllOptionsOnLevel(Command command)
+        {
+            var optionsWithSameTokenw = from o1 in command.Options
+                                        from o2 in command.Options
+                                        where !new OptionEqualityComparer().Equals(o1, o2)
+                                        from t1 in o1.Token.SplitInternal()
+                                        from t2 in o2.Token.SplitInternal()
+                                        where t1 == t2
+                                        group new[] {o1, o2} by t1
+                                        into g
+                                            select new
+                                                       {
+                                                           token = g.Key,
+                                                           vals = (from i in g
+                                                                   from u in i
+                                                                   select u).Distinct(new OptionEqualityComparer())
+                                                       };
+
+            ObjectDumper.Write(optionsWithSameTokenw);
+
+            foreach (var options in optionsWithSameTokenw)
+            {
+                //test that only 1 option without validator and same token exist
+                //should maybe also test if optionvalue starts with other optionvalue; not just equal; like in ValidateOptionArguments6 in Oldstyle project
+                if (options.vals.Count(opt => opt.OptionValueValidator == null) > 1)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+
+
+
+            }
+
+
+            //foreach (Command com in command.Commands)
+            //{
+            //    ValidateAllOptionsOnLevel(com);
+            //}
+        }
 
         public override void Validate()
         {

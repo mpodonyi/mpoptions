@@ -28,9 +28,9 @@ namespace MPOptions.Internal
         {
             IValidator validator = new NullValidator();
 
-            if (typeof(T) == typeof(Option))
+            if (typeof(T) == typeof(Command))
             {
-                validator = new OptionValidator(obj as Option);
+                validator = new CommandValidator(obj as Command);
             }
            
             validator.PostValidate();

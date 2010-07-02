@@ -110,8 +110,9 @@ namespace MPOptions.Internal
 
         internal ParserErrorContext Parse()
         {
-            foreach(Option opt in currentCommand.StateBag.Options.Values) //MP: optimize this and postvalidation process
-                ValidationFactory.PostValidate(opt);
+            //foreach(Option opt in currentCommand.StateBag.Options.Values) //MP: optimize this and postvalidation process
+            //    ValidationFactory.PostValidate(opt);
+            ValidationFactory.PostValidate(currentCommand);
             
             Clean();
             Parse(SwallowExe());

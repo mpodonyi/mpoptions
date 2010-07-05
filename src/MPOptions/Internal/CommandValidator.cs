@@ -68,13 +68,9 @@ namespace MPOptions.Internal
 
                 if(ttt.Count() > 1)
                     ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
-                else if(ttt.Count() == 1)
+                else if(ttt.Count() == 1 && ttt.First().Key != typeof(StaticOptionValueValidator))
                 {
-                    if(ttt.First().Key != typeof(StaticOptionValueValidator))
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
-
                     var countOptionWithSameStaticValidationValue = (from i in ttt.First()
-                                                                    where i.OptionValueValidator is StaticOptionValueValidator
                                                                     from i2 in ((StaticOptionValueValidator)i.OptionValueValidator).values
                                                                     group i by i2
                                                                         into g

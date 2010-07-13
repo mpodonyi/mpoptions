@@ -53,45 +53,49 @@ namespace MPOptions.Internal
 
             foreach (var options in optionsWithSameTokenw)
             {
-                if (options.vals.Any(opt => opt.OptionValueValidator == null))
+                //test that only 1 option without validator and same token exist
+                //should maybe also test if optionvalue starts with other optionvalue; not just equal; like in ValidateOptionArguments6 in Oldstyle project
+                if (options.vals.Count(opt => opt.OptionValueValidator == null) > 1)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+
+                //test that only 1 option with Validator and optionvalidatoroptional exist
+                if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional))
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+
+                ////test that only one option with ValueOptional exist
+                //if (options.vals.Count(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional) > 1)
+                //    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+
+
+                //MP: why this validation???
+                //test that only option without validator or with validator exist
+                if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null))
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+
+                var ttt = from i in options.vals
+                          where i.OptionValueValidator !=null
+                          group i by i.OptionValueValidator.GetType();
+
+                if (ttt.Count()==0)
+                    continue;
+
+                if (ttt.Count() > 1)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
+
+                if (ttt.First().Key == typeof(StaticOptionValueValidator))
                 {
-                    //test that only 1 option without validator and same token exist
-                    //should maybe also test if optionvalue starts with other optionvalue; not just equal; like in ValidateOptionArguments6 in Oldstyle project
-                    if (options.vals.Count(opt => opt.OptionValueValidator == null) > 1)
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-                    //test that only 1 option with Validator and optionvalidatoroptional exist
-                    if (options.vals.Any(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional))
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-                    //MP: why this validation???
-                    //test that only option without validator or with validator exist
-                    if (options.vals.Any(opt => opt.OptionValueValidator != null))
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+                    var countOptionWithSameStaticValidationValue = (from i in ttt.First()
+                                                                    from i2 in ((StaticOptionValueValidator)i.OptionValueValidator).values
+                                                                    group i by i2
+                                                                        into g
+                                                                        where g.Count() > 1
+                                                                        select g).Count();
+                    if (countOptionWithSameStaticValidationValue > 0)
+                        ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue);
                 }
-                else
-                {
-                    var ttt = from i in options.vals
-                              group i by i.OptionValueValidator.GetType();
 
-                    if (ttt.Count() > 1)
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
-                    else if (ttt.Count() == 1 && ttt.First().Key == typeof(StaticOptionValueValidator))
-                    {
-                        var countOptionWithSameStaticValidationValue = (from i in ttt.First()
-                                                                        from i2 in ((StaticOptionValueValidator)i.OptionValueValidator).values
-                                                                        group i by i2
-                                                                            into g
-                                                                            where g.Count() > 1
-                                                                            select g).Count();
-                        if (countOptionWithSameStaticValidationValue > 0)
-                            ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue);
-                    }
-                    else
-                    {
-                      //  ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-                    }
-                }
+                if(ttt.First().Key != typeof(StaticOptionValueValidator) && ttt.First().Count()>1)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); 
             }
             
             foreach (Command com in command.Commands)

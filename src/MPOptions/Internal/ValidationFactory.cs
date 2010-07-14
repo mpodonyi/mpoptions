@@ -16,6 +16,10 @@ namespace MPOptions.Internal
             {
                 validator = new CommandValidator(obj as Command);
             }
+            else if (typeof(T) == typeof(Argument))
+            {
+                validator = new ArgumentValidator(obj as Argument);
+            }
             //else if(typeof(T) == typeof(IEnumerable<Option>))
             //{
             //    validator = new OptionsValidator(obj as IEnumerable<Option>);

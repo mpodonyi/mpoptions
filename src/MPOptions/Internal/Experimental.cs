@@ -79,6 +79,26 @@ namespace MPOptions.Internal
         }
     }
 
+    internal class ArgumentValidator : Validator<Argument>
+    {
+        internal ArgumentValidator(Argument obj)
+            : base(obj)
+        { }
+       
+        public override void Validate()
+        {
+            //dont need to check the "name" for duplicity because it throws exception when it tries to add argument to argumentcollection
+
+            //MP: for now only allow one argument per command
+            if (obj.ParentCommand.Arguments.Count() > 0)
+            {
+                if (obj.ParentCommand.Arguments.Count() > 1 || obj.ParentCommand.Arguments.First() != obj)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+            }
+        }
+    }
+
+
     public static class CommandExtensions
     {
         public static Command Add(this Command com, Action<Command> action)

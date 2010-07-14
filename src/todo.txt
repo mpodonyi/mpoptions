@@ -23,7 +23,6 @@
 
 -should i check when on unix machine allow only unix optionstarter and divider
 -Shortcut in Parser ob option command oder argument available bevore entering the execution path
--FallthroughOptionValidator could be fired after Regexoptionvalidator and not standalone
 -maybe a order field would be great to make same validators for same tokenvalue possible
 -implement global fallthrough
 

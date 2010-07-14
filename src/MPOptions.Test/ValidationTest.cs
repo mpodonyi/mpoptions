@@ -345,6 +345,13 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
+        public void AddArgument_MoreThenOneArgumentForCommand_ThrowsException()
+        {
+            var cmd = Command.GetRoot().AddArgument("arg");
+            AssertHelper.Throws<ArgumentException>(()=>cmd.AddArgument("arg2"));
+        }
+
+        [TestMethod]
         public void AddOption_AfterGlobalOptionInFluentStyleAddsOptionToParentCommand_Successful()
         {
             Command rootcommand = Command.GetRoot();

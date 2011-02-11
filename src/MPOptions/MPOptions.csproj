@@ -57,6 +57,7 @@
     <Compile Include="IArgumentValidator.cs" />
     <Compile Include="Internal\Experimental.cs" />
     <Compile Include="Internal\ObjectDumper.cs" />
+    <Compile Include="NewStyle\CollectionAdapter.cs" />
     <Compile Include="NewStyle\CommandCollection.cs" />
     <Compile Include="ParserErrorContext.cs" />
     <Compile Include="ParserException.cs" />

@@ -3,77 +3,118 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using MPOptions.Internal;
 
 namespace MPOptions
 {
-    public class CommandCollection : IEnumerable<Command>, ICollection
+    public class CommandCollection : ElementCollection<Command>
     {
-        private Command command;
-
-        internal CommandCollection(Command command)
+        protected override void InsertItem(int index, Command item)
         {
-            this.command = command;
+            Validate(item);
+            base.InsertItem(index, item);
         }
 
-        public Command this[string name]
+        private const string TokenRegex = @"^((\s*\w+\s*)|(\s*\w+\s*;\s*)|(\s*\w+(\s*;\s*\w+\s*(;)?\s*)*))$";
+
+        private void Validate(Command obj)
         {
-            get
+            //Test that CommandValues meet the RegexRequirements
+            if (!Regex.IsMatch(obj.Token, TokenRegex))
             {
-                return (from obj in command.StateBag.Commands.Values
-                       where obj.ParentCommand == command && obj.Name == name
-                       select obj).SingleOrDefault();
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm, ExceptionArgument.token);
+            }
+
+            ////Test that no sibling has same Name
+            //var name = from ii in obj.ParentCommand.Commands
+            //           where ii.Name==obj.Name
+            //           select ii;
+            //if(name.Count()>0)
+            //{
+            //    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+            //}
+
+            //Test that no sibling has same Token
+            var strings = from ii in this
+                          from iii in ii.Token.SplitInternal()
+                          from iiii in obj.Token.SplitInternal()
+                          where iii == iiii
+                          select iiii;
+            if (strings.Count() > 0)
+            {
+                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_TokenPartAlreadyInDictionary, ExceptionArgument.token);
             }
         }
-
-        #region IEnumerable<Command> Members
-
-        public IEnumerator<Command> GetEnumerator()
-        {
-            return (from obj in command.StateBag.Commands.Values
-                    where obj.ParentCommand == command 
-                    select obj).GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable Members
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
-
-        #region ICollection Members
-
-        public void CopyTo(Array array, int index)
-        {
-            ThrowHelper.ThrowNotImplementedException();
-        }
-
-        public int Count
-        {
-            get
-            {
-                return (from obj in command.StateBag.Commands.Values
-                 where obj.ParentCommand == command
-                 select obj).Count();
-            }
-        }
-
-        public bool IsSynchronized
-        {
-            get { ThrowHelper.ThrowNotImplementedException();
-                return true; }
-        }
-
-        public object SyncRoot
-        {
-            get { ThrowHelper.ThrowNotImplementedException(); return true; }
-        }
-
-        #endregion
     }
+
+    //public class CommandCollection : IEnumerable<Command>, ICollection
+    //{
+    //    private Command command;
+
+    //    internal CommandCollection(Command command)
+    //    {
+    //        this.command = command;
+    //    }
+
+    //    public Command this[string name]
+    //    {
+    //        get
+    //        {
+    //            return (from obj in command.StateBag.Commands.Values
+    //                   where obj.ParentCommand == command && obj.Name == name
+    //                   select obj).SingleOrDefault();
+    //        }
+    //    }
+
+    //    #region IEnumerable<Command> Members
+
+    //    public IEnumerator<Command> GetEnumerator()
+    //    {
+    //        return (from obj in command.StateBag.Commands.Values
+    //                where obj.ParentCommand == command 
+    //                select obj).GetEnumerator();
+    //    }
+
+    //    #endregion
+
+    //    #region IEnumerable Members
+
+    //    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    //    {
+    //        return this.GetEnumerator();
+    //    }
+
+    //    #endregion
+
+    //    #region ICollection Members
+
+    //    public void CopyTo(Array array, int index)
+    //    {
+    //        ThrowHelper.ThrowNotImplementedException();
+    //    }
+
+    //    public int Count
+    //    {
+    //        get
+    //        {
+    //            return (from obj in command.StateBag.Commands.Values
+    //             where obj.ParentCommand == command
+    //             select obj).Count();
+    //        }
+    //    }
+
+    //    public bool IsSynchronized
+    //    {
+    //        get { ThrowHelper.ThrowNotImplementedException();
+    //            return true; }
+    //    }
+
+    //    public object SyncRoot
+    //    {
+    //        get { ThrowHelper.ThrowNotImplementedException(); return true; }
+    //    }
+
+    //    #endregion
+    //}
 }

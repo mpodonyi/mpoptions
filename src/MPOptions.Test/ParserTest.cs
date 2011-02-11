@@ -64,7 +64,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Command_Successful()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddCommand("testcommand", "testcommanda; testcommandb");
 
             ParserErrorContext error;
@@ -78,7 +78,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Command_Unsuccessful()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddCommand("testcommand", "testcommanda; testcommandb");
 
             ParserErrorContext error;
@@ -92,7 +92,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Option_Successful()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb");
             cmd.AddOption("testoption2", "testoptionc; testoptiond");
             cmd.AddOption("testoption3", "testoptione; testoptionf");
@@ -110,7 +110,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Option_Unsuccessful()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb");
             cmd.AddOption("testoption2", "testoptionc; testoptiond");
             cmd.AddOption("testoption3", "testoptione; testoptionf");
@@ -124,7 +124,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_OptionWithStaticValidator_Successful()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb").WithStaticValidator("yes", "no");
             var option = cmd.Options["testoption"];
 
@@ -152,7 +152,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = Command.GetRoot();
+                Command cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithStaticValidator(testvalues[i, 0]);
                 var option = cmd.Options["testoption"];
@@ -175,7 +175,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = Command.GetRoot();
+                Command cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$");
                 var option = cmd.Options["testoption"];
@@ -198,7 +198,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = Command.GetRoot();
+                Command cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$");
                 var option = cmd.Options["testoption"];
@@ -217,7 +217,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb:12345 --testoptionb:7890";
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$", 2 );
             var option = cmd.Options["testoption"];
@@ -237,7 +237,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb:12345 --testoptionb:78b90";
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$",2 );
             var option = cmd.Options["testoption"];
@@ -253,7 +253,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb";
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$", true );
             var option = cmd.Options["testoption"];
@@ -270,7 +270,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb -testoption:123";
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$",true );
             var option = cmd.Options["testoption"];
@@ -285,7 +285,7 @@ namespace MPOptions.Test
 
             testvalues = " -testoption:123 --testoptionb";
 
-            cmd = Command.GetRoot();
+            cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$", true );
             option = cmd.Options["testoption"];
@@ -301,7 +301,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -316,7 +316,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\"";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -331,7 +331,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\" \"456 65\"";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$",2 ).Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -347,7 +347,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\" \"456 65\"";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -361,7 +361,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithCustomValidator(s => s == "123").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -376,7 +376,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithCustomValidator(s => s == "1234").Parse(testvalues, out error);
             var argument = cmd.Arguments["testargument"];
 
@@ -390,7 +390,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123 456";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument",2).Parse(testvalues, out error);
 
             Assert.IsNull(error);
@@ -405,7 +405,7 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123 456";
             ParserErrorContext error;
 
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             var arg = cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").Parse(testvalues, out error);
             Assert.IsNotNull(error);
         }
@@ -414,7 +414,7 @@ namespace MPOptions.Test
         public void Parse_OptionWithDifferentSplitter_Successful()
         {
             ParserErrorContext error;
-            var option = Command.GetRoot().AddOption("test", "alpha;beta").WithRegexValidator(@"^\d+$", 2 ).Parse(" -alpha:1 -beta=2", out error);
+            var option = MPOptions.GetRoot().AddOption("test", "alpha;beta").WithRegexValidator(@"^\d+$", 2 ).Parse(" -alpha:1 -beta=2", out error);
 
             Assert.AreEqual(2, option.Values.Length);
             Assert.AreEqual("1", option.Values[0]);
@@ -425,7 +425,7 @@ namespace MPOptions.Test
         public void Parse_OptionWithNonAlphaNumericToken_Successful()
         {
             ParserErrorContext error;
-            var option = Command.GetRoot().AddOption("test", "?;@").WithRegexValidator(@"^\d+$", 2 ).Parse(" -?:1 --@=2", out error);
+            var option = MPOptions.GetRoot().AddOption("test", "?;@").WithRegexValidator(@"^\d+$", 2 ).Parse(" -?:1 --@=2", out error);
 
             Assert.AreEqual(2, option.Values.Length);
             Assert.AreEqual("1", option.Values[0]);
@@ -437,18 +437,18 @@ namespace MPOptions.Test
         {
             ParserErrorContext error;
 
-            var option = Command.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m:k", out error);
+            var option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m:k", out error);
             Assert.IsTrue(option.IsSet);
             Assert.AreEqual("k", option.Values[0]);
             Assert.IsNull(error);
 
-            option = Command.GetRoot().AddOption("test", "m").WithNoValidator(2).Parse(" -m:k -m:l", out error);
+            option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator(2).Parse(" -m:k -m:l", out error);
             Assert.IsTrue(option.IsSet);
             Assert.AreEqual("k", option.Values[0]);
             Assert.AreEqual("l", option.Values[1]);
             Assert.IsNull(error);
 
-            option = Command.GetRoot().AddOption("test", "m").WithNoValidator( true ).Parse(" -m", out error);
+            option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator( true ).Parse(" -m", out error);
             Assert.IsTrue(option.IsSet);
             Assert.IsNull(error);
         }
@@ -457,16 +457,16 @@ namespace MPOptions.Test
         public void Parse_OptionWithFallThroughOptionValidator_UnSuccessful()
         {
             ParserErrorContext error;
-            var option = Command.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m:k -m:l", out error);
+            var option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m:k -m:l", out error);
             Assert.IsNotNull(error);
 
-            option = Command.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m", out error);
+            option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator().Parse(" -m", out error);
             Assert.IsNotNull(error);
 
-            option = Command.GetRoot().AddOption("test", "m").WithNoValidator(true, 2 ).Parse(" -m -m", out error);
+            option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator(true, 2 ).Parse(" -m -m", out error);
             Assert.IsNotNull(error);
 
-            option = Command.GetRoot().AddOption("test", "m").WithNoValidator(true, 2 ).Parse(" -m -m:6", out error);
+            option = MPOptions.GetRoot().AddOption("test", "m").WithNoValidator(true, 2 ).Parse(" -m -m:6", out error);
             Assert.IsNotNull(error);
         }
 
@@ -474,7 +474,7 @@ namespace MPOptions.Test
         public void ToString_ParserErrorContextStringRepresentation_Successful()
         {
             ParserErrorContext error;
-            Command.GetRoot().AddOption("test", "m").WithStaticValidator("k").Parse(" -m:k -m:l", out error);
+            MPOptions.GetRoot().AddOption("test", "m").WithStaticValidator("k").Parse(" -m:k -m:l", out error);
 
             Assert.AreEqual(" -m:k -m:l\r\n      ^", error.ToString());
         }
@@ -483,10 +483,10 @@ namespace MPOptions.Test
         public void Parse_OnlyWhiteSpace_Successful()
         {
             ParserErrorContext error;
-            Command.GetRoot().AddOption("test", "m").Parse(" ", out error);
+            MPOptions.GetRoot().AddOption("test", "m").Parse(" ", out error);
             Assert.IsNull(error);
 
-            Command.GetRoot().AddOption("test", "m").Parse("", out error);
+            MPOptions.GetRoot().AddOption("test", "m").Parse("", out error);
             Assert.IsNull(error);
         }
 
@@ -499,7 +499,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
 
-            Command.GetRoot().Add(cmd2 =>
+            MPOptions.GetRoot().Add(cmd2 =>
             {
                 cmd2.AddCommand("test", "test;uiu").Add(cmd3 =>
                 {
@@ -517,7 +517,7 @@ namespace MPOptions.Test
 
             // Command.Get().AddOption()
 
-            //Command.GetRoot().AddOption("mike", "dfs").Parse().Values;
+            //MPOptions.GetRoot().AddOption("mike", "dfs").Parse().Values;
 
 
 

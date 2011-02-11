@@ -9,6 +9,13 @@ namespace MPOptions
 {
     public class Option : Element
     {
+        public Option(string name, string token,bool globalOption):base(name)
+        {
+            _GlobalOption = globalOption;
+            this.Token = token;
+        }
+
+
         internal Option(Command parentCommand, string name, string token,bool globalOption)
             : base(parentCommand.StateBag,parentCommand, name)
         {

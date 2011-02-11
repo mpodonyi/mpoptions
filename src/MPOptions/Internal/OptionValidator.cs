@@ -13,22 +13,22 @@ namespace MPOptions.Internal
         public override void Validate()
         {
             //if (!Regex.IsMatch(obj.Token, TokenRegex))
-            if ((from ob in obj.Token.SplitInternal()
-                 where ob.StartsWith("-") || ob.EndsWith("=") || ob.EndsWith(":") || ob.Any(o => char.IsWhiteSpace(o))
-                 select ob).Any())
-            {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm,ExceptionArgument.token);
-            }
+            //if ((from ob in obj.Token.SplitInternal()
+            //     where ob.StartsWith("-") || ob.EndsWith("=") || ob.EndsWith(":") || ob.Any(o => char.IsWhiteSpace(o))
+            //     select ob).Any())
+            //{
+            //    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm,ExceptionArgument.token);
+            //}
 
-            //Test that no sibling has same Name
-            var name = from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>) 
-                       where ii.Name == obj.Name
-                       && !new OptionEqualityComparer().Equals(ii, obj) //should not be necessary because back to old state were object is not yet added to hierarchy
-                       select ii;
-            if (name.Count() > 0)
-            {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
-            }
+            ////Test that no sibling has same Name
+            //var name = from ii in (obj.IsGlobalOption ? obj.StateBag.Options.Values as IEnumerable<Option> : obj.ParentCommand.Options as IEnumerable<Option>) 
+            //           where ii.Name == obj.Name
+            //           && !new OptionEqualityComparer().Equals(ii, obj) //should not be necessary because back to old state were object is not yet added to hierarchy
+            //           select ii;
+            //if (name.Count() > 0)
+            //{
+            //    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary,ExceptionArgument.name);
+            //}
 
 
             

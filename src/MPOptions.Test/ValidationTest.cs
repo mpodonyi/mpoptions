@@ -62,15 +62,18 @@ namespace MPOptions.Test
         [TestMethod]
         public void GetRoot_Execute_ReturnsRootCommand()
         {
-            Command root = Command.GetRoot();
+            Command root = MPOptions.GetRoot();
             Assert.IsTrue(root.IsRoot);
         }
 
 
         [TestMethod]
+        [Ignore]
         public void AddCommand_AddsNewCommand_ReturnsCurrentCommand()
         {
-            Command cmd = Command.GetRoot().AddCommand("test", "testtoken");
+            RootCommand rootcmd = MPOptions.GetRoot().Add(new Command("test","testtoken"));
+            Command cmd = rootcmd.Commands["test"];
+              
             Assert.AreEqual("test", cmd.Name);
             Assert.AreEqual("testtoken", cmd.Token);
             Assert.IsFalse(cmd.IsRoot);
@@ -81,16 +84,18 @@ namespace MPOptions.Test
         [TestMethod]
         public void CommandsIndexer_GetChildCommandByName_ReturnsSingleChildCommand()
         {
-            Command cmd = Command.GetRoot().AddCommand("test", "testtoken");
-            Assert.AreSame(cmd, cmd.ParentCommand.Commands["test"]);
+            Command newcommand = new Command("test", "testtoken");
+            RootCommand cmd = MPOptions.GetRoot().Add(newcommand);
+            Assert.AreSame(newcommand, cmd.Commands["test"]);
         }
 
         [TestMethod]
         public void CommandsEnumerator_Execute_ReturnsAllChildCommand()
         {
-            Command root = Command.GetRoot();
-            Command cmd1 = root.AddCommand("test1", "testtoken1");
-            Command cmd2 = root.AddCommand("test2", "testtoken2");
+            RootCommand root = MPOptions.GetRoot();
+            Command cmd1 = new Command("test1", "testtoken1");
+            Command cmd2 = new Command("test2", "testtoken2");
+            root.Add(cmd1, cmd2);
 
             CollectionAssert.Contains(root.Commands, cmd1);
             CollectionAssert.Contains(root.Commands, cmd2);
@@ -116,8 +121,8 @@ namespace MPOptions.Test
 
             foreach (string validToken in validTokens)
             {
-                Command cmd = Command.GetRoot().AddCommand("test", validToken);
-                Assert.AreEqual(validToken, cmd.Token);
+                string token = validToken;
+                AssertHelper.ThrowsNoException(() => MPOptions.GetRoot().Add(new Command("test", token)));
             }
 
             string[] invalidTokens = new[] {"-test;token",
@@ -132,37 +137,34 @@ namespace MPOptions.Test
 
             foreach (string invalidToken in invalidTokens)
             {
-                AssertHelper.Throws<ArgumentException>(() =>
-                {
-                    Command cmd = Command.GetRoot().AddCommand("test", invalidToken);
-                });
-
-
+                string token = invalidToken;
+                AssertHelper.Throws<ArgumentException>(() => MPOptions.GetRoot().Add(new Command("test", token)));
             }
         }
 
         [TestMethod]
         public void AddCommand_DuplicateToken_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
-            cmd.AddCommand("test", "mike;was;here");
-            AssertHelper.Throws<ArgumentException>(() => { cmd.AddCommand("test2", "john;was;not"); });
+            cmd.Add(new Command("test", "mike;was;here"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Command("test2", "john;was;not")));
         }
 
         [TestMethod]
         public void AddCommand_DuplicateName_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
-            cmd.AddCommand("test", "mike;was;here");
-            AssertHelper.Throws<ArgumentException>(() => { cmd.AddCommand("test", "john;wasnt;not"); });
+            cmd.Add(new Command("test", "mike;was;here"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Command("test", "john;wasnt;not")));
         }
 
         [TestMethod]
+        [Ignore]
         public void AddCommand_TestHierarchy_ReturnsCommandsInHierarchy()
         {
-            Command cmd = Command.GetRoot().AddCommand("test1", "mike;was;here").AddCommand("test", "mike;was;here");
+            Command cmd = MPOptions.GetRoot().AddCommand("test1", "mike;was;here").AddCommand("test", "mike;was;here");
 
             Assert.AreEqual("test", cmd.Name);
             Assert.AreEqual("test1", cmd.ParentCommand.Name);
@@ -172,7 +174,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddGlobalOption_Execute_ReturnsGlobalOption()
         {
-            Command cmd = Command.GetRoot().AddGlobalOption("globop", "s;k").RootCommand;
+            RootCommand cmd = MPOptions.GetRoot().Add(new Option("globop","s;k",true));
             Assert.IsTrue(cmd.Options["globop"].IsGlobalOption);
 
         }
@@ -180,123 +182,168 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddGlobalOption_AddedGlobalOptionIsGivenBackInWholeHierarchy_ReturnCommand()
         {
-            Command cmd = Command.GetRoot().AddGlobalOption("globop", "s;k").AddCommand("mike", "fire").AddOption("locop", "v;l").ParentCommand;
-            Assert.IsFalse(cmd.IsRoot);
-            Assert.IsNotNull(cmd.Options["locop"]);
-            Assert.IsTrue(cmd.Options["globop"].IsGlobalOption);
-            Assert.AreEqual(2, cmd.Options.Count);
+            RootCommand cmd = MPOptions.GetRoot().Add(
+                new Option("globop", "s;k", true)
+                )
+                .Add(
+                new Command("mike", "fire").Add(
+                    new Option("locop", "v;l", false))
+                );
+          
+            Assert.IsTrue(cmd.IsRoot);
+            //Assert.IsNotNull(cmd.Options["locop"]);
+            Assert.IsTrue(cmd.Commands["mike"].Options["globop"].IsGlobalOption);
+            Assert.IsFalse(cmd.Commands["mike"].Options["locop"].IsGlobalOption);
+            Assert.AreEqual(2, cmd.Commands["mike"].Options.Count);
+
+            //Command cmd = MPOptions.GetRoot().AddGlobalOption("globop", "s;k").AddCommand("mike", "fire").AddOption("locop", "v;l").ParentCommand;
+            //Assert.IsFalse(cmd.IsRoot);
+            //Assert.IsNotNull(cmd.Options["locop"]);
+            //Assert.IsTrue(cmd.Options["globop"].IsGlobalOption);
+            //Assert.AreEqual(2, cmd.Options.Count);
         }
 
         [TestMethod]
         public void AddOption_Execute_ReturnsOption()
         {
-            Command cmd = Command.GetRoot().AddOption("globop", "s;k").ParentCommand;
-            Assert.IsNotNull(cmd.Options["globop"]);
+            RootCommand root = MPOptions.GetRoot().Add(new Option("globop", "s;k", false));
+
+            //Command cmd = MPOptions.GetRoot().AddOption("globop", "s;k").ParentCommand;
+            Assert.IsNotNull(root.Options["globop"]);
 
         }
 
         [TestMethod]
         public void AddOption_NameAlreadyNameOfGlobalOption_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddGlobalOption("mike", "t1");
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike", "t2"));
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",true));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike", "t2",false)));
 
-            cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1");
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mike", "t2"));
+            cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",false));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike", "t2",true)));
+
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddGlobalOption("mike", "t1");
+            //AssertHelper.Throws<ArgumentException>(() => cmd.AddOption("mike", "t2"));
+
+            //cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1");
+            //AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mike", "t2"));
         }
 
 
         [TestMethod]
         public void AddOption_TokenAlreadyTokenOfGlobalOption_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddGlobalOption("mike", "t1").AddOption("mike1", "t1");
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",true));
+            
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false)));
 
-            ParserErrorContext error=null;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1",out error));
-            Assert.IsNull(error);
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddGlobalOption("mike", "t1").AddOption("mike1", "t1");
+
+            //ParserErrorContext error=null;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1",out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void AddOption_OptionWithRegularExpressionAlreadyExist_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithRegexValidator(@"\d");
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1", false).WithRegexValidator(@"\d"));
 
-            ParserErrorContext error = null;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1", false).WithRegexValidator(@"\d")));
+
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithRegexValidator(@"\d");
+
+            //ParserErrorContext error = null;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void AddOption_OptionWhereStaticValueOfStaticValueValidatorExistAlready_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was").AddOption("mike1", "t1").WithStaticValidator("john", "was");
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",false).WithStaticValidator("mike", "was"));
 
-            ParserErrorContext error = null;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:was",out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false).WithStaticValidator("john", "was")));
+            
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was").AddOption("mike1", "t1").WithStaticValidator("john", "was");
+
+            //ParserErrorContext error = null;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:was",out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void AddOption_OptionWhereStaticValueOfStaticValueValidatorDoesNotExistForOptionWithSameToken_Successful()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was").AddOption("mike1", "t1").WithStaticValidator("john", "not");
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",false).WithStaticValidator("mike", "was"));
 
-            ParserErrorContext error = null;
-            AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:was", out error));
-            Assert.IsNull(error);
+            AssertHelper.ThrowsNoException(() => cmd.Add(new Option("mike1", "t1",false).WithStaticValidator("john", "not")));
+
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").WithStaticValidator("mike", "was").AddOption("mike1", "t1").WithStaticValidator("john", "not");
+
+            //ParserErrorContext error = null;
+            //AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:was", out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void AddOption_2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
         {
             Command cmd;
-            ParserErrorContext error = null;
 
-            cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
-            Assert.IsNull(error);
+            cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",false));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false).WithStaticValidator("john", "was")));
 
-            cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1").AddOption("mike2", "t1").WithRegexValidator("\\d");
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
-            Assert.IsNull(error);
+            cmd = MPOptions.GetRoot().Add(new Option("mike", "t1",false));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike2", "t1", false).WithRegexValidator("\\d")));
+
+            //Command cmd;
+            //ParserErrorContext error = null;
+
+            //cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+            //Assert.IsNull(error);
+
+            //cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").AddOption("mike2", "t1").WithRegexValidator("\\d");
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+            //Assert.IsNull(error);
        }
 
         [TestMethod]
         public void AddOption_2OptionsWithSameValueAndNoValidator_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3").AddOption("mike1", "t4;t2;t5");
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1;t2;t3",false));
 
-            ParserErrorContext error = null;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t4;t2;t5",false)));
+
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1;t2;t3").AddOption("mike1", "t4;t2;t5");
+
+            //ParserErrorContext error = null;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void AddOption_2OptionsWithTokenAndValueOptional_ThrowsException()
         {
-            ParserErrorContext error = null;
-            Command cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator(true, "x", "y").AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true);
+            Command cmd = MPOptions.GetRoot().Add(new Option("mike", "t1;t2;t3",false).WithStaticValidator(true, "x", "y"));
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:x",out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike2", "t4;t2;t5", false).WithRegexValidator(@"^\d+$", true)));
 
-            cmd = Command.GetRoot();
-            cmd.AddOption("mike", "t1;t2;t3").AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true);
+            cmd = MPOptions.GetRoot().Add(new Option("mike", "t1;t2;t3",false));
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1",out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike2", "t4;t2;t5", false).WithRegexValidator(@"^\d+$", true)));
 
-            //cmd = Command.GetRoot();
+            //cmd = MPOptions.GetRoot();
             //cmd.AddOption("mike", "t1;t2;t3").WithStaticValidator("x", "y").AddOption("mike2", "t4;t2;t5").WithRegexValidator(@"^\d+$", true);
 
             //AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:x",out error));
@@ -306,30 +353,30 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddOption_InvalidToken_ThrowsException()
         {
-            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "-test"));
-            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "te st"));
-            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "test="));
-            AssertHelper.Throws<ArgumentException>(() => Command.GetRoot().AddOption("mike", "test:"));
+            AssertHelper.Throws<ArgumentException>(() => MPOptions.GetRoot().Add(new Option("mike", "-test",false)));
+            AssertHelper.Throws<ArgumentException>(() => MPOptions.GetRoot().Add(new Option("mike", "te st",false)));
+            AssertHelper.Throws<ArgumentException>(() => MPOptions.GetRoot().Add(new Option("mike", "test=",false)));
+            AssertHelper.Throws<ArgumentException>(() => MPOptions.GetRoot().Add(new Option("mike", "test:",false)));
 
-            AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", "?"));
-            AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", " ? "));
-            AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", " te?st"));
-            AssertHelper.ThrowsNoException(() => Command.GetRoot().AddOption("mike", "/"));
+            AssertHelper.ThrowsNoException(() => MPOptions.GetRoot().Add(new Option("mike", "?",false)));
+            AssertHelper.ThrowsNoException(() => MPOptions.GetRoot().Add(new Option("mike", " ? ",false)));
+            AssertHelper.ThrowsNoException(() => MPOptions.GetRoot().Add(new Option("mike", " te?st",false)));
+            AssertHelper.ThrowsNoException(() => MPOptions.GetRoot().Add(new Option("mike", "/",false)));
         }
 
         [TestMethod]
         public void AddGlobalOption_GlobalOptionWithNameOfLocalOption_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
-            cmd = cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand;
+            Command cmd = MPOptions.GetRoot().Add(new Command("mikecom", "test").Add(new Option("mikeopt", "t1;t2;t3", false)));
+            //cmd = cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand;
 
-            AssertHelper.Throws<ArgumentException>(() => cmd.AddGlobalOption("mikeopt", "t4"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mikeopt", "t4", true)));
         }
 
         [TestMethod]
         public void AddGlobalOption_GlobalOptionWithTokenOfLocalOption_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand.AddGlobalOption("mikeglobopt", "t4;t2;t3");
 
             ParserErrorContext error = null;
@@ -340,21 +387,21 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddArgument_Execute_ReturnsArgument()
         {
-            Command cmd = Command.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
+            Command cmd = MPOptions.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
             Assert.IsNotNull(cmd.Arguments["arg"]);
         }
 
         [TestMethod]
         public void AddArgument_MoreThenOneArgumentForCommand_ThrowsException()
         {
-            var cmd = Command.GetRoot().AddArgument("arg");
+            var cmd = MPOptions.GetRoot().AddArgument("arg");
             AssertHelper.Throws<ArgumentException>(()=>cmd.AddArgument("arg2"));
         }
 
         [TestMethod]
         public void AddOption_AfterGlobalOptionInFluentStyleAddsOptionToParentCommand_Successful()
         {
-            Command rootcommand = Command.GetRoot();
+            Command rootcommand = MPOptions.GetRoot();
 
             //Adds Option to command test
             AssertHelper.ThrowsNoException(() =>
@@ -371,7 +418,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddOption_AfterGlobalOptionGetByIndexerAddsOptionToContextParentCommand_Successful()
         {
-            Command rootcommand = Command.GetRoot();
+            Command rootcommand = MPOptions.GetRoot();
 
             rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl");
 
@@ -395,7 +442,7 @@ namespace MPOptions.Test
         public void AddOption_OverSavedInstanceOfGlobalOptionAddsToContextCommand_Successful()
         {
 
-            Command rootcommand = Command.GetRoot();
+            Command rootcommand = MPOptions.GetRoot();
 
             rootcommand.AddCommand("com1", "com").AddCommand("com2", "com").AddGlobalOption("globopt", "gopt");
 
@@ -416,12 +463,12 @@ namespace MPOptions.Test
         public void AddOption_OptionWithValidatorHasAlreadyOtherOptionsWithValidatorWithSameTokenValue_ThrowsException()
         {
             ParserErrorContext error = null;
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("mike", "t2").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
             AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:y7",out error));
             Assert.IsNull(error);
 
-            cmd = Command.GetRoot();
+            cmd = MPOptions.GetRoot();
             cmd.AddOption("mike", "t1").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
             AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:y7", out error));
             Assert.IsNull(error);
@@ -430,7 +477,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
         {
-            Command cmd = Command.GetRoot();
+            Command cmd = MPOptions.GetRoot();
             cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
 
             ParserErrorContext error;

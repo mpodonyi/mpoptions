@@ -7,7 +7,7 @@ namespace MPOptions.Internal
 {
     internal class StateBag
     {
-        internal Command RootCommand
+        internal RootCommand RootCommand
         {
             get; 
             set;
@@ -18,5 +18,10 @@ namespace MPOptions.Internal
         internal readonly IDictionary<string, Option> Options = new Dictionary<string, Option>();
 
         internal readonly IDictionary<string, Argument> Arguments = new Dictionary<string, Argument>();
+
+        internal  OptionCollection GlobalOptions = new OptionCollection();
+        internal Command BaseCommand;
+
+
     }
 }

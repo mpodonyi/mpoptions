@@ -6,12 +6,71 @@ using MPOptions.Internal;
 
 namespace MPOptions
 {
-    public class Command: Element
+    public class Command: Element, IGeneralFlow<Command>
     {
-        public static Command GetRoot()
+        //public static Command GetRoot()
+        //{
+        //    return new Command();
+        //}
+
+        private StateBag StateBag2 = new StateBag();
+
+
+        public Command(string name, string token):base(name)
         {
-            return new Command();
+            this.Token = token;
+            StateBag2.BaseCommand = this;
         }
+
+        public Command Add(params Command[] commands) //MP: could be an extension method
+        {
+            foreach (Command command in commands)
+            {
+                Commands.Add(command); //MP: test the attaching: validation of options
+
+                bool thisnewvalidate = command.StateBag2.GlobalOptions.Count >0;
+                bool theirnewvalidate = StateBag2.GlobalOptions.Count > 0;
+
+                if(thisnewvalidate)
+                {
+                    foreach (Option option in command.StateBag2.GlobalOptions)
+                    {
+                        StateBag2.GlobalOptions.Add(option);
+                    }
+                }
+
+                command.StateBag2.GlobalOptions = this.StateBag2.GlobalOptions;
+                command.StateBag2.BaseCommand= this;
+
+                if (thisnewvalidate)
+                    ReValidate();
+
+                if (theirnewvalidate)
+                    command.ReValidate();
+            }
+
+            return this;
+        }
+
+        private void ReValidate()
+        {
+            //throw new NotImplementedException();
+        }
+
+        
+        //MP: could be an extension method
+        //MP: maybe derive a class GlobalOption from Option
+        public Command Add(params Option[] options)
+        {
+            foreach (Option option in options)
+            {
+                Options.Add(option);
+            }
+
+            return this;
+        }
+
+
 
         internal override string Path
         {
@@ -23,7 +82,7 @@ namespace MPOptions
 
         internal Command():base(new StateBag(), null,null)
         {
-            StateBag.RootCommand = this;
+            //StateBag.RootCommand = this;
         }
 
         internal Command(Command parentCommand, string name, string token)
@@ -38,24 +97,33 @@ namespace MPOptions
             private set;
         }
 
-        public bool IsRoot
+        public virtual bool IsRoot
         {
-            get { return this==StateBag.RootCommand; }
+            get
+            {
+                return false;
+                //return this==StateBag.RootCommand;
+            }
         }
 
+        private CommandCollection _Commands=new CommandCollection();
         public CommandCollection Commands
         {
             get
             {
-                return new CommandCollection(this);
+                return _Commands;
+                //return new CommandCollection(this);
             }
         }
 
-        public OptionCollection Options
+        private OptionCollection _Options;
+        public virtual OptionCollection Options
         {
             get
             {
-                return new OptionCollection(this);
+                if (_Options == null)
+                    _Options = new OptionCollection(this.StateBag2);
+                return _Options;
             }
         }
 

@@ -8,6 +8,11 @@ namespace MPOptions
 {
     public abstract class Element
     {
+        internal Element(string name)
+        {
+            this.Name = name;
+        }
+
         internal Element(StateBag stateBag, Command parentCommand, string name)
         {
             ParentCommand = parentCommand;
@@ -15,6 +20,8 @@ namespace MPOptions
             StateBag = stateBag;
             this.Name = name;
         }
+
+
 
         protected Command ContextParent
         {
@@ -24,7 +31,7 @@ namespace MPOptions
 
         internal StateBag StateBag
         {
-            get; private set;
+            get; set;
         }
 
         public Command RootCommand

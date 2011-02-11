@@ -17,21 +17,82 @@
 #endregion
 
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using MPOptions.Internal;
 
 
 namespace MPOptions
 {
-    
 
-    //public static class App
-    //{
-    //    public static Command GetRoot()
-    //    {
-    //        return new Command();
-    //    }
-    //}
+    public interface IGeneralFlow<T> where T : Command
+    {
+        T Add(params Option[] options);
+
+        T Add(params Command[] commands);
+
+       // T Add(params Argument[] arguments);
+    }
+
+
+    public static class MPOptions
+    {
+        public static RootCommand GetRoot()
+        {
+            return new RootCommand();
+        }
+    }
+
+
+    public class RootCommand : Command, IGeneralFlow<RootCommand>
+    {
+        internal RootCommand():base("","")
+        {
+           // this.StateBag=new StateBag {RootCommand = this};
+        }
+
+
+
+        public RootCommand Add(params Command[] commands) //MP: could be an extension method
+        {
+            base.Add(commands);
+            return this;
+        }
+
+        //MP: could be an extension method
+        //MP: maybe derive a class GlobalOption from Option
+        public RootCommand Add(params Option[] options) 
+        {
+            base.Add(options);
+            return this;
+        }
+
+      
+
+        public override bool IsRoot
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+      
+
+        
+    }
+
+    public class ElementCollection<T> : KeyedCollection<string, T> where T : Element
+    {
+
+        protected override string GetKeyForItem(T item)
+        {
+            return item.Name;
+        }
+    }
+
+    
 }

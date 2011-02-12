@@ -117,12 +117,12 @@ namespace MPOptions
         }
 
         private OptionCollection _Options;
-        public virtual OptionCollection Options
+        public virtual IOptionCollection Options
         {
             get
             {
                 if (_Options == null)
-                    _Options = new OptionCollection(this.StateBag2);
+                    _Options = new OptionCollection(this.StateBag2,Name+" ");
                 return _Options;
             }
         }

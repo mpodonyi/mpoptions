@@ -4,30 +4,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 namespace MPOptions
 {
-    public class OptionCollection : ElementCollection<Option>
+    public interface IOptionCollection:  ICollection<Option>
+    {
+        bool Contains(string key);
+
+        bool Remove(string key);
+
+        Option this[string key]
+        { get;}
+        
+    }
+
+
+    class OptionCollection : CollectionAdapter<Option>, IOptionCollection
     {
 
         private readonly StateBag _StateBag;
+        private readonly CollectionAdapter<Option> Globaloptions;
 
-        internal OptionCollection()
-        {
-        }
 
-        internal OptionCollection(StateBag stateBag)
+        internal OptionCollection(StateBag stateBag, string preKey)
+            : base(stateBag.Options, preKey)
         {
+            Globaloptions = new CollectionAdapter<Option>(stateBag.Options, "::");
             _StateBag = stateBag;
         }
 
-        protected override void InsertItem(int index, Option item)
+        protected override void InsertItem(Option item)
         {
             Validate(item);
-            if (item.IsGlobalOption && _StateBag != null)
-                _StateBag.GlobalOptions.Add(item);
+            if (item.IsGlobalOption)
+                Globaloptions.Add(item);
             else
-                base.InsertItem(index, item);
+                base.InsertItem(item);
         }
 
         private void Validate(Option obj)
@@ -42,15 +55,13 @@ namespace MPOptions
 
             if (this.Contains(obj.Name))
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
-            if (_StateBag != null && _StateBag.GlobalOptions.Contains(obj.Name))
+            if (Globaloptions.Contains(obj.Name))
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
 
             //--------------------------------------------------------------
 
 
-            IEnumerable<Option> colls = (_StateBag != null)
-                                            ? _StateBag.GlobalOptions.Concat(this)
-                                            : this;
+            IEnumerable<Option> colls = Globaloptions.Concat(this);
 
             var optionsWithSameTokenw = from o1 in colls
                                         //from o2 in command.Options
@@ -123,14 +134,14 @@ namespace MPOptions
             //}
 
 
-            
+
         }
 
         public void Clear(bool includingGlobalOptions)
         {
             this.Clear();
-            if(includingGlobalOptions)
-                _StateBag.GlobalOptions.Clear();
+            if (includingGlobalOptions)
+                Globaloptions.Clear();
 
 
         }
@@ -141,7 +152,7 @@ namespace MPOptions
             {
                 if (this.Contains(key))
                     return base[key];
-                if (_StateBag != null && _StateBag.GlobalOptions.Contains(key))
+                if (Globaloptions.Contains(key))
                     return _StateBag.GlobalOptions[key];
 
                 throw new KeyNotFoundException();
@@ -152,14 +163,13 @@ namespace MPOptions
         {
             get
             {
-                if (_StateBag == null)
-                    return base.Count;
-
-                return base.Count + _StateBag.GlobalOptions.Count;
+                return base.Count + Globaloptions.Count;
             }
         }
 
 
+
+       
     }
 
 

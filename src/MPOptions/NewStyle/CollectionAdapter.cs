@@ -7,27 +7,35 @@ using MPOptions.Internal;
 
 namespace MPOptions.NewStyle
 {
-    abstract class CollectionAdapter<T> : ICollection<T> where T : Element
+    class CollectionAdapter<T> : ICollection<T> where T : Element
     {
-        protected CollectionAdapter(IDictionary<string,T> collection)
+        internal CollectionAdapter(IDictionary<string,T> collection, string prekey)
         {
             InnerDict = collection;
+            Prekey = prekey;
         }
 
 
         private IDictionary<string,T> InnerDict
         { get; set; }
 
-        protected abstract GetCollection
+        private string Prekey;
 
+        protected virtual void InsertItem(T item)
+        {
+            InnerDict.Add(Prekey + item.Name, item);
+        }
 
+        
 
         #region Implementation of IEnumerable
 
 
         public IEnumerator<T> GetEnumerator()
         {
-            return GetCollection.GetEnumerator();
+            return (from i in InnerDict
+                   where i.Key.StartsWith(Prekey)
+                   select i.Value).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -41,49 +49,73 @@ namespace MPOptions.NewStyle
 
         public void Add(T item)
         {
-            GetCollection.Add(item);
+            InsertItem(item);
         }
 
         public void Clear()
         {
-            GetCollection.Clear();
+            (from i in InnerDict
+             where i.Key.StartsWith(Prekey)
+             select i.Key).Select((key) => InnerDict.Remove(key));
         }
 
         public bool Contains(T item)
         {
-            return GetCollection.Contains(item);
+            return (from i in InnerDict
+                    where i.Key.StartsWith(Prekey) && i.Value == item
+                    select i).Any();
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            GetCollection.CopyTo(array,arrayIndex);
+            T[] items = (InnerDict.Where(i => i.Key.StartsWith(Prekey)).Select(i => i.Value)).ToArray();
+            Array.Copy(items, 0, array, arrayIndex, items.Length);
         }
 
         public bool Remove(T item)
         {
-            return GetCollection.Remove(item);
+            var keys = from i in InnerDict
+                            where i.Key.StartsWith(Prekey) && i.Value == item
+                            select i.Key;
+            if(keys.Count()>0)
+            {
+                foreach (string s in keys)
+                {
+                    InnerDict.Remove(s);
+                }
+
+
+                return true;
+            }
+
+            return false;
         }
 
         public int Count
         {
-            get { return GetCollection.Count; }
+            get
+            {
+                return (from i in InnerDict
+                        where i.Key.StartsWith(Prekey) 
+                        select i).Count();
+            }
         }
 
         public bool IsReadOnly
         {
-            get { return GetCollection.IsReadOnly; }
+            get { return false; }
         }
 
         #endregion
     
         public bool Contains(string key)
         {
-            return true;
+            return InnerDict.ContainsKey(Prekey+key);
         }
 
         public bool Remove(string key)
         {
-            return true;
+            return InnerDict.Remove(Prekey + key);
 
         }
 
@@ -91,167 +123,13 @@ namespace MPOptions.NewStyle
         {
             get
             {
-                return default(T);
+                return InnerDict[Prekey+key];
             }
         }
 
     }
 
-    public class OptionCollection : CollectionAdapter<Option>
-    {
-
-        private readonly StateBag _StateBag;
-
-        internal OptionCollection()
-        {
-        }
-
-        internal OptionCollection(StateBag stateBag)
-        {
-            _StateBag = stateBag;
-        }
-
-        protected override void InsertItem(int index, Option item)
-        {
-            Validate(item);
-            if (item.IsGlobalOption && _StateBag != null)
-                _StateBag.GlobalOptions.Add(item);
-            else
-                base.InsertItem(index, item);
-        }
-
-        private void Validate(Option obj)
-        {
-            if ((from ob in obj.Token.SplitInternal()
-                 where ob.StartsWith("-") || ob.EndsWith("=") || ob.EndsWith(":") || ob.Any(o => char.IsWhiteSpace(o))
-                 select ob).Any())
-            {
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm, ExceptionArgument.token);
-            }
-
-
-            if (this.Contains(obj.Name))
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
-            if (_StateBag != null && _StateBag.GlobalOptions.Contains(obj.Name))
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
-
-            //--------------------------------------------------------------
-
-
-            IEnumerable<Option> colls = (_StateBag != null)
-                                            ? _StateBag.GlobalOptions.Concat(this)
-                                            : this;
-
-            var optionsWithSameTokenw = from o1 in colls
-                                        //from o2 in command.Options
-                                        //where !new OptionEqualityComparer().Equals(o1, o2)
-                                        from t1 in o1.Token.SplitInternal()
-                                        from t2 in obj.Token.SplitInternal()
-                                        where t1 == t2
-                                        group new[] { o1, obj } by t1
-                                            into g
-                                            select new
-                                            {
-                                                token = g.Key,
-                                                vals = (from i in g
-                                                        from u in i
-                                                        select u).Distinct(new OptionEqualityComparer())
-                                            };
-
-            //ObjectDumper.Write(optionsWithSameTokenw);
-
-            foreach (var options in optionsWithSameTokenw)
-            {
-                //test that only 1 option without validator and same token exist
-                //should maybe also test if optionvalue starts with other optionvalue; not just equal; like in ValidateOptionArguments6 in Oldstyle project
-                if (options.vals.Count(opt => opt.OptionValueValidator == null) > 1)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-                //test that only 1 option with Validator and optionvalidatoroptional exist
-                if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional))
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-                ////test that only one option with ValueOptional exist
-                //if (options.vals.Count(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional) > 1)
-                //    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-
-                //MP: why this validation???
-                //test that only option without validator or with validator exist
-                if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null))
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-
-                var ttt = from i in options.vals
-                          where i.OptionValueValidator != null
-                          group i by i.OptionValueValidator.GetType();
-
-                if (ttt.Count() == 0)
-                    continue;
-
-                if (ttt.Count() > 1)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
-
-                if (ttt.First().Key == typeof(StaticOptionValueValidator))
-                {
-                    var countOptionWithSameStaticValidationValue = (from i in ttt.First()
-                                                                    from i2 in ((StaticOptionValueValidator)i.OptionValueValidator).values
-                                                                    group i by i2
-                                                                        into g
-                                                                        where g.Count() > 1
-                                                                        select g).Count();
-                    if (countOptionWithSameStaticValidationValue > 0)
-                        ThrowHelper.ThrowArgumentException(ExceptionResource.DoubleStaticValue);
-                }
-
-                if (ttt.First().Key != typeof(StaticOptionValueValidator) && ttt.First().Count() > 1)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-            }
-
-            //foreach (Command com in command.Commands)
-            //{
-            //    ValidateAllOptionsOnLevel(com);
-            //}
-
-
-
-        }
-
-        public void Clear(bool includingGlobalOptions)
-        {
-            this.Clear();
-            if (includingGlobalOptions)
-                _StateBag.GlobalOptions.Clear();
-
-
-        }
-
-        public new Option this[string key]
-        {
-            get
-            {
-                if (this.Contains(key))
-                    return base[key];
-                if (_StateBag != null && _StateBag.GlobalOptions.Contains(key))
-                    return _StateBag.GlobalOptions[key];
-
-                throw new KeyNotFoundException();
-            }
-        }
-
-        public new int Count
-        {
-            get
-            {
-                if (_StateBag == null)
-                    return base.Count;
-
-                return base.Count + _StateBag.GlobalOptions.Count;
-            }
-        }
-
-
-    }
-
+  
 
     
 }

@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.NewStyle;
 
 namespace MPOptions.Internal
 {
     internal class StateBag
     {
+        internal StateBag()
+        {
+            GlobalOptions = new CollectionAdapter<Option>(Options, "::");
+        }
+
+
         internal RootCommand RootCommand
         {
             get; 
@@ -19,8 +26,15 @@ namespace MPOptions.Internal
 
         internal readonly IDictionary<string, Argument> Arguments = new Dictionary<string, Argument>();
 
-        internal  OptionCollection GlobalOptions = new OptionCollection();
+        //internal  OptionCollection GlobalOptions = new OptionCollection();
         internal Command BaseCommand;
+
+
+
+        internal CollectionAdapter<Option> GlobalOptions;
+
+
+      
 
 
     }

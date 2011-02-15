@@ -1,16 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPOptions", "MPOptions\MPOptions.csproj", "{92C25679-8BF9-424A-B820-2C5EA24E685C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPOptions.Test", "MPOptions.Test\MPOptions.Test.csproj", "{8ED7C429-4E8B-41B8-BBD0-BB3C8831CF57}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A91360F-77B2-450D-ADFF-B27F101B7506}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		MPOptions.vsmdi = MPOptions.vsmdi
 		todo.txt = todo.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPOptions", "MPOptions\MPOptions.csproj", "{92C25679-8BF9-424A-B820-2C5EA24E685C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPOptions.Test", "MPOptions.Test\MPOptions.Test.csproj", "{8ED7C429-4E8B-41B8-BBD0-BB3C8831CF57}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

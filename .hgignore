@@ -6,3 +6,5 @@ glob:src/MPOptions.Test/obj/*
 glob:src/MPOptions/bin/*
 glob:src/MPOptions/obj/*
 glob:src/TestResults/*
+glob:src/MPOptions.Test/MPOptions.Test.csproj.user
+glob:src/MPOptions/MPOptions.csproj.user

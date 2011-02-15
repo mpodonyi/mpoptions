@@ -8,14 +8,14 @@ using MPOptions.NewStyle;
 
 namespace MPOptions
 {
-    public interface IOptionCollection:  ICollection<Option>
+    public interface IOptionCollection: IMPOptionCollection<Option>
     {
-        bool Contains(string key);
+        //bool Contains(string key);
 
-        bool Remove(string key);
+        //bool Remove(string key);
 
-        Option this[string key]
-        { get;}
+        //Option this[string key]
+        //{ get;}
         
     }
 
@@ -24,13 +24,13 @@ namespace MPOptions
     {
 
         private readonly StateBag _StateBag;
-        private readonly CollectionAdapter<Option> Globaloptions;
+        //private readonly CollectionAdapter<Option> Globaloptions;
 
 
         internal OptionCollection(StateBag stateBag, string preKey)
             : base(stateBag.Options, preKey)
         {
-            Globaloptions = new CollectionAdapter<Option>(stateBag.Options, "::");
+           // Globaloptions = new CollectionAdapter<Option>(stateBag.Options, "::");
             _StateBag = stateBag;
         }
 
@@ -38,7 +38,7 @@ namespace MPOptions
         {
             Validate(item);
             if (item.IsGlobalOption)
-                Globaloptions.Add(item);
+                _StateBag.GlobalOptions.Add(item);
             else
                 base.InsertItem(item);
         }
@@ -55,13 +55,13 @@ namespace MPOptions
 
             if (this.Contains(obj.Name))
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
-            if (Globaloptions.Contains(obj.Name))
+            if (_StateBag.GlobalOptions.Contains(obj.Name))
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
 
             //--------------------------------------------------------------
 
 
-            IEnumerable<Option> colls = Globaloptions.Concat(this);
+            IEnumerable<Option> colls = _StateBag.GlobalOptions.Concat(this);
 
             var optionsWithSameTokenw = from o1 in colls
                                         //from o2 in command.Options
@@ -141,7 +141,7 @@ namespace MPOptions
         {
             this.Clear();
             if (includingGlobalOptions)
-                Globaloptions.Clear();
+                _StateBag.GlobalOptions.Clear();
 
 
         }
@@ -152,7 +152,7 @@ namespace MPOptions
             {
                 if (this.Contains(key))
                     return base[key];
-                if (Globaloptions.Contains(key))
+                if (_StateBag.GlobalOptions.Contains(key))
                     return _StateBag.GlobalOptions[key];
 
                 throw new KeyNotFoundException();
@@ -163,7 +163,7 @@ namespace MPOptions
         {
             get
             {
-                return base.Count + Globaloptions.Count;
+                return base.Count + _StateBag.GlobalOptions.Count;
             }
         }
 

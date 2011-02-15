@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 namespace MPOptions
 {
@@ -19,7 +20,7 @@ namespace MPOptions
         public Command(string name, string token):base(name)
         {
             this.Token = token;
-            StateBag2.BaseCommand = this;
+            //StateBag2.BaseCommand = this;
         }
 
         public Command Add(params Command[] commands) //MP: could be an extension method
@@ -28,19 +29,11 @@ namespace MPOptions
             {
                 Commands.Add(command); //MP: test the attaching: validation of options
 
+                //if this command or new command has new global options then revalidate
                 bool thisnewvalidate = command.StateBag2.GlobalOptions.Count >0;
                 bool theirnewvalidate = StateBag2.GlobalOptions.Count > 0;
 
-                if(thisnewvalidate)
-                {
-                    foreach (Option option in command.StateBag2.GlobalOptions)
-                    {
-                        StateBag2.GlobalOptions.Add(option);
-                    }
-                }
-
-                command.StateBag2.GlobalOptions = this.StateBag2.GlobalOptions;
-                command.StateBag2.BaseCommand= this;
+                this.StateBag2.Merge(command.StateBag2);
 
                 if (thisnewvalidate)
                     ReValidate();
@@ -106,13 +99,14 @@ namespace MPOptions
             }
         }
 
-        private CommandCollection _Commands=new CommandCollection();
-        public CommandCollection Commands
+        private CommandCollection _Commands;
+        public ICommandCollection Commands
         {
             get
             {
+                if (_Commands == null)
+                    _Commands = new CommandCollection(this.StateBag2, Name + " ");
                 return _Commands;
-                //return new CommandCollection(this);
             }
         }
 

@@ -5,15 +5,39 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 namespace MPOptions
 {
-    public class CommandCollection : ElementCollection<Command>
+    public interface ICommandCollection : IMPOptionCollection<Command>
     {
-        protected override void InsertItem(int index, Command item)
+        //bool Contains(string key);
+
+        //bool Remove(string key);
+
+        //Command this[string key]
+        //{ get; }
+
+        //new int Count { get; }
+
+
+    }
+
+
+    class CommandCollection : CollectionAdapter<Command>, ICommandCollection
+    {
+        private readonly StateBag _StateBag;
+
+        internal CommandCollection(StateBag stateBag, string preKey)
+            : base(stateBag.Commands, preKey)
+        {
+            _StateBag = stateBag;
+        }
+
+        protected override void InsertItem(Command item)
         {
             Validate(item);
-            base.InsertItem(index, item);
+            base.InsertItem(item);
         }
 
         private const string TokenRegex = @"^((\s*\w+\s*)|(\s*\w+\s*;\s*)|(\s*\w+(\s*;\s*\w+\s*(;)?\s*)*))$";

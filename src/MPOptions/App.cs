@@ -56,7 +56,7 @@ namespace MPOptions
 
 
 
-        public RootCommand Add(params Command[] commands) //MP: could be an extension method
+        public new RootCommand Add(params Command[] commands) //MP: could be an extension method
         {
             base.Add(commands);
             return this;
@@ -64,7 +64,7 @@ namespace MPOptions
 
         //MP: could be an extension method
         //MP: maybe derive a class GlobalOption from Option
-        public RootCommand Add(params Option[] options) 
+        public new RootCommand Add(params Option[] options) 
         {
             base.Add(options);
             return this;

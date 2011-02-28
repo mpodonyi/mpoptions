@@ -52,16 +52,26 @@ namespace MPOptions
                 ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_InValidForm, ExceptionArgument.token);
             }
 
-
-            if (this.Contains(obj.Name))
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
-            if (_StateBag.GlobalOptions.Contains(obj.Name))
-                ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+            if (obj.IsGlobalOption)
+            {
+                if (_StateBag.Options.Values.Any(o=>o.Name==obj.Name))
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+            }
+            else
+            {
+                if (this.Contains(obj.Name))
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+                if (_StateBag.GlobalOptions.Contains(obj.Name))
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Argument_AlreadyInDictionary, ExceptionArgument.name);
+            }
 
             //--------------------------------------------------------------
 
-
-            IEnumerable<Option> colls = _StateBag.GlobalOptions.Concat(this);
+            IEnumerable<Option> colls;
+            if (obj.IsGlobalOption)
+                colls = _StateBag.Options.Values;
+            else
+                colls = _StateBag.GlobalOptions.Concat(this);
 
             var optionsWithSameTokenw = from o1 in colls
                                         //from o2 in command.Options

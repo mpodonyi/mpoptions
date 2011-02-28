@@ -376,12 +376,19 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddGlobalOption_GlobalOptionWithTokenOfLocalOption_ThrowsException()
         {
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand.AddGlobalOption("mikeglobopt", "t4;t2;t3");
+            RootCommand cmd = MPOptions.GetRoot();
+            cmd.Add(new Command("mikecom", "test").Add(new Option("mikeopt", "t1;t2;t3",false)));
+            
+            
 
-            ParserErrorContext error = null;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1",out error));
-            Assert.IsNull(error);
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mikeglobopt", "t4;t2;t3",true)));
+        
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddCommand("mikecom", "test").AddOption("mikeopt", "t1;t2;t3").RootCommand.AddGlobalOption("mikeglobopt", "t4;t2;t3");
+
+            //ParserErrorContext error = null;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1",out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]

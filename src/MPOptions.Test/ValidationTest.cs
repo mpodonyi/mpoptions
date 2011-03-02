@@ -394,8 +394,10 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddArgument_Execute_ReturnsArgument()
         {
-            Command cmd = MPOptions.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
+            RootCommand cmd = MPOptions.GetRoot().Add(new Argument("arg").WithRegexValidator(@"^\d+$"));
             Assert.IsNotNull(cmd.Arguments["arg"]);
+            //Command cmd = MPOptions.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
+            //Assert.IsNotNull(cmd.Arguments["arg"]);
         }
 
         [TestMethod]

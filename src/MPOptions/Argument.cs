@@ -8,6 +8,10 @@ namespace MPOptions
 {
     public class Argument : Element
     {
+        public Argument(string name) : base(name)
+        {
+        }
+
         internal Argument(Command parentCommand, string name, IArgumentValidator argumentValidator)
             : base(parentCommand.StateBag,parentCommand, name)
         {

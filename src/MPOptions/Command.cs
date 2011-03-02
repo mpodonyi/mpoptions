@@ -63,6 +63,12 @@ namespace MPOptions
             return this;
         }
 
+        public Command Add(Argument argument)
+        {
+            
+            return this;
+        }
+
 
 
         internal override string Path
@@ -111,7 +117,7 @@ namespace MPOptions
         }
 
         private OptionCollection _Options;
-        public virtual IOptionCollection Options
+        public  IOptionCollection Options
         {
             get
             {
@@ -121,11 +127,14 @@ namespace MPOptions
             }
         }
 
-        public ArgumentCollection Arguments
+        private ArgumentCollection _Arguments;
+        public IArgumentCollection Arguments
         {
             get
             {
-                return new ArgumentCollection(this);
+                if (_Arguments == null)
+                    _Arguments = new ArgumentCollection(this.StateBag2, Name + " ");
+                return _Arguments;
             }
         }
 

@@ -34,7 +34,7 @@ namespace MPOptions
 
         T Add(params Command[] commands);
 
-       // T Add(params Argument[] arguments);
+        T Add(Argument argument);
     }
 
 
@@ -67,6 +67,12 @@ namespace MPOptions
         public new RootCommand Add(params Option[] options) 
         {
             base.Add(options);
+            return this;
+        }
+
+        public new RootCommand Add(Argument argument)
+        {
+            base.Add(argument);
             return this;
         }
 

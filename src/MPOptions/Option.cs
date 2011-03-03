@@ -121,17 +121,17 @@ namespace MPOptions
 
         public Option WithStaticValidator(bool valueOptional,params string[] values)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new StaticOptionValueValidator(values) {ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new StaticOptionValueValidator(values) { ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }
@@ -153,17 +153,17 @@ namespace MPOptions
 
         public Option WithRegexValidator(string pattern, bool valueOptional, int maximumOccurrence)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new RegularExpressionOptionValueValidator(pattern) {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new RegularExpressionOptionValueValidator(pattern) { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }
@@ -185,17 +185,17 @@ namespace MPOptions
 
         public Option WithNoValidator(bool valueOptional, int maximumOccurrence)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new FallThroughOptionValueValidator() {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new FallThroughOptionValueValidator() { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }

@@ -453,6 +453,7 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
+        [Ignore]
         public void AddOption_AfterGlobalOptionGetByIndexerAddsOptionToContextParentCommand_Successful()
         {
             RootCommand rootcommand = MPOptions.GetRoot();
@@ -473,34 +474,12 @@ namespace MPOptions.Test
             Assert.IsTrue(option.IsGlobalOption);
 
             Assert.AreEqual(rootcommand, option.ParentCommand);
-
-
-            //Command rootcommand = MPOptions.GetRoot();
-
-            //rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl");
-
-            //AssertHelper.ThrowsNoException(() =>
-            //{
-            //    rootcommand.Commands["test"].Options["globopt"].AddOption("opt2", "opt2");
-            //});
-
-            //Assert.IsNotNull(rootcommand.Commands["test"].Options["opt2"]);
-
-            //Assert.AreEqual(rootcommand.Commands["test"], rootcommand.Commands["test"].Options["opt2"].ParentCommand);
-
-            //Option option = rootcommand.Commands["test"].Options["globopt"];
-
-            //Assert.IsTrue(option.IsGlobalOption);
-
-            //Assert.AreEqual(rootcommand, option.ParentCommand);
-
-
         }
 
         [TestMethod]
+        [Ignore]
         public void AddOption_OverSavedInstanceOfGlobalOptionAddsToContextCommand_Successful()
         {
-
             Command rootcommand = MPOptions.GetRoot();
 
             rootcommand.AddCommand("com1", "com").AddCommand("com2", "com").AddGlobalOption("globopt", "gopt");
@@ -521,26 +500,39 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddOption_OptionWithValidatorHasAlreadyOtherOptionsWithValidatorWithSameTokenValue_ThrowsException()
         {
-            ParserErrorContext error = null;
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("mike", "t2").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
-            AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:y7",out error));
-            Assert.IsNull(error);
+            RootCommand cmd = MPOptions.GetRoot();
+            cmd.Add(new Option("mike", "t2", false).WithRegexValidator(@"\d"));
+            AssertHelper.ThrowsNoException(() => cmd.Add(new Option("mike1", "t1",false).WithNoValidator()));
 
             cmd = MPOptions.GetRoot();
-            cmd.AddOption("mike", "t1").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:y7", out error));
-            Assert.IsNull(error);
+            cmd.Add(new Option("mike", "t1",false).WithRegexValidator(@"\d"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false).WithNoValidator()));
+
+            //ParserErrorContext error = null;
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t2").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
+            //AssertHelper.ThrowsNoException(() => cmd.Parse(" -t1:y7",out error));
+            //Assert.IsNull(error);
+
+            //cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").WithRegexValidator(@"\d").AddOption("mike1", "t1").WithNoValidator();
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1:y7", out error));
+            //Assert.IsNull(error);
         }
 
         [TestMethod]
         public void Parse_2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
         {
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
+            RootCommand cmd = MPOptions.GetRoot();
+            cmd.Add(new Option("mike", "t1",false));
 
-            ParserErrorContext error;
-            AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false).WithStaticValidator("john", "was")));
+
+            //Command cmd = MPOptions.GetRoot();
+            //cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
+
+            //ParserErrorContext error;
+            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
         }
     }
 }

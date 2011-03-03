@@ -80,6 +80,8 @@
     <Compile Include="Internal\ObjectDumper.cs" />
     <Compile Include="NewStyle\CollectionAdapter.cs" />
     <Compile Include="NewStyle\CommandCollection.cs" />
+    <Compile Include="NewStyle\CommandResult.cs" />
+    <Compile Include="NewStyle\CommandResultCollection.cs" />
     <Compile Include="ParserErrorContext.cs" />
     <Compile Include="ParserException.cs" />
     <Compile Include="IOptionValueValidator.cs" />

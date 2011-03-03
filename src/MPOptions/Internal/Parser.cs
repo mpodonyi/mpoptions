@@ -2,11 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.NewStyle;
 
 namespace MPOptions.Internal
 {
     internal class Parser
     {
+        //*****new Stuff*****
+
+        internal Parser(ICommandResultInternal element, string commandLine)
+            : this(element, commandLine.ToCharArray(), false)
+        {
+        }
+
+        private Parser(ICommandResultInternal element, char[] charArray, bool cleancls)
+        {
+            this.currentCommand2 = element;
+            this.charArray = charArray;
+            this.cleancls = cleancls;
+        }
+
+        private ICommandResultInternal currentCommand2;
+
+
+        //*****new Stuff end*****
+
         private enum Token
         {
             AlphaNumeric = 0x1,

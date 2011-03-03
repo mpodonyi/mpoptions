@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 namespace MPOptions.Test
 {
@@ -64,21 +65,21 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Command_Successful()
         {
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddCommand("testcommand", "testcommanda; testcommandb");
+            RootCommand cmd = MPOptions.GetRoot();
+            cmd.Add(new Command("testcommand", "testcommanda; testcommandb"));
 
             ParserErrorContext error;
-            cmd.Parse(" testcommandb", out error);
+            ICommandResult result = cmd.Parse(" testcommandb", out error);
 
             Assert.IsNull(error);
-            Assert.IsTrue(cmd.Commands["testcommand"].IsSet);
+            Assert.IsTrue(result.Commands["testcommand"].IsSet);
 
         }
 
         [TestMethod]
         public void Parse_Command_Unsuccessful()
         {
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
             cmd.AddCommand("testcommand", "testcommanda; testcommandb");
 
             ParserErrorContext error;
@@ -92,7 +93,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Option_Successful()
         {
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb");
             cmd.AddOption("testoption2", "testoptionc; testoptiond");
             cmd.AddOption("testoption3", "testoptione; testoptionf");
@@ -110,7 +111,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_Option_Unsuccessful()
         {
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb");
             cmd.AddOption("testoption2", "testoptionc; testoptiond");
             cmd.AddOption("testoption3", "testoptione; testoptionf");
@@ -124,7 +125,7 @@ namespace MPOptions.Test
         [TestMethod]
         public void Parse_OptionWithStaticValidator_Successful()
         {
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
             cmd.AddOption("testoption", "testoption; testoptionb").WithStaticValidator("yes", "no");
             var option = cmd.Options["testoption"];
 
@@ -152,7 +153,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = MPOptions.GetRoot();
+                RootCommand cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithStaticValidator(testvalues[i, 0]);
                 var option = cmd.Options["testoption"];
@@ -175,7 +176,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = MPOptions.GetRoot();
+                RootCommand cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$");
                 var option = cmd.Options["testoption"];
@@ -198,7 +199,7 @@ namespace MPOptions.Test
 
             for (int i = 0; i < testvalues.GetLength(0); i++)
             {
-                Command cmd = MPOptions.GetRoot();
+                RootCommand cmd = MPOptions.GetRoot();
 
                 cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$");
                 var option = cmd.Options["testoption"];
@@ -217,7 +218,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb:12345 --testoptionb:7890";
 
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$", 2 );
             var option = cmd.Options["testoption"];
@@ -237,7 +238,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb:12345 --testoptionb:78b90";
 
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$",2 );
             var option = cmd.Options["testoption"];
@@ -253,7 +254,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb";
 
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$", true );
             var option = cmd.Options["testoption"];
@@ -270,7 +271,7 @@ namespace MPOptions.Test
         {
             string testvalues = " --testoptionb -testoption:123";
 
-            Command cmd = MPOptions.GetRoot();
+            RootCommand cmd = MPOptions.GetRoot();
 
             cmd.AddOption("testoption", "testoption; testoptionb").WithRegexValidator(@"^\d+$",true );
             var option = cmd.Options["testoption"];

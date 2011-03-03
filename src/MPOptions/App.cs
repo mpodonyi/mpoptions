@@ -23,6 +23,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 
 namespace MPOptions
@@ -86,7 +87,41 @@ namespace MPOptions
             }
         }
 
-      
+        /// <summary>
+        /// Parses this instance.
+        /// </summary>
+        /// <exception cref="ParserException">Thrown when the Commandline can not be parsed successful.</exception>
+        /// <returns>Return the current command.</returns>
+        public Command Parse()
+        {
+            var parser = new Parser(this);
+            ParserErrorContext errorContext = parser.Parse();
+            if (errorContext != null)
+                ThrowHelper.ThrowParserException(errorContext);
+            return this;
+        }
+
+        ///// <summary>
+        ///// Parses this instance.
+        ///// </summary>
+        ///// <param name="parserErrorContext">The Error Reported by the Parser. Otherwise Null.</param>
+        ///// <returns>Return the current command.</returns>
+        //public Command Parse(out ParserErrorContext parserErrorContext)
+        //{
+        //    var parser = new Parser(this);
+        //    parserErrorContext = parser.Parse();
+        //    return this;
+        //}
+
+
+        internal ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
+        {
+            var result = new CommandResult(this);
+            var parser = new Parser(result, commandLine);
+            parserErrorContext = parser.Parse();
+            //return this;
+            return result;
+        }
 
         
     }

@@ -75,8 +75,14 @@ namespace MPOptions.Internal
                 this.Commands.Add(item);
             }
 
+            foreach (var item in stateBag.Arguments)
+            {
+                this.Arguments.Add(item);
+            }
+
             stateBag._Options = this.Options;
             stateBag._Commands = this.Commands;
+            stateBag._Arguments = this.Arguments;
             stateBag._GlobalOptions = new CollectionAdapter<Option>(stateBag.Options, "::");
             //command.StateBag2.BaseCommand= this;
 

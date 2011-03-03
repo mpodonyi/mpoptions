@@ -65,7 +65,7 @@ namespace MPOptions
 
         public Command Add(Argument argument)
         {
-            
+            Arguments.Add(argument);
             return this;
         }
 

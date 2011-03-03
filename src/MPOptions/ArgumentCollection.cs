@@ -31,5 +31,32 @@ namespace MPOptions
         {
             _StateBag = stateBag;
         }
+
+         protected override void InsertItem(Argument item)
+        {
+            Validate(item);
+            base.InsertItem(item);
+        }
+
+        private void Validate(Argument obj)
+        {
+            if (Count > 0)
+            {
+                //if (obj.ParentCommand.Arguments.Count() > 1 || obj.ParentCommand.Arguments.First() != obj)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+            }
+
+
+        }
+
+
+
+
+
+      
+
+
+
+
     }
 }

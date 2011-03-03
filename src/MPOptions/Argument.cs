@@ -114,17 +114,19 @@ namespace MPOptions
 
         public Argument WithRegexValidator(string pattern,int maximumOccurrence)
         {
-            IArgumentValidator argumentValueValidator = this.ArgumentValidator;
-            try
-            {
-                this.ArgumentValidator = new RegularExpressionArgumentValidator(pattern){ MaximumOccurrence = maximumOccurrence };
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.ArgumentValidator = argumentValueValidator;
-                throw;
-            }
+            IArgumentValidator argumentValueValidator = new RegularExpressionArgumentValidator(pattern) { MaximumOccurrence = maximumOccurrence }; 
+
+            //IArgumentValidator argumentValueValidator = this.ArgumentValidator;
+            //try
+            //{
+            //    this.ArgumentValidator = new RegularExpressionArgumentValidator(pattern){ MaximumOccurrence = maximumOccurrence };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.ArgumentValidator = argumentValueValidator;
+            //    throw;
+            //}
 
             return this;
 

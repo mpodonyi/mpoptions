@@ -394,7 +394,9 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddArgument_Execute_ReturnsArgument()
         {
-            RootCommand cmd = MPOptions.GetRoot().Add(new Argument("arg").WithRegexValidator(@"^\d+$"));
+            RootCommand cmd = MPOptions.GetRoot().Add(
+                new Argument("arg").WithRegexValidator(@"^\d+$")
+                );
             Assert.IsNotNull(cmd.Arguments["arg"]);
             //Command cmd = MPOptions.GetRoot().AddArgument("arg").WithRegexValidator(@"^\d+$").ParentCommand;
             //Assert.IsNotNull(cmd.Arguments["arg"]);
@@ -403,31 +405,57 @@ namespace MPOptions.Test
         [TestMethod]
         public void AddArgument_MoreThenOneArgumentForCommand_ThrowsException()
         {
-            var cmd = MPOptions.GetRoot().AddArgument("arg");
-            AssertHelper.Throws<ArgumentException>(()=>cmd.AddArgument("arg2"));
+            RootCommand cmd = MPOptions.GetRoot().Add(new Argument("arg"));
+            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Argument("arg2")));
+
+
+            //var cmd = MPOptions.GetRoot().AddArgument("arg");
+            //AssertHelper.Throws<ArgumentException>(()=>cmd.AddArgument("arg2"));
         }
 
         [TestMethod]
         public void AddOption_AfterGlobalOptionInFluentStyleAddsOptionToParentCommand_Successful()
         {
-            Command rootcommand = MPOptions.GetRoot();
+            RootCommand rootcommand = MPOptions.GetRoot();
 
             //Adds Option to command test
             AssertHelper.ThrowsNoException(() =>
             {
-                rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl").AddOption("option", "opt");
+                rootcommand.Add(
+                    new Command("test", "mike").Add(
+                        new Option("globopt", "gl", true),
+                        new Option("option", "opt", false)
+                        )
+                    );
             });
 
             Assert.IsNotNull(rootcommand.Commands["test"].Options["option"]);
+            //Assert.IsNotNull(rootcommand.Commands["test"].Options["globopt"]);
+            //Assert.IsNotNull(rootcommand.Options["globopt"]);
+            
+            //MP: reenable ParentCommand with newstyle
+            //Assert.AreEqual(rootcommand.Commands["test"], rootcommand.Commands["test"].Options["option"].ParentCommand);
 
-            Assert.AreEqual(rootcommand.Commands["test"], rootcommand.Commands["test"].Options["option"].ParentCommand);
+            //-------------------------------------------
+            
+            //Command rootcommand = MPOptions.GetRoot();
+
+            ////Adds Option to command test
+            //AssertHelper.ThrowsNoException(() =>
+            //{
+            //    rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl").AddOption("option", "opt");
+            //});
+
+            //Assert.IsNotNull(rootcommand.Commands["test"].Options["option"]);
+
+            //Assert.AreEqual(rootcommand.Commands["test"], rootcommand.Commands["test"].Options["option"].ParentCommand);
 
         }
 
         [TestMethod]
         public void AddOption_AfterGlobalOptionGetByIndexerAddsOptionToContextParentCommand_Successful()
         {
-            Command rootcommand = MPOptions.GetRoot();
+            RootCommand rootcommand = MPOptions.GetRoot();
 
             rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl");
 
@@ -445,6 +473,28 @@ namespace MPOptions.Test
             Assert.IsTrue(option.IsGlobalOption);
 
             Assert.AreEqual(rootcommand, option.ParentCommand);
+
+
+            //Command rootcommand = MPOptions.GetRoot();
+
+            //rootcommand.AddCommand("test", "mike").AddGlobalOption("globopt", "gl");
+
+            //AssertHelper.ThrowsNoException(() =>
+            //{
+            //    rootcommand.Commands["test"].Options["globopt"].AddOption("opt2", "opt2");
+            //});
+
+            //Assert.IsNotNull(rootcommand.Commands["test"].Options["opt2"]);
+
+            //Assert.AreEqual(rootcommand.Commands["test"], rootcommand.Commands["test"].Options["opt2"].ParentCommand);
+
+            //Option option = rootcommand.Commands["test"].Options["globopt"];
+
+            //Assert.IsTrue(option.IsGlobalOption);
+
+            //Assert.AreEqual(rootcommand, option.ParentCommand);
+
+
         }
 
         [TestMethod]

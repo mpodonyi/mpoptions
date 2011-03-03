@@ -15,7 +15,7 @@ namespace MPOptions
 
         internal Element(StateBag stateBag, Command parentCommand, string name)
         {
-            ParentCommand = parentCommand;
+          //  ParentCommand = parentCommand;
             ContextParent = parentCommand;
             StateBag = stateBag;
             this.Name = name;
@@ -45,8 +45,8 @@ namespace MPOptions
             private set;
         }
 
-        internal abstract string Path
-        { get; }
+        //internal abstract string Path
+        //{ get; }
 
         internal virtual bool Set
         {
@@ -59,10 +59,11 @@ namespace MPOptions
             get { return Set; }
         }
 
-        public virtual Command ParentCommand
-        {
-            get; private set;
-        }
+        //public virtual Command ParentCommand
+        //{
+        //    get;
+        //    private set;
+        //}
 
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace MPOptions
             //Command command = new Command(this as Command ?? ParentCommand, name, token);
             ValidationFactory.Validate(command);
 
-            this.StateBag.Commands.Add(command.Path, command);
+            //this.StateBag.Commands.Add(command.Path, command);
 
             return command;
         }
@@ -128,7 +129,7 @@ namespace MPOptions
             //Option option = new Option(this as Command ?? ParentCommand, name, token, globalOption);
             ValidationFactory.Validate(option);
 
-            this.StateBag.Options.Add(option.Path, option);
+           // this.StateBag.Options.Add(option.Path, option);
 
             return option;
         }
@@ -147,7 +148,7 @@ namespace MPOptions
             //Argument argument = new Argument(this as Command ?? ParentCommand, name, argumentValidator);
             ValidationFactory.Validate(argument);
 
-            this.StateBag.Arguments.Add(argument.Path, argument);
+           // this.StateBag.Arguments.Add(argument.Path, argument);
 
             return argument;
         }

@@ -71,13 +71,13 @@ namespace MPOptions
 
 
 
-        internal override string Path
-        {
-            get
-            {
-                return IsRoot ? string.Empty : ParentCommand.Path + Name + " ";
-            }
-        }
+        //internal override string Path
+        //{
+        //    get
+        //    {
+        //        return IsRoot ? string.Empty : ParentCommand.Path + Name + " ";
+        //    }
+        //}
 
         internal Command():base(new StateBag(), null,null)
         {

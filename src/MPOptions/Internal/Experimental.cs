@@ -6,78 +6,78 @@ using System.Text;
 
 namespace MPOptions.Internal
 {
-    internal class OptionEqualityComparer : EqualityComparer<Option>
-    {
-        #region IEqualityComparer<Option> Members
+    //internal class OptionEqualityComparer : EqualityComparer<Option>
+    //{
+    //    #region IEqualityComparer<Option> Members
 
-        public override bool  Equals(Option x, Option y)
-        {
-            OptionImpl leftimpl = x as OptionImpl;
-            OptionImpl rightimpl = y as OptionImpl;
+    //    public override bool  Equals(Option x, Option y)
+    //    {
+    //        OptionImpl leftimpl = x as OptionImpl;
+    //        OptionImpl rightimpl = y as OptionImpl;
 
-            if (leftimpl != null)
-                x = leftimpl.savedInstance;
+    //        if (leftimpl != null)
+    //            x = leftimpl.savedInstance;
 
-            if (rightimpl != null)
-                y = rightimpl.savedInstance;
+    //        if (rightimpl != null)
+    //            y = rightimpl.savedInstance;
 
-            return x == y;
-        }
+    //        return x == y;
+    //    }
 
-        public override int GetHashCode(Option obj)
-        {
-            OptionImpl leftimpl = obj as OptionImpl;
+    //    public override int GetHashCode(Option obj)
+    //    {
+    //        OptionImpl leftimpl = obj as OptionImpl;
 
-            if (leftimpl != null)
-                return leftimpl.savedInstance.GetHashCode();
+    //        if (leftimpl != null)
+    //            return leftimpl.savedInstance.GetHashCode();
 
-            return obj.GetHashCode();
-        }
+    //        return obj.GetHashCode();
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 
-    internal class OptionImpl: Option
-    {
-        internal OptionImpl(Option option, Command contextParent)
-            : base(option.ParentCommand, option.Name, option.Token, option.IsGlobalOption)
-        {
-            base.OptionValueValidator = option.OptionValueValidator;
-            ContextParent = contextParent;
-            savedInstance = option;
+    //internal class OptionImpl: Option
+    //{
+    //    internal OptionImpl(Option option, Command contextParent)
+    //        : base(option.ParentCommand, option.Name, option.Token, option.IsGlobalOption)
+    //    {
+    //        base.OptionValueValidator = option.OptionValueValidator;
+    //        ContextParent = contextParent;
+    //        savedInstance = option;
 
-            this.Set = option.Set;
-            this._Values = option._Values;
+    //        this.Set = option.Set;
+    //        this._Values = option._Values;
 
-        }
+    //    }
 
-        internal Option savedInstance;
+    //    internal Option savedInstance;
 
-        internal override IOptionValueValidator OptionValueValidator
-        {
-            get
-            {
-                return savedInstance.OptionValueValidator;
-            }
-            set
-            {
-                savedInstance.OptionValueValidator = value;
-            }
-        }
+    //    internal override IOptionValueValidator OptionValueValidator
+    //    {
+    //        get
+    //        {
+    //            return savedInstance.OptionValueValidator;
+    //        }
+    //        set
+    //        {
+    //            savedInstance.OptionValueValidator = value;
+    //        }
+    //    }
 
-        internal override bool Set
-        {
-            set
-            {
-                savedInstance.Set = value;
-                //base.Set = value;
-            }
-            get
-            {
-                return savedInstance.Set;
-            }
-        }
-    }
+    //    internal override bool Set
+    //    {
+    //        set
+    //        {
+    //            savedInstance.Set = value;
+    //            //base.Set = value;
+    //        }
+    //        get
+    //        {
+    //            return savedInstance.Set;
+    //        }
+    //    }
+    //}
 
     internal class ArgumentValidator : Validator<Argument>
     {
@@ -90,11 +90,11 @@ namespace MPOptions.Internal
             //dont need to check the "name" for duplicity because it throws exception when it tries to add argument to argumentcollection
 
             //MP: for now only allow one argument per command
-            if (obj.ParentCommand.Arguments.Count() > 0)
-            {
-                if (obj.ParentCommand.Arguments.Count() > 1 || obj.ParentCommand.Arguments.First() != obj)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
-            }
+            //if (obj.ParentCommand.Arguments.Count() > 0)
+            //{
+            //    if (obj.ParentCommand.Arguments.Count() > 1 || obj.ParentCommand.Arguments.First() != obj)
+            //        ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
+            //}
         }
     }
 

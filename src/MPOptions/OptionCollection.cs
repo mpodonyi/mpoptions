@@ -86,7 +86,7 @@ namespace MPOptions
                                                 token = g.Key,
                                                 vals = (from i in g
                                                         from u in i
-                                                        select u).Distinct(new OptionEqualityComparer())
+                                                        select u).Distinct() //  .Distinct(new OptionEqualityComparer())
                                             };
 
             //ObjectDumper.Write(optionsWithSameTokenw);

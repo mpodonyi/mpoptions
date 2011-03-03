@@ -40,13 +40,13 @@ namespace MPOptions
         }
 
 
-        internal override string Path
-        {
-            get
-            {
-                return IsGlobalOption ? "[" + Name + "]" : ParentCommand.Path+"[" + Name + "]";
-            }
-        }
+        //internal override string Path
+        //{
+        //    get
+        //    {
+        //        return IsGlobalOption ? "[" + Name + "]" : ParentCommand.Path+"[" + Name + "]";
+        //    }
+        //}
 
         private readonly bool _GlobalOption = false;
         public bool IsGlobalOption
@@ -106,13 +106,13 @@ namespace MPOptions
         }
 
         //MP: should global option give back the rootcommand or null
-        public override Command ParentCommand
-        {
-            get
-            {
-                return IsGlobalOption ? RootCommand: base.ParentCommand;
-            }
-        }
+        //public override Command ParentCommand
+        //{
+        //    get
+        //    {
+        //        return IsGlobalOption ? RootCommand: base.ParentCommand;
+        //    }
+        //}
 
         public Option WithStaticValidator(params string[] values)
         {

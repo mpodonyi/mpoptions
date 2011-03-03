@@ -25,13 +25,13 @@ namespace MPOptions
         }
         
 
-        internal override string Path
-        {
-            get 
-            {
-                return ParentCommand.Path + "<" + Name + ">";
-            }
-        }
+        //internal override string Path
+        //{
+        //    get 
+        //    {
+        //        return ParentCommand.Path + "<" + Name + ">";
+        //    }
+        //}
 
         public string Value
         {

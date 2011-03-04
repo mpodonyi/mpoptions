@@ -10,6 +10,9 @@ namespace MPOptions.NewStyle
         ICommandResultCollection Commands
         { get; }
 
+        IArgumentResultCollection Arguments
+        { get; }
+
         bool IsSet
         { get; }
 
@@ -30,6 +33,8 @@ namespace MPOptions.NewStyle
         new ICommandResultCollectionInternal Commands
         { get; }
 
+        new IArgumentResultCollectionInternal Arguments
+        { get; }
 
         new bool IsSet
         {
@@ -70,6 +75,28 @@ namespace MPOptions.NewStyle
                 if (_Commands == null)
                     _Commands = new CommandResultCollection(_Command.Commands as CommandCollection);
                 return _Commands;
+            }
+        }
+
+        private ArgumentResultCollection _Arguments;
+
+        public IArgumentResultCollection Arguments
+        {
+            get
+            {
+                if (_Arguments == null)
+                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection);
+                return _Arguments;
+            }
+        }
+
+        IArgumentResultCollectionInternal ICommandResultInternal.Arguments
+        {
+            get
+            {
+                if (_Arguments == null)
+                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection);
+                return _Arguments;
             }
         }
 

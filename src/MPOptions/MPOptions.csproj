@@ -78,6 +78,8 @@
     <Compile Include="IArgumentValidator.cs" />
     <Compile Include="Internal\Experimental.cs" />
     <Compile Include="Internal\ObjectDumper.cs" />
+    <Compile Include="NewStyle\ArgumentResult.cs" />
+    <Compile Include="NewStyle\ArgumentResultCollection.cs" />
     <Compile Include="NewStyle\CollectionAdapter.cs" />
     <Compile Include="NewStyle\CommandCollection.cs" />
     <Compile Include="NewStyle\CommandResult.cs" />

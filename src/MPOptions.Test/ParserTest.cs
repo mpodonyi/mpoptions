@@ -80,13 +80,13 @@ namespace MPOptions.Test
         public void Parse_Command_Unsuccessful()
         {
             RootCommand cmd = MPOptions.GetRoot();
-            cmd.AddCommand("testcommand", "testcommanda; testcommandb");
+            cmd.Add(new Command("testcommand", "testcommanda; testcommandb"));
 
             ParserErrorContext error;
-            cmd.Parse(" testcommandc", out error);
+            ICommandResult result = cmd.Parse(" testcommandc", out error);
 
             Assert.IsNotNull(error);
-            Assert.IsFalse(cmd.Commands["testcommand"].IsSet);
+            Assert.IsFalse(result.Commands["testcommand"].IsSet);
 
         }
 

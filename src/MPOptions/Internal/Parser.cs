@@ -214,15 +214,15 @@ namespace MPOptions.Internal
 
         private bool TestForArgument(string value)
         {
-            var arguments = (from obj in currentCommand.Arguments
+            var arguments = (from obj in currentCommand2.Arguments
                              where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                                    && obj.ArgumentValidator is RegularExpressionArgumentValidator
                              select obj).Concat(
-                from obj in currentCommand.Arguments
+                from obj in currentCommand2.Arguments
                 where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                       && obj.ArgumentValidator is CustomArgumentValidator
                 select obj).Concat(
-                from obj in currentCommand.Arguments
+                from obj in currentCommand2.Arguments
                 where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                       && obj.ArgumentValidator is FallThroughArgumentValidator
                 select obj);
@@ -232,7 +232,7 @@ namespace MPOptions.Internal
                 if(argument.ArgumentValidator.IsMatch(value))
                 {
                     argument._Values.Add(value);
-                    argument.Set = true;
+                    argument.IsSet = true;
                     return true;
                 }
             }

@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace MPOptions.NewStyle
 {
 
-    public interface ICommandResultCollection
+    public interface ICommandResultCollection: IEnumerable<ICommandResult>
     {
         ICommandResult this[string key]
         {
             get;
         }
-
+      
     }
 
-    internal interface ICommandResultCollectionInternal
+    internal interface ICommandResultCollectionInternal :  IEnumerable<ICommandResultInternal>
     {
         ICommandResultInternal this[string key]
         {
             get;
         }
-
     }
 
-   
+
 
     internal class CommandResultCollection : ICommandResultCollection, ICommandResultCollectionInternal
     {
-        private CommandCollection _CommandCollection;
+        
       
 
         internal CommandResultCollection(CommandCollection commandCollection)
@@ -36,20 +36,65 @@ namespace MPOptions.NewStyle
             _CommandCollection = commandCollection;
         }
 
+        private CommandCollection _CommandCollection;
+        private IDictionary<string, ICommandResultInternal> _CommandResults;
+        private IDictionary<string, ICommandResultInternal> CommandResults
+        {
+            get
+            {
+                if (_CommandResults == null)
+                {
+                    _CommandResults = new Dictionary<string, ICommandResultInternal>(_CommandCollection.Count);
+
+                    foreach (Command cmd in _CommandCollection)
+                    {
+                        _CommandResults.Add(cmd.Name, new CommandResult(cmd));
+                    }
+                }
+
+                return _CommandResults;
+            }
+        }
+
+
+
 
         public ICommandResult this[string key]
         {
-            get { throw new NotImplementedException(); }
+            get 
+            {
+                return CommandResults[key];
+            }
         }
 
         ICommandResultInternal ICommandResultCollectionInternal.this[string key]
         {
             get
             {
-                return null;
+                return CommandResults[key];
             }
         }
 
+
+
+        public IEnumerator<ICommandResultInternal> GetEnumerator()
+        {
+            return CommandResults.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return CommandResults.Values.GetEnumerator();
+        }
+
+        IEnumerator<ICommandResult> IEnumerable<ICommandResult>.GetEnumerator()
+        {
+#if NET40
+            return CommandResults.Values.GetEnumerator();
+#else
+            return CommandResults.Values.OfType<ICommandResult>().GetEnumerator();
+#endif
+        }
     }
 
    

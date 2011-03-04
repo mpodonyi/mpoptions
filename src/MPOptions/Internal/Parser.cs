@@ -134,13 +134,13 @@ namespace MPOptions.Internal
             //    ValidationFactory.PostValidate(opt);
             ValidationFactory.PostValidate(currentCommand);
             
-            Clean();
+            //Clean();
             Parse(SwallowExe());
 
-            if (ErrorContext != null)
-            {
-                Clean();
-            }
+            //if (ErrorContext != null)
+            //{
+            //    Clean();
+            //}
          
             return ErrorContext;
         }
@@ -465,15 +465,15 @@ namespace MPOptions.Internal
 
             if (ParseValue(savedpos) == Token.WhiteSpace || ParseValue(savedpos) == Token.End)
             {
-                Command command = (from obj in currentCommand.Commands
-                                   from obj2 in obj.Token.SplitInternal()
-                                   where sb.ToString() == obj2
-                                   select obj).SingleOrDefault();
+                ICommandResultInternal command = (from obj in currentCommand2.Commands
+                                                  from obj2 in obj.Token.SplitInternal()
+                                                  where sb.ToString() == obj2
+                                                  select obj).SingleOrDefault();
 
                 if(command != null)
                 {
-                    command.Set=true;
-                    currentCommand = command;
+                    command.IsSet=true;
+                    currentCommand2 = command;
                     pos = savedpos;
                     return true;
                 }

@@ -12,23 +12,36 @@ namespace MPOptions.NewStyle
 
         bool IsSet
         { get; }
+
+        string Token
+        {
+            get;
+        }
+
+
+        string Name
+        {
+            get;
+        }
     }
 
-    internal interface ICommandResultInternal
+    internal interface ICommandResultInternal : ICommandResult
     {
-        ICommandResultCollectionInternal Commands
+        new ICommandResultCollectionInternal Commands
         { get; }
 
 
-        bool IsSet
+        new bool IsSet
         {
             get;
             set;
         }
+
+       
     }
    
 
-    internal class CommandResult : ICommandResult, ICommandResultInternal
+    internal class CommandResult :  ICommandResultInternal
     {
         private Command _Command;
 
@@ -64,6 +77,22 @@ namespace MPOptions.NewStyle
         {
             get;
             set;
+        }
+
+        public string Token
+        {
+            get 
+            {
+                return _Command.Token;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return _Command.Name;
+            }
         }
     }
 }

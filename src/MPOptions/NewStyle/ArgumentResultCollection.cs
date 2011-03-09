@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace MPOptions.NewStyle
 {
@@ -30,30 +31,53 @@ namespace MPOptions.NewStyle
         }
 
         private ArgumentCollection _ArgumentCollection;
+        private IDictionary<string, IArgumentResultInternal> _ArgumentResults;
+        private IDictionary<string, IArgumentResultInternal> ArgumentResults
+        {
+            get
+            {
+                if (_ArgumentResults == null)
+                {
+                    _ArgumentResults = new Dictionary<string, IArgumentResultInternal>(_ArgumentCollection.Count);
+
+                    foreach (Argument cmd in _ArgumentCollection)
+                    {
+                        _ArgumentResults.Add(cmd.Name, new ArgumentResult(cmd));
+                    }
+                }
+
+                return _ArgumentResults;
+            }
+        }
 
         public IArgumentResult this[string key]
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerator<IArgumentResult> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
+            get { return ArgumentResults[key]; }
         }
 
         IArgumentResultInternal IArgumentResultCollectionInternal.this[string key]
         {
-            get { throw new NotImplementedException(); }
+            get { return ArgumentResults[key]; }
         }
 
-        IEnumerator<IArgumentResultInternal> IEnumerable<IArgumentResultInternal>.GetEnumerator()
+        IEnumerator<IArgumentResult> IEnumerable<IArgumentResult>.GetEnumerator()
         {
-            throw new NotImplementedException();
+#if NET40
+            return ArgumentResults.Values.GetEnumerator();
+#else
+            return ArgumentResults.Values.OfType<IArgumentResult>().GetEnumerator();
+#endif
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ArgumentResults.Values.GetEnumerator();
+        }
+
+        public IEnumerator<IArgumentResultInternal> GetEnumerator()
+        {
+            return ArgumentResults.Values.GetEnumerator();
+        }
+
     }
 }

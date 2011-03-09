@@ -13,6 +13,12 @@ namespace MPOptions.NewStyle
         IArgumentResultCollection Arguments
         { get; }
 
+        IOptionResultCollection Options
+        { get; }
+
+
+
+
         bool IsSet
         { get; }
 
@@ -34,6 +40,9 @@ namespace MPOptions.NewStyle
         { get; }
 
         new IArgumentResultCollectionInternal Arguments
+        { get; }
+
+        new IOptionResultCollectionInternal Options
         { get; }
 
         new bool IsSet
@@ -99,6 +108,30 @@ namespace MPOptions.NewStyle
                 return _Arguments;
             }
         }
+
+        private OptionResultCollection _Options;
+
+        public IOptionResultCollection Options
+        {
+            get
+            {
+                if (_Options == null)
+                    _Options = new OptionResultCollection(_Command.Options as OptionCollection);
+                return _Options;
+            }
+        }
+
+        IOptionResultCollectionInternal ICommandResultInternal.Options
+        {
+            get
+            {
+                if (_Options == null)
+                    _Options = new OptionResultCollection(_Command.Options as OptionCollection);
+                return _Options;
+            }
+        }
+
+
 
         public bool IsSet
         {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MPOptions.NewStyle
 {
-    public interface IArgumentResult
+    public interface IOptionResult
     {
         bool IsSet
         { get; }
@@ -21,7 +21,7 @@ namespace MPOptions.NewStyle
         }
     }
 
-    internal interface IArgumentResultInternal : IArgumentResult
+    internal interface IOptionResultInternal : IOptionResult
     {
         new bool IsSet
         {
@@ -32,19 +32,19 @@ namespace MPOptions.NewStyle
         ICollection<string> _Values
         { get; }
 
-        IArgumentValidator ArgumentValidator
+        IOptionValueValidator OptionValueValidator
         { get; }
     }
 
 
 
-    internal class ArgumentResult : IArgumentResultInternal
+    internal class OptionResult : IOptionResultInternal
     {
-        private Argument _Argument;
+        private Option _Option;
 
-        internal ArgumentResult(Argument argument)
+        internal OptionResult(Option option)
         {
-            _Argument = argument;
+            _Option = option;
         }
 
         public string[] Values
@@ -64,11 +64,11 @@ namespace MPOptions.NewStyle
             }
         }
 
-        public IArgumentValidator ArgumentValidator
+        public IOptionValueValidator OptionValueValidator
         {
             get
             {
-                return _Argument.ArgumentValidator;
+                return _Option.OptionValueValidator;
             }
         }
 
@@ -83,7 +83,7 @@ namespace MPOptions.NewStyle
         {
             get 
             {
-                return _Argument.Name;
+                return _Option.Name;
             }
         }
     }

@@ -94,17 +94,32 @@ namespace MPOptions.Test
         public void Parse_Option_Successful()
         {
             RootCommand cmd = MPOptions.GetRoot();
-            cmd.AddOption("testoption", "testoption; testoptionb");
-            cmd.AddOption("testoption2", "testoptionc; testoptiond");
-            cmd.AddOption("testoption3", "testoptione; testoptionf");
+            cmd.Add(new Option("testoption", "testoption; testoptionb",false));
+            cmd.Add(new Option("testoption2", "testoptionc; testoptiond",false));
+            cmd.Add(new Option("testoption3", "testoptione; testoptionf",false));
 
             ParserErrorContext error;
-            cmd.Parse(@" --testoptionb /testoptionc -testoptione", out error);
+            ICommandResult result = cmd.Parse(@" --testoptionb /testoptionc -testoptione", out error);
 
             Assert.IsNull(error);
-            Assert.IsTrue(cmd.Options["testoption"].IsSet);
-            Assert.IsTrue(cmd.Options["testoption2"].IsSet);
-            Assert.IsTrue(cmd.Options["testoption3"].IsSet);
+            Assert.IsTrue(result.Options["testoption"].IsSet);
+            Assert.IsTrue(result.Options["testoption2"].IsSet);
+            Assert.IsTrue(result.Options["testoption3"].IsSet);
+
+//--------------------------------
+            
+            //RootCommand cmd = MPOptions.GetRoot();
+            //cmd.AddOption("testoption", "testoption; testoptionb");
+            //cmd.AddOption("testoption2", "testoptionc; testoptiond");
+            //cmd.AddOption("testoption3", "testoptione; testoptionf");
+
+            //ParserErrorContext error;
+            //cmd.Parse(@" --testoptionb /testoptionc -testoptione", out error);
+
+            //Assert.IsNull(error);
+            //Assert.IsTrue(cmd.Options["testoption"].IsSet);
+            //Assert.IsTrue(cmd.Options["testoption2"].IsSet);
+            //Assert.IsTrue(cmd.Options["testoption3"].IsSet);
 
         }
 

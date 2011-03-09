@@ -346,7 +346,7 @@ namespace MPOptions.Internal
                 }
                 else if (ParseValue(savedpos) == Token.WhiteSpace || ParseValue(savedpos) == Token.End)
                 {
-                    var option = (from obj in currentCommand.Options
+                    var option = (from obj in currentCommand2.Options
                                   where obj.OptionValueValidator == null ||
                                         obj.OptionValueValidator != null && obj.OptionValueValidator.ValueOptional
                                   from obj2 in obj.Token.SplitInternal()
@@ -358,7 +358,7 @@ namespace MPOptions.Internal
                     {
                         if (!option.IsSet)  //MP: check if the Value is already set by a value optional option; if yes, should it break with error message???
                         {
-                            option.Set=true;
+                            option.IsSet=true;
                             pos = savedpos;
                             return true;
                         }
@@ -372,7 +372,7 @@ namespace MPOptions.Internal
 
         private bool TestForOption(string token,string value)
         {
-            var options = from obj in currentCommand.Options
+            var options = from obj in currentCommand2.Options
                           where obj.OptionValueValidator is StaticOptionValueValidator
                           from obj2 in obj.Token.SplitInternal()
                           where token == obj2
@@ -386,7 +386,7 @@ namespace MPOptions.Internal
                         if(!option.IsSet)
                         {
                             option._Values.Add(value);
-                            option.Set=true;
+                            option.IsSet=true;
                             return true;
                         }
                         else
@@ -399,7 +399,7 @@ namespace MPOptions.Internal
                     }
             }
 
-            var options2 = (from obj in currentCommand.Options
+            var options2 = (from obj in currentCommand2.Options
                             where obj.OptionValueValidator is RegularExpressionOptionValueValidator
                             from obj2 in obj.Token.SplitInternal()
                             where token == obj2
@@ -413,14 +413,14 @@ namespace MPOptions.Internal
                         if (options2._Values.Count < options2.OptionValueValidator.MaximumOccurrence)
                         {
                             options2._Values.Add(value);
-                            options2.Set = true;
+                            options2.IsSet = true;
                             return true;
                         }
 
                     }
             }
 
-            var options3 = (from obj in currentCommand.Options
+            var options3 = (from obj in currentCommand2.Options
                             where obj.OptionValueValidator is FallThroughOptionValueValidator
                             from obj2 in obj.Token.SplitInternal()
                             where token == obj2
@@ -434,7 +434,7 @@ namespace MPOptions.Internal
                         if (options3._Values.Count < options3.OptionValueValidator.MaximumOccurrence)
                         {
                             options3._Values.Add(value);
-                            options3.Set = true;
+                            options3.IsSet = true;
                             return true;
                         }
 
@@ -444,7 +444,7 @@ namespace MPOptions.Internal
             return false;
         }
 
-        private bool CanSetValueOption(Option option)
+        private bool CanSetValueOption(IOptionResultInternal option)
         {
             return (option.OptionValueValidator.ValueOptional && !option.IsSet) ||
                    (option.OptionValueValidator.ValueOptional && option.IsSet && option._Values.Count > 0) ||

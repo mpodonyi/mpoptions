@@ -19,6 +19,16 @@ namespace MPOptions.NewStyle
         {
             get;
         }
+
+        string Value
+        {
+            get;
+        }
+
+        string Token
+        {
+            get;
+        }
     }
 
     internal interface IOptionResultInternal : IOptionResult
@@ -55,6 +65,14 @@ namespace MPOptions.NewStyle
             }
         }
 
+        public string Value
+        {
+            get
+            {
+                return __Values.FirstOrDefault();
+            }
+        }
+
         internal ICollection<string> __Values = new List<string>();
         public ICollection<string> _Values
         {
@@ -86,5 +104,16 @@ namespace MPOptions.NewStyle
                 return _Option.Name;
             }
         }
+
+        public string Token
+        {
+            get
+            {
+                return _Option.Token;
+            }
+        }
+
+
+
     }
 }

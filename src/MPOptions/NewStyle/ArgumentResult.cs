@@ -19,6 +19,11 @@ namespace MPOptions.NewStyle
         {
             get;
         }
+
+        string Value
+        {
+            get;
+        }
     }
 
     internal interface IArgumentResultInternal : IArgumentResult
@@ -52,6 +57,14 @@ namespace MPOptions.NewStyle
             get
             {
                 return __Values.ToArray();
+            }
+        }
+
+        public string Value
+        {
+            get
+            {
+                return __Values.FirstOrDefault();
             }
         }
 

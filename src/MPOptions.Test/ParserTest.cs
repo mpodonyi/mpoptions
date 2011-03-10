@@ -297,9 +297,9 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb 123";
             ParserErrorContext error;
 
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+$").Parse(testvalues, out error);
-            var argument = cmd.Arguments["testargument"];
+            RootCommand cmd = MPOptions.GetRoot();
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+$")).Parse(testvalues, out error);
+            var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
             Assert.IsTrue(argument.IsSet);

@@ -198,7 +198,7 @@ namespace MPOptions.Internal
                 {
                     sb.Append(charArray[savedpos]);
                     savedpos++;
-                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End);  //MP: should this not be a || instead of &&
+                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End); 
 
                 if (TestForArgument(sb.ToString()))
                 {

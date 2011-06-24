@@ -312,9 +312,9 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\"";
             ParserErrorContext error;
 
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
-            var argument = cmd.Arguments["testargument"];
+            RootCommand cmd = MPOptions.GetRoot();
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb", false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$")).Parse(testvalues, out error);
+            var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
             Assert.IsTrue(argument.IsSet);
@@ -327,9 +327,9 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\" \"456 65\"";
             ParserErrorContext error;
 
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$",2 ).Parse(testvalues, out error);
-            var argument = cmd.Arguments["testargument"];
+            RootCommand cmd = MPOptions.GetRoot();
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$", 2)).Parse(testvalues, out error);
+            var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
             Assert.IsTrue(argument.IsSet);
@@ -343,9 +343,9 @@ namespace MPOptions.Test
             string testvalues = " --testoptionb \"12 3\" \"456 65\"";
             ParserErrorContext error;
 
-            Command cmd = MPOptions.GetRoot();
-            cmd.AddOption("testoption", "testoptionb").AddArgument("testargument").WithRegexValidator(@"^\d+\s\d+$").Parse(testvalues, out error);
-            var argument = cmd.Arguments["testargument"];
+            RootCommand cmd = MPOptions.GetRoot();
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$")).Parse(testvalues, out error);
+            var argument = result.Arguments["testargument"];
 
             Assert.IsNotNull(error);
             Assert.IsFalse(argument.IsSet);

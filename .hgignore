@@ -8,3 +8,6 @@ glob:src/MPOptions/obj/*
 glob:src/TestResults/*
 glob:src/MPOptions.Test/MPOptions.Test.csproj.user
 glob:src/MPOptions/MPOptions.csproj.user
+syntax: glob
+src/MPOptions.sln.docstates.suo
+src/MPOptions.sln.docstates

@@ -10,6 +10,8 @@ namespace MPOptions.Internal
     {
         //*****new Stuff*****
 
+       
+
         internal Parser(ICommandResultInternal element, string commandLine)
             : this(element, commandLine.ToCharArray(), false)
         {
@@ -84,9 +86,9 @@ namespace MPOptions.Internal
 
         private Parser(Element element, char[] charArray, bool cleancls)
         {
-            this.currentCommand = element.RootCommand;
-            this.charArray = charArray;
-            this.cleancls = cleancls;
+            //this.currentCommand = element.RootCommand;
+            //this.charArray = charArray;
+            //this.cleancls = cleancls;
         }
 
         internal Parser(Element element)
@@ -111,21 +113,21 @@ namespace MPOptions.Internal
 
         private void Clean()
         {
-            foreach (var value in currentCommand.StateBag.Options.Values)
-            {
-                value.Set = false;
-                value._Values.Clear();
-            }
+            //foreach (var value in currentCommand2.StateBag.Options.Values)
+            //{
+            //    value.Set = false;
+            //    value._Values.Clear();
+            //}
 
-            foreach (var value in currentCommand.StateBag.Commands.Values)
-            {
-                value.Set = false;
-            }
+            //foreach (var value in currentCommand2.StateBag.Commands.Values)
+            //{
+            //    value.Set = false;
+            //}
 
-            foreach (var value in currentCommand.StateBag.Arguments.Values)
-            {
-                value.Set = false;
-            }
+            //foreach (var value in currentCommand2.StateBag.Arguments.Values)
+            //{
+            //    value.Set = false;
+            //}
         }
 
         internal ParserErrorContext Parse()
@@ -137,10 +139,10 @@ namespace MPOptions.Internal
             //Clean();
             Parse(SwallowExe());
 
-            //if (ErrorContext != null)
-            //{
-            //    Clean();
-            //}
+            if (ErrorContext != null)
+            {
+                Clean();
+            }
          
             return ErrorContext;
         }

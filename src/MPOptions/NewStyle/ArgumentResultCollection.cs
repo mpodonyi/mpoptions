@@ -25,7 +25,7 @@ namespace MPOptions.NewStyle
 
     internal class ArgumentResultCollection : IArgumentResultCollection, IArgumentResultCollectionInternal
     {
-        internal ArgumentResultCollection(ArgumentCollection argumentCollection)
+        internal ArgumentResultCollection(ArgumentCollection argumentCollection, ResultStateBag resultStateBag)
         {
             _ArgumentCollection = argumentCollection;
         }

@@ -28,10 +28,10 @@ namespace MPOptions.NewStyle
 
     internal class CommandResultCollection : ICommandResultCollection, ICommandResultCollectionInternal
     {
-        
-      
 
-        internal CommandResultCollection(CommandCollection commandCollection)
+
+
+        internal CommandResultCollection(CommandCollection commandCollection, ResultStateBag resultStateBag)
         {
             _CommandCollection = commandCollection;
         }

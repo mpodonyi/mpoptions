@@ -59,7 +59,7 @@ namespace MPOptions.NewStyle
     {
         private Command _Command;
 
-        internal CommandResult(Command command)
+        internal CommandResult(Command command, ResultStateBag resultStateBag)
         {
             _Command = command;
         }

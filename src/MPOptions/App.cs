@@ -126,14 +126,14 @@ namespace MPOptions
         
     }
 
-    public class ElementCollection<T> : KeyedCollection<string, T> where T : Element
-    {
+    //public class ElementCollection<T> : KeyedCollection<string, T> where T : Element
+    //{
 
-        protected override string GetKeyForItem(T item)
-        {
-            return item.Name;
-        }
-    }
+    //    protected override string GetKeyForItem(T item)
+    //    {
+    //        return item.Name;
+    //    }
+    //}
 
     
 }

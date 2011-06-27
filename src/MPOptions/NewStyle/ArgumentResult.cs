@@ -47,7 +47,7 @@ namespace MPOptions.NewStyle
     {
         private Argument _Argument;
 
-        internal ArgumentResult(Argument argument)
+        internal ArgumentResult(Argument argument, ResultStateBag resultStateBag)
         {
             _Argument = argument;
         }

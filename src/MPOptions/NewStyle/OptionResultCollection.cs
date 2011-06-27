@@ -25,7 +25,7 @@ namespace MPOptions.NewStyle
 
     internal class OptionResultCollection : IOptionResultCollection, IOptionResultCollectionInternal
     {
-        internal OptionResultCollection(OptionCollection optionCollection)
+        internal OptionResultCollection(OptionCollection optionCollection, ResultStateBag resultStateBag)
         {
             _OptionCollection = optionCollection;
         }

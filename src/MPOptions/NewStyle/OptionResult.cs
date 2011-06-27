@@ -52,7 +52,7 @@ namespace MPOptions.NewStyle
     {
         private Option _Option;
 
-        internal OptionResult(Option option)
+        internal OptionResult(Option option, ResultStateBag resultStateBag)
         {
             _Option = option;
         }

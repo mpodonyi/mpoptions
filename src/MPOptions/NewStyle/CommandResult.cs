@@ -5,6 +5,25 @@ using System.Text;
 
 namespace MPOptions.NewStyle
 {
+    //internal class ElementResult
+    //{
+
+    //    //private ResultStateBag _ResultStateBag;
+
+    //    protected ElementResult(ResultStateBag resultStateBag)
+    //    { 
+    //        this.ResultStateBag=resultStateBag;
+    //    }
+
+    //    internal ResultStateBag ResultStateBag
+    //    {
+    //        get;
+    //        private set;
+    //    }
+    
+    //}
+
+
     public interface ICommandResult
     {
         ICommandResultCollection Commands
@@ -51,6 +70,10 @@ namespace MPOptions.NewStyle
             set;
         }
 
+        ResultStateBag ResultStateBag
+        { get; }
+        
+
        
     }
    
@@ -58,9 +81,11 @@ namespace MPOptions.NewStyle
     internal class CommandResult :  ICommandResultInternal
     {
         private Command _Command;
+        private ResultStateBag _ResultStateBag;
 
         internal CommandResult(Command command, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _Command = command;
         }
 
@@ -72,7 +97,7 @@ namespace MPOptions.NewStyle
             get 
             {
                 if (_Commands == null)
-                    _Commands = new CommandResultCollection(_Command.Commands as CommandCollection);
+                    _Commands = new CommandResultCollection(_Command.Commands as CommandCollection,_ResultStateBag);
                 return _Commands;
             }
         }
@@ -82,7 +107,7 @@ namespace MPOptions.NewStyle
             get
             {
                 if (_Commands == null)
-                    _Commands = new CommandResultCollection(_Command.Commands as CommandCollection);
+                    _Commands = new CommandResultCollection(_Command.Commands as CommandCollection, _ResultStateBag);
                 return _Commands;
             }
         }
@@ -94,7 +119,7 @@ namespace MPOptions.NewStyle
             get
             {
                 if (_Arguments == null)
-                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection);
+                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection, _ResultStateBag);
                 return _Arguments;
             }
         }
@@ -104,7 +129,7 @@ namespace MPOptions.NewStyle
             get
             {
                 if (_Arguments == null)
-                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection);
+                    _Arguments = new ArgumentResultCollection(_Command.Arguments as ArgumentCollection, _ResultStateBag);
                 return _Arguments;
             }
         }
@@ -116,7 +141,7 @@ namespace MPOptions.NewStyle
             get
             {
                 if (_Options == null)
-                    _Options = new OptionResultCollection(_Command.Options as OptionCollection);
+                    _Options = new OptionResultCollection(_Command.Options as OptionCollection, _ResultStateBag);
                 return _Options;
             }
         }
@@ -126,18 +151,26 @@ namespace MPOptions.NewStyle
             get
             {
                 if (_Options == null)
-                    _Options = new OptionResultCollection(_Command.Options as OptionCollection);
+                    _Options = new OptionResultCollection(_Command.Options as OptionCollection, _ResultStateBag);
                 return _Options;
             }
         }
 
 
 
+        private bool _IsSet;
         public bool IsSet
         {
-            get;
-            set;
+            get
+            {
+                return _ResultStateBag.HasError ? false : _IsSet;
+            }
+            set
+            {
+                _IsSet = value;
+            }
         }
+
 
         public string Token
         {
@@ -154,5 +187,14 @@ namespace MPOptions.NewStyle
                 return _Command.Name;
             }
         }
+
+        ResultStateBag ICommandResultInternal.ResultStateBag
+        {
+            get
+            {
+                return this._ResultStateBag;
+            }
+        }
+
     }
 }

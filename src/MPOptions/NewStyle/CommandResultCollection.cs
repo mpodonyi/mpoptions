@@ -29,10 +29,11 @@ namespace MPOptions.NewStyle
     internal class CommandResultCollection : ICommandResultCollection, ICommandResultCollectionInternal
     {
 
-
+        private ResultStateBag _ResultStateBag;
 
         internal CommandResultCollection(CommandCollection commandCollection, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _CommandCollection = commandCollection;
         }
 
@@ -48,7 +49,7 @@ namespace MPOptions.NewStyle
 
                     foreach (Command cmd in _CommandCollection)
                     {
-                        _CommandResults.Add(cmd.Name, new CommandResult(cmd));
+                        _CommandResults.Add(cmd.Name, new CommandResult(cmd, _ResultStateBag));
                     }
                 }
 

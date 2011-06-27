@@ -51,17 +51,20 @@ namespace MPOptions.NewStyle
     internal class OptionResult : IOptionResultInternal
     {
         private Option _Option;
+        private ResultStateBag _ResultStateBag;
 
         internal OptionResult(Option option, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _Option = option;
         }
+
 
         public string[] Values
         {
             get
             {
-                return __Values.ToArray();
+                return _ResultStateBag.HasError ? null :  __Values.ToArray();
             }
         }
 
@@ -69,7 +72,7 @@ namespace MPOptions.NewStyle
         {
             get
             {
-                return __Values.FirstOrDefault();
+                return _ResultStateBag.HasError ? null : __Values.FirstOrDefault();
             }
         }
 
@@ -90,11 +93,19 @@ namespace MPOptions.NewStyle
             }
         }
 
+        private bool _IsSet;
         public bool IsSet
         {
-            get;
-            set;
+            get
+            {
+                return _ResultStateBag.HasError ? false : _IsSet;
+            }
+            set
+            {
+                _IsSet = value;
+            }
         }
+
 
 
         public string Name

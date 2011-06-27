@@ -46,9 +46,11 @@ namespace MPOptions.NewStyle
     internal class ArgumentResult : IArgumentResultInternal
     {
         private Argument _Argument;
+        private ResultStateBag _ResultStateBag;
 
         internal ArgumentResult(Argument argument, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _Argument = argument;
         }
 
@@ -56,7 +58,7 @@ namespace MPOptions.NewStyle
         {
             get
             {
-                return __Values.ToArray();
+                return _ResultStateBag.HasError ? null : __Values.ToArray();
             }
         }
 
@@ -64,7 +66,7 @@ namespace MPOptions.NewStyle
         {
             get
             {
-                return __Values.FirstOrDefault();
+                return _ResultStateBag.HasError ? null : __Values.FirstOrDefault();
             }
         }
 
@@ -85,10 +87,17 @@ namespace MPOptions.NewStyle
             }
         }
 
+        private bool _IsSet;
         public bool IsSet
         {
-            get;
-            set;
+            get
+            {
+                return _ResultStateBag.HasError ? false : _IsSet; 
+            }
+            set
+            {
+                _IsSet = value;
+            }
         }
 
 

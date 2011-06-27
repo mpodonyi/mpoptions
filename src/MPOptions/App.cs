@@ -116,7 +116,7 @@ namespace MPOptions
 
         internal ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
-            var result = new CommandResult(this);
+            var result = new CommandResult(this,new ResultStateBag());
             var parser = new Parser(result, commandLine);
             parserErrorContext = parser.Parse();
             //return this;

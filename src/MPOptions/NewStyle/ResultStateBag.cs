@@ -7,8 +7,17 @@ namespace MPOptions.NewStyle
 {
     internal class ResultStateBag
     {
-        private ParserErrorContext ErrorContext
+        internal ParserErrorContext ErrorContext
         { get; set; }
+
+        internal bool HasError
+        {
+            get
+            {
+                return ErrorContext != null;
+            } 
+        }
+
 
     }
 }

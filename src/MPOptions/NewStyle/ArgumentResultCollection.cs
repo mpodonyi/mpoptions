@@ -25,8 +25,11 @@ namespace MPOptions.NewStyle
 
     internal class ArgumentResultCollection : IArgumentResultCollection, IArgumentResultCollectionInternal
     {
+        private ResultStateBag _ResultStateBag;
+
         internal ArgumentResultCollection(ArgumentCollection argumentCollection, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _ArgumentCollection = argumentCollection;
         }
 
@@ -42,7 +45,7 @@ namespace MPOptions.NewStyle
 
                     foreach (Argument cmd in _ArgumentCollection)
                     {
-                        _ArgumentResults.Add(cmd.Name, new ArgumentResult(cmd));
+                        _ArgumentResults.Add(cmd.Name, new ArgumentResult(cmd, _ResultStateBag));
                     }
                 }
 

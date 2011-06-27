@@ -111,8 +111,8 @@ namespace MPOptions.Internal
             return 0;
         }
 
-        private void Clean()
-        {
+        //private void Clean()
+        //{
             //foreach (var value in currentCommand2.StateBag.Options.Values)
             //{
             //    value.Set = false;
@@ -128,7 +128,7 @@ namespace MPOptions.Internal
             //{
             //    value.Set = false;
             //}
-        }
+        //}
 
         internal ParserErrorContext Parse()
         {
@@ -141,7 +141,8 @@ namespace MPOptions.Internal
 
             if (ErrorContext != null)
             {
-                Clean();
+                currentCommand2.ResultStateBag.ErrorContext = ErrorContext;
+                //Clean();
             }
          
             return ErrorContext;

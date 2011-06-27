@@ -25,8 +25,11 @@ namespace MPOptions.NewStyle
 
     internal class OptionResultCollection : IOptionResultCollection, IOptionResultCollectionInternal
     {
+        private ResultStateBag _ResultStateBag;
+
         internal OptionResultCollection(OptionCollection optionCollection, ResultStateBag resultStateBag)
         {
+            _ResultStateBag = resultStateBag;
             _OptionCollection = optionCollection;
         }
 
@@ -42,7 +45,7 @@ namespace MPOptions.NewStyle
 
                     foreach (Option cmd in _OptionCollection)
                     {
-                        _OptionResults.Add(cmd.Name, new OptionResult(cmd));
+                        _OptionResults.Add(cmd.Name, new OptionResult(cmd, _ResultStateBag));
                     }
                 }
 

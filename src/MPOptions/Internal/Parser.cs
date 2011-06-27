@@ -43,8 +43,8 @@ namespace MPOptions.Internal
             // Special = 0x200
         }
 
-        private ParserErrorContext ErrorContext
-        { get; set; }
+        //private ParserErrorContext ErrorContext
+        //{ get; set; }
 
         private readonly char[] charArray = null;
 
@@ -139,18 +139,18 @@ namespace MPOptions.Internal
             //Clean();
             Parse(SwallowExe());
 
-            if (ErrorContext != null)
-            {
-                currentCommand2.ResultStateBag.ErrorContext = ErrorContext;
-                //Clean();
-            }
-         
-            return ErrorContext;
+            //if (ErrorContext != null)
+            //{
+            //    currentCommand2.ResultStateBag.ErrorContext = ErrorContext;
+            //    //Clean();
+            //}
+
+            return currentCommand2.ResultStateBag.ErrorContext;
         }
 
         private void Parse(int pos)
         {
-            while(ParseValue(pos) != Token.End && ErrorContext == null)
+            while (ParseValue(pos) != Token.End && currentCommand2.ResultStateBag.HasError == false)
             {
                 while (ParseValue(pos) == Token.WhiteSpace)
                     pos++;
@@ -172,7 +172,7 @@ namespace MPOptions.Internal
                 if (TryArgument(ref pos))
                     continue;
 
-                ErrorContext=new ParserErrorContext(charArray,pos);
+                currentCommand2.ResultStateBag.ErrorContext = new ParserErrorContext(charArray, pos);
             }
         }
 

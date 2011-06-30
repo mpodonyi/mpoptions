@@ -10,6 +10,7 @@ namespace MPOptions
     {
         public Argument(string name) : base(name)
         {
+            WithNoValidator();
         }
 
         internal Argument(Command parentCommand, string name, IArgumentValidator argumentValidator)
@@ -130,27 +131,27 @@ namespace MPOptions
 
         }
 
-        //public Argument WithNoValidator()
-        //{
-        //    return WithNoValidator(1);
-        //}
+        public Argument WithNoValidator() //MP: rename; sounds not good
+        {
+            return WithNoValidator(1);
+        }
 
-        //public Argument WithNoValidator(int maximumOccurrence)
-        //{
-        //    IArgumentValidator argumentValueValidator = this.ArgumentValidator;
-        //    try
-        //    {
-        //        this.ArgumentValidator= new FallThroughArgumentValidator(){ MaximumOccurrence = maximumOccurrence};
-        //        ValidationFactory.Validate(this);
-        //    }
-        //    catch
-        //    {
-        //        this.ArgumentValidator= argumentValueValidator;
-        //        throw;
-        //    }
+        public Argument WithNoValidator(int maximumOccurrence) //MP: rename; sounds not good
+        {
+            //IArgumentValidator argumentValueValidator = this.ArgumentValidator;
+            //try
+            //{
+                this.ArgumentValidator = new FallThroughArgumentValidator() { MaximumOccurrence = maximumOccurrence };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.ArgumentValidator = argumentValueValidator;
+            //    throw;
+            //}
 
-        //    return this;
+            return this;
 
-        //}
+        }
     }
 }

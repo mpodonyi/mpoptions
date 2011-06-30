@@ -97,14 +97,5 @@ namespace MPOptions.Internal
             //}
         }
     }
-
-
-    public static class CommandExtensions
-    {
-        public static Command Add(this Command com, Action<Command> action)
-        {
-            action(com);
-            return com;
-        }
-    }
+   
 }

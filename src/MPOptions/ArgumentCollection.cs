@@ -3,102 +3,60 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MPOptions.Internal;
+using MPOptions.NewStyle;
 
 namespace MPOptions
 {
-    public class ArgumentCollection : IEnumerable<Argument>, ICollection
+    public interface IArgumentCollection : IMPOptionCollection<Argument>
     {
-        private Command command;
+        //bool Contains(string key);
 
-        internal ArgumentCollection(Command command)
+        //bool Remove(string key);
+
+        //Command this[string key]
+        //{ get; }
+
+        //new int Count { get; }
+
+
+    }
+
+
+    class ArgumentCollection : CollectionAdapter<Argument>, IArgumentCollection
+    {
+        private readonly StateBag _StateBag;
+
+        internal ArgumentCollection(StateBag stateBag, string preKey)
+            : base(stateBag.Arguments, preKey)
         {
-            this.command = command;
+            _StateBag = stateBag;
         }
 
-        public Argument this[string name]
+         protected override void InsertItem(Argument item)
         {
-            get
+            Validate(item);
+            base.InsertItem(item);
+        }
+
+        private void Validate(Argument obj)
+        {
+            if (Count > 0)
             {
-                return (from obj in command.StateBag.Arguments.Values
-                        where obj.ParentCommand == command  && obj.Name == name
-                        select obj).SingleOrDefault();
+                //if (obj.ParentCommand.Arguments.Count() > 1 || obj.ParentCommand.Arguments.First() != obj)
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
             }
+
+
         }
 
-        //public Option this[string name]
-        //{
-        //    get
-        //    {
-        //        return (from obj in command.StateBag.Options.Values
-        //               where obj.ParentCommand == command && obj.Name == name
-        //               select obj).SingleOrDefault();
-        //    }
-        //}
 
-        //public Option this[string name,bool withGlobal]
-        //{
-        //    get
-        //    {
-        //        Option opt = this[name];
 
-        //        if (withGlobal && opt == null)
-        //            opt = (from obj in command.StateBag.GlobalOptions.Values
-        //                   where obj.Name == name
-        //                   select obj).SingleOrDefault();
 
-        //        return opt;
-        //    }
-        //}
 
-        #region IEnumerable<Argument> Members
+      
 
-        public IEnumerator<Argument> GetEnumerator()
-        {
-            return (from obj in command.StateBag.Arguments.Values
-                    where obj.ParentCommand == command
-                    select obj).GetEnumerator();
-        }
 
-        #endregion
 
-        #region IEnumerable Members
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
-
-        #region ICollection Members
-
-        public void CopyTo(Array array, int index)
-        {
-            ThrowHelper.ThrowNotImplementedException();
-        }
-
-        public int Count
-        {
-            get
-            {
-                return (from obj in command.StateBag.Arguments.Values
-                        where obj.ParentCommand == command
-                        select obj).Count();
-            }
-        }
-
-        public bool IsSynchronized
-        {
-            get { ThrowHelper.ThrowNotImplementedException();
-                return true; }
-        }
-
-        public object SyncRoot
-        {
-            get { ThrowHelper.ThrowNotImplementedException();
-                return true; }
-        }
-
-        #endregion
     }
 }

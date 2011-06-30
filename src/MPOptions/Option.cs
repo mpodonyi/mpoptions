@@ -9,6 +9,13 @@ namespace MPOptions
 {
     public class Option : Element
     {
+        public Option(string name, string token,bool globalOption):base(name)
+        {
+            _GlobalOption = globalOption;
+            this.Token = token;
+        }
+
+
         internal Option(Command parentCommand, string name, string token,bool globalOption)
             : base(parentCommand.StateBag,parentCommand, name)
         {
@@ -33,13 +40,13 @@ namespace MPOptions
         }
 
 
-        internal override string Path
-        {
-            get
-            {
-                return IsGlobalOption ? "[" + Name + "]" : ParentCommand.Path+"[" + Name + "]";
-            }
-        }
+        //internal override string Path
+        //{
+        //    get
+        //    {
+        //        return IsGlobalOption ? "[" + Name + "]" : ParentCommand.Path+"[" + Name + "]";
+        //    }
+        //}
 
         private readonly bool _GlobalOption = false;
         public bool IsGlobalOption
@@ -99,13 +106,13 @@ namespace MPOptions
         }
 
         //MP: should global option give back the rootcommand or null
-        public override Command ParentCommand
-        {
-            get
-            {
-                return IsGlobalOption ? RootCommand: base.ParentCommand;
-            }
-        }
+        //public override Command ParentCommand
+        //{
+        //    get
+        //    {
+        //        return IsGlobalOption ? RootCommand: base.ParentCommand;
+        //    }
+        //}
 
         public Option WithStaticValidator(params string[] values)
         {
@@ -114,17 +121,17 @@ namespace MPOptions
 
         public Option WithStaticValidator(bool valueOptional,params string[] values)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new StaticOptionValueValidator(values) {ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new StaticOptionValueValidator(values) { ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }
@@ -146,17 +153,17 @@ namespace MPOptions
 
         public Option WithRegexValidator(string pattern, bool valueOptional, int maximumOccurrence)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new RegularExpressionOptionValueValidator(pattern) {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new RegularExpressionOptionValueValidator(pattern) { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }
@@ -178,17 +185,17 @@ namespace MPOptions
 
         public Option WithNoValidator(bool valueOptional, int maximumOccurrence)
         {
-            IOptionValueValidator optionValueValidator = this.OptionValueValidator;
-            try
-            {
-                this.OptionValueValidator = new FallThroughOptionValueValidator() {MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional};
-                ValidationFactory.Validate(this);
-            }
-            catch
-            {
-                this.OptionValueValidator = optionValueValidator;
-                throw;
-            }
+            //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
+            //try
+            //{
+            this.OptionValueValidator = new FallThroughOptionValueValidator() { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
+            //    ValidationFactory.Validate(this);
+            //}
+            //catch
+            //{
+            //    this.OptionValueValidator = optionValueValidator;
+            //    throw;
+            //}
 
             return this;
         }

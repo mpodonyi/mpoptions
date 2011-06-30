@@ -2,21 +2,100 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.NewStyle;
 
 namespace MPOptions.Internal
 {
     internal class StateBag
     {
-        internal Command RootCommand
+        internal RootCommand RootCommand
         {
             get; 
             set;
         }
 
-        internal readonly IDictionary<string, Command> Commands=new Dictionary<string, Command>();
+        private IDictionary<string, Command> _Commands;
+        internal IDictionary<string, Command> Commands 
+        {
+            get
+            {
+                if(_Commands==null)
+                    _Commands = new Dictionary<string, Command>();
+                return _Commands;
+            }
+        }
 
-        internal readonly IDictionary<string, Option> Options = new Dictionary<string, Option>();
+        private IDictionary<string, Option> _Options;
+        internal IDictionary<string, Option> Options
+        {
+            get
+            {
+                if (_Options == null)
+                    _Options = new Dictionary<string, Option>();
+                return _Options;
+            }
+        }
 
-        internal readonly IDictionary<string, Argument> Arguments = new Dictionary<string, Argument>();
+        private IDictionary<string, Argument> _Arguments;
+        internal IDictionary<string, Argument> Arguments
+        {
+            get
+            {
+                if (_Arguments == null)
+                    _Arguments = new Dictionary<string, Argument>();
+                return _Arguments;
+            }
+        }
+
+        private CollectionAdapter<Option> _GlobalOptions;
+        internal CollectionAdapter<Option> GlobalOptions
+        {
+            get
+            {
+                if (_GlobalOptions == null)
+                    _GlobalOptions = new CollectionAdapter<Option>(Options, "::");
+                return _GlobalOptions;
+            }
+        }
+
+        internal void Merge(StateBag stateBag)
+        {
+            //if this command or new command has new global options then revalidate
+
+            bool thisnewvalidate = stateBag.GlobalOptions.Count > 0;
+            bool theirnewvalidate = this.GlobalOptions.Count > 0;
+
+            foreach (var item in stateBag.Options)
+            {
+                this.Options.Add(item);
+            }
+
+            foreach (var item in stateBag.Commands)
+            {
+                this.Commands.Add(item);
+            }
+
+            foreach (var item in stateBag.Arguments)
+            {
+                this.Arguments.Add(item);
+            }
+
+            stateBag._Options = this.Options;
+            stateBag._Commands = this.Commands;
+            stateBag._Arguments = this.Arguments;
+            stateBag._GlobalOptions = new CollectionAdapter<Option>(stateBag.Options, "::");
+            //command.StateBag2.BaseCommand= this;
+
+            //if (thisnewvalidate)
+            //    ReValidate();
+
+            //if (theirnewvalidate)
+            //    command.ReValidate();
+        }
+
+       
+      
+
+
     }
 }

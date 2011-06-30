@@ -2,11 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPOptions.NewStyle;
 
 namespace MPOptions.Internal
 {
     internal class Parser
     {
+        //*****new Stuff*****
+
+       
+
+        internal Parser(ICommandResultInternal element, string commandLine)
+            : this(element, commandLine.ToCharArray(), false)
+        {
+        }
+
+        private Parser(ICommandResultInternal element, char[] charArray, bool cleancls)
+        {
+            this.currentCommand2 = element;
+            this.charArray = charArray;
+            this.cleancls = cleancls;
+        }
+
+        private ICommandResultInternal currentCommand2;
+
+
+        //*****new Stuff end*****
+
         private enum Token
         {
             AlphaNumeric = 0x1,
@@ -21,8 +43,8 @@ namespace MPOptions.Internal
             // Special = 0x200
         }
 
-        private ParserErrorContext ErrorContext
-        { get; set; }
+        //private ParserErrorContext ErrorContext
+        //{ get; set; }
 
         private readonly char[] charArray = null;
 
@@ -64,9 +86,9 @@ namespace MPOptions.Internal
 
         private Parser(Element element, char[] charArray, bool cleancls)
         {
-            this.currentCommand = element.RootCommand;
-            this.charArray = charArray;
-            this.cleancls = cleancls;
+            //this.currentCommand = element.RootCommand;
+            //this.charArray = charArray;
+            //this.cleancls = cleancls;
         }
 
         internal Parser(Element element)
@@ -89,24 +111,24 @@ namespace MPOptions.Internal
             return 0;
         }
 
-        private void Clean()
-        {
-            foreach (var value in currentCommand.StateBag.Options.Values)
-            {
-                value.Set = false;
-                value._Values.Clear();
-            }
+        //private void Clean()
+        //{
+            //foreach (var value in currentCommand2.StateBag.Options.Values)
+            //{
+            //    value.Set = false;
+            //    value._Values.Clear();
+            //}
 
-            foreach (var value in currentCommand.StateBag.Commands.Values)
-            {
-                value.Set = false;
-            }
+            //foreach (var value in currentCommand2.StateBag.Commands.Values)
+            //{
+            //    value.Set = false;
+            //}
 
-            foreach (var value in currentCommand.StateBag.Arguments.Values)
-            {
-                value.Set = false;
-            }
-        }
+            //foreach (var value in currentCommand2.StateBag.Arguments.Values)
+            //{
+            //    value.Set = false;
+            //}
+        //}
 
         internal ParserErrorContext Parse()
         {
@@ -114,20 +136,21 @@ namespace MPOptions.Internal
             //    ValidationFactory.PostValidate(opt);
             ValidationFactory.PostValidate(currentCommand);
             
-            Clean();
+            //Clean();
             Parse(SwallowExe());
 
-            if (ErrorContext != null)
-            {
-                Clean();
-            }
-         
-            return ErrorContext;
+            //if (ErrorContext != null)
+            //{
+            //    currentCommand2.ResultStateBag.ErrorContext = ErrorContext;
+            //    //Clean();
+            //}
+
+            return currentCommand2.ResultStateBag.ErrorContext;
         }
 
         private void Parse(int pos)
         {
-            while(ParseValue(pos) != Token.End && ErrorContext == null)
+            while (ParseValue(pos) != Token.End && currentCommand2.ResultStateBag.HasError == false)
             {
                 while (ParseValue(pos) == Token.WhiteSpace)
                     pos++;
@@ -149,7 +172,7 @@ namespace MPOptions.Internal
                 if (TryArgument(ref pos))
                     continue;
 
-                ErrorContext=new ParserErrorContext(charArray,pos);
+                currentCommand2.ResultStateBag.ErrorContext = new ParserErrorContext(charArray, pos);
             }
         }
 
@@ -178,7 +201,7 @@ namespace MPOptions.Internal
                 {
                     sb.Append(charArray[savedpos]);
                     savedpos++;
-                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End);  //MP: should this not be a || instead of &&
+                } while (ParseValue(savedpos) != Token.WhiteSpace && ParseValue(savedpos) != Token.End); 
 
                 if (TestForArgument(sb.ToString()))
                 {
@@ -194,15 +217,15 @@ namespace MPOptions.Internal
 
         private bool TestForArgument(string value)
         {
-            var arguments = (from obj in currentCommand.Arguments
+            var arguments = (from obj in currentCommand2.Arguments
                              where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                                    && obj.ArgumentValidator is RegularExpressionArgumentValidator
                              select obj).Concat(
-                from obj in currentCommand.Arguments
+                from obj in currentCommand2.Arguments
                 where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                       && obj.ArgumentValidator is CustomArgumentValidator
                 select obj).Concat(
-                from obj in currentCommand.Arguments
+                from obj in currentCommand2.Arguments
                 where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
                       && obj.ArgumentValidator is FallThroughArgumentValidator
                 select obj);
@@ -212,7 +235,7 @@ namespace MPOptions.Internal
                 if(argument.ArgumentValidator.IsMatch(value))
                 {
                     argument._Values.Add(value);
-                    argument.Set = true;
+                    argument.IsSet = true;
                     return true;
                 }
             }
@@ -326,7 +349,7 @@ namespace MPOptions.Internal
                 }
                 else if (ParseValue(savedpos) == Token.WhiteSpace || ParseValue(savedpos) == Token.End)
                 {
-                    var option = (from obj in currentCommand.Options
+                    var option = (from obj in currentCommand2.Options
                                   where obj.OptionValueValidator == null ||
                                         obj.OptionValueValidator != null && obj.OptionValueValidator.ValueOptional
                                   from obj2 in obj.Token.SplitInternal()
@@ -338,7 +361,7 @@ namespace MPOptions.Internal
                     {
                         if (!option.IsSet)  //MP: check if the Value is already set by a value optional option; if yes, should it break with error message???
                         {
-                            option.Set=true;
+                            option.IsSet=true;
                             pos = savedpos;
                             return true;
                         }
@@ -352,7 +375,7 @@ namespace MPOptions.Internal
 
         private bool TestForOption(string token,string value)
         {
-            var options = from obj in currentCommand.Options
+            var options = from obj in currentCommand2.Options
                           where obj.OptionValueValidator is StaticOptionValueValidator
                           from obj2 in obj.Token.SplitInternal()
                           where token == obj2
@@ -366,7 +389,7 @@ namespace MPOptions.Internal
                         if(!option.IsSet)
                         {
                             option._Values.Add(value);
-                            option.Set=true;
+                            option.IsSet=true;
                             return true;
                         }
                         else
@@ -379,7 +402,7 @@ namespace MPOptions.Internal
                     }
             }
 
-            var options2 = (from obj in currentCommand.Options
+            var options2 = (from obj in currentCommand2.Options
                             where obj.OptionValueValidator is RegularExpressionOptionValueValidator
                             from obj2 in obj.Token.SplitInternal()
                             where token == obj2
@@ -393,14 +416,14 @@ namespace MPOptions.Internal
                         if (options2._Values.Count < options2.OptionValueValidator.MaximumOccurrence)
                         {
                             options2._Values.Add(value);
-                            options2.Set = true;
+                            options2.IsSet = true;
                             return true;
                         }
 
                     }
             }
 
-            var options3 = (from obj in currentCommand.Options
+            var options3 = (from obj in currentCommand2.Options
                             where obj.OptionValueValidator is FallThroughOptionValueValidator
                             from obj2 in obj.Token.SplitInternal()
                             where token == obj2
@@ -414,7 +437,7 @@ namespace MPOptions.Internal
                         if (options3._Values.Count < options3.OptionValueValidator.MaximumOccurrence)
                         {
                             options3._Values.Add(value);
-                            options3.Set = true;
+                            options3.IsSet = true;
                             return true;
                         }
 
@@ -424,7 +447,7 @@ namespace MPOptions.Internal
             return false;
         }
 
-        private bool CanSetValueOption(Option option)
+        private bool CanSetValueOption(IOptionResultInternal option)
         {
             return (option.OptionValueValidator.ValueOptional && !option.IsSet) ||
                    (option.OptionValueValidator.ValueOptional && option.IsSet && option._Values.Count > 0) ||
@@ -445,15 +468,15 @@ namespace MPOptions.Internal
 
             if (ParseValue(savedpos) == Token.WhiteSpace || ParseValue(savedpos) == Token.End)
             {
-                Command command = (from obj in currentCommand.Commands
-                                   from obj2 in obj.Token.SplitInternal()
-                                   where sb.ToString() == obj2
-                                   select obj).SingleOrDefault();
+                ICommandResultInternal command = (from obj in currentCommand2.Commands
+                                                  from obj2 in obj.Token.SplitInternal()
+                                                  where sb.ToString() == obj2
+                                                  select obj).SingleOrDefault();
 
                 if(command != null)
                 {
-                    command.Set=true;
-                    currentCommand = command;
+                    command.IsSet=true;
+                    currentCommand2 = command;
                     pos = savedpos;
                     return true;
                 }

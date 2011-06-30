@@ -482,15 +482,15 @@ namespace MPOptions.Test
         {
             Command rootcommand = MPOptions.GetRoot();
 
-            rootcommand.AddCommand("com1", "com").AddCommand("com2", "com").AddGlobalOption("globopt", "gopt");
+            rootcommand.Add(new Command("com1", "com")).Add(new Command("com2", "com").Add(new Option("globopt", "gopt",true)));
 
             Option option1 = rootcommand.Commands["com1"].Options["globopt"];
 
             Option option2 = rootcommand.Commands["com1"].Commands["com2"].Options["globopt"];
 
-            option1.AddOption("option", "opt");
+            //option1.AddOption("option", "opt");
 
-            option2.AddOption("option2", "opt");
+            //option2.AddOption("option2", "opt");
 
             Assert.IsNotNull(rootcommand.Commands["com1"].Options["option"]);
 

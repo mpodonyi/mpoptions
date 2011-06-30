@@ -79,16 +79,16 @@ namespace MPOptions
         //    }
         //}
 
-        internal Command():base(new StateBag(), null,null)
-        {
-            //StateBag.RootCommand = this;
-        }
+        //internal Command():base(new StateBag(), null,null)
+        //{
+        //    //StateBag.RootCommand = this;
+        //}
 
-        internal Command(Command parentCommand, string name, string token)
-            : base(parentCommand.StateBag,parentCommand, name)
-        {
-            this.Token = token;
-        }
+        //internal Command(Command parentCommand, string name, string token)
+        //    : base(parentCommand.StateBag,parentCommand, name)
+        //{
+        //    this.Token = token;
+        //}
 
         public string Token
         {

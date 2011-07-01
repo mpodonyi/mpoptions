@@ -11,3 +11,4 @@ glob:src/MPOptions/MPOptions.csproj.user
 syntax: glob
 src/MPOptions.sln.docstates.suo
 src/MPOptions.sln.docstates
+src/MPOptions.6.0.ReSharper.user

@@ -6,23 +6,6 @@ using System.Collections;
 
 namespace MPOptions.NewStyle
 {
-    public interface IArgumentResultCollection : IEnumerable<IArgumentResult>
-    {
-        IArgumentResult this[string key]
-        {
-            get;
-        }
-
-    }
-
-    internal interface IArgumentResultCollectionInternal : IEnumerable<IArgumentResultInternal>
-    {
-        IArgumentResultInternal this[string key]
-        {
-            get;
-        }
-    }
-
     internal class ArgumentResultCollection : IArgumentResultCollection, IArgumentResultCollectionInternal
     {
         private ResultStateBag _ResultStateBag;

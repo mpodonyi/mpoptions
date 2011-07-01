@@ -67,7 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
+    <Compile Include="IArgumentCollection.cs" />
+    <Compile Include="ICommandCollection.cs" />
+    <Compile Include="IOptionCollection.cs" />
+    <Compile Include="MPOptions.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="ArgumentCollection.cs" />
     <Compile Include="Command.cs" />
@@ -76,14 +79,27 @@
     <Compile Include="FallThroughArgumentValidator.cs" />
     <Compile Include="FallThroughOptionValueValidator.cs" />
     <Compile Include="IArgumentValidator.cs" />
+    <Compile Include="IGeneralFlow.cs" />
     <Compile Include="Internal\Experimental.cs" />
     <Compile Include="Internal\ObjectDumper.cs" />
     <Compile Include="NewStyle\ArgumentResult.cs" />
     <Compile Include="NewStyle\ArgumentResultCollection.cs" />
     <Compile Include="NewStyle\CollectionAdapter.cs" />
-    <Compile Include="NewStyle\CommandCollection.cs" />
     <Compile Include="NewStyle\CommandResult.cs" />
     <Compile Include="NewStyle\CommandResultCollection.cs" />
+    <Compile Include="NewStyle\IArgumentResult.cs" />
+    <Compile Include="NewStyle\IArgumentResultCollection.cs" />
+    <Compile Include="NewStyle\IArgumentResultCollectionInternal.cs" />
+    <Compile Include="NewStyle\IArgumentResultInternal.cs" />
+    <Compile Include="NewStyle\ICommandResult.cs" />
+    <Compile Include="NewStyle\ICommandResultCollection.cs" />
+    <Compile Include="NewStyle\ICommandResultCollectionInternal.cs" />
+    <Compile Include="NewStyle\ICommandResultInternal.cs" />
+    <Compile Include="NewStyle\IMPOptionCollection.cs" />
+    <Compile Include="NewStyle\IOptionResult.cs" />
+    <Compile Include="NewStyle\IOptionResultCollection.cs" />
+    <Compile Include="NewStyle\IOptionResultCollectionInternal.cs" />
+    <Compile Include="NewStyle\IOptionResultInternal.cs" />
     <Compile Include="NewStyle\OptionResult.cs" />
     <Compile Include="NewStyle\OptionResultCollection.cs" />
     <Compile Include="NewStyle\ResultStateBag.cs" />
@@ -99,6 +115,7 @@
     <Compile Include="RegularExpressionArgumentValidator.cs" />
     <Compile Include="RegularExpressionOptionValueValidator.cs" />
     <Compile Include="Internal\StateBag.cs" />
+    <Compile Include="RootCommand.cs" />
     <Compile Include="StaticOptionValueValidator.cs" />
     <Compile Include="Internal\CommandValidator.cs" />
     <Compile Include="Internal\Validator.cs" />

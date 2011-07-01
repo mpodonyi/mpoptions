@@ -24,60 +24,6 @@ namespace MPOptions.NewStyle
     //}
 
 
-    public interface ICommandResult
-    {
-        ICommandResultCollection Commands
-        { get; }
-
-        IArgumentResultCollection Arguments
-        { get; }
-
-        IOptionResultCollection Options
-        { get; }
-
-
-
-
-        bool IsSet
-        { get; }
-
-        string Token
-        {
-            get;
-        }
-
-
-        string Name
-        {
-            get;
-        }
-    }
-
-    internal interface ICommandResultInternal : ICommandResult
-    {
-        new ICommandResultCollectionInternal Commands
-        { get; }
-
-        new IArgumentResultCollectionInternal Arguments
-        { get; }
-
-        new IOptionResultCollectionInternal Options
-        { get; }
-
-        new bool IsSet
-        {
-            get;
-            set;
-        }
-
-        ResultStateBag ResultStateBag
-        { get; }
-        
-
-       
-    }
-   
-
     internal class CommandResult :  ICommandResultInternal
     {
         private Command _Command;

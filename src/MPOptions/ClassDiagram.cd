@@ -35,7 +35,7 @@
   <Class Name="MPOptions.Element" Collapsed="true">
     <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAEAADAACAQAAAAQBAUAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAAAQAAAAQAAEAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Element.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -57,17 +57,9 @@
   <Class Name="MPOptions.Argument" Collapsed="true">
     <Position X="12.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAggAAAEAAAAAAAACAAgAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAggAAAEAAAAAAAACAAgAAAAAAAAAAAAAAAgAAAAAAI=</HashCode>
       <FileName>Argument.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="MPOptions.RootCommand" Collapsed="true">
-    <Position X="10.25" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>App.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="MPOptions.CustomArgumentValidator" Collapsed="true">
     <Position X="14.25" Y="1.5" Width="1.5" />
@@ -142,7 +134,7 @@
   <Class Name="MPOptions.NewStyle.ArgumentResult" Collapsed="true">
     <Position X="8.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAACAAAAAQAAAAAAIAAACAgAAAgAAA=</HashCode>
+      <HashCode>AAQAAAAEAAAAAAQACAAAAAQAAAAAAIAAACAgAAAgAAA=</HashCode>
       <FileName>NewStyle\ArgumentResult.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -150,7 +142,7 @@
   <Class Name="MPOptions.NewStyle.ArgumentResultCollection" Collapsed="true">
     <Position X="2.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAQAAhAACAAAAAAAAAAAAAAEEAAAAAAAAAI=</HashCode>
+      <HashCode>CAAAAAAAAAQAAhQACAAAAAAAAAAAAAAEEAAAAAAAAAI=</HashCode>
       <FileName>NewStyle\ArgumentResultCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -158,7 +150,7 @@
   <Class Name="MPOptions.NewStyle.CommandResultCollection" Collapsed="true">
     <Position X="0.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAEAABAACAAAICAAAAAAAAAEAAAEAAAAAAA=</HashCode>
+      <HashCode>AAAAgAAAAAEAABQACAAAICAAAAAAAAAEAAAEAAAAAAA=</HashCode>
       <FileName>NewStyle\CommandResultCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -166,7 +158,7 @@
   <Class Name="MPOptions.NewStyle.OptionResultCollection" Collapsed="true">
     <Position X="5.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAQBAASAAAAAAAAAAAAAAEAAAgAAAAQAA=</HashCode>
+      <HashCode>IAAAAAAAAAAAQBQASAAAAAAAAAAAAAAEAAAgAAAAQAA=</HashCode>
       <FileName>NewStyle\OptionResultCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -174,7 +166,7 @@
   <Class Name="MPOptions.NewStyle.CommandResult" Collapsed="true">
     <Position X="10.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAACQAABABQAAABAAAAAICAAAABBAEA=</HashCode>
+      <HashCode>AAQAAgAAAAAAAAQCQgABABQAAABAAAAAICAAAABBAEA=</HashCode>
       <FileName>NewStyle\CommandResult.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -182,46 +174,19 @@
   <Class Name="MPOptions.NewStyle.OptionResult" Collapsed="true">
     <Position X="12.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAACAACAAQAAAAAAIAAACAgAAABAAA=</HashCode>
+      <HashCode>AAQAAAAAAgAAAAQACAACAAQAAAAAAIAAACAgAAABAAA=</HashCode>
       <FileName>NewStyle\OptionResult.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="MPOptions.NewStyle.IMPOptionCollection&lt;T&gt;" Collapsed="true">
-    <Position X="1.75" Y="0.5" Width="3.5" />
+  <Class Name="MPOptions.RootCommand" Collapsed="true">
+    <Position X="10.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAABAQAAAAAAAAAAAAAAAAQAAA=</HashCode>
-      <FileName>NewStyle\CollectionAdapter.cs</FileName>
+      <HashCode>AAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>RootCommand.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.IOptionCollection" Collapsed="true">
-    <Position X="0.5" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>OptionCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.IArgumentCollection" Collapsed="true">
-    <Position X="5.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ArgumentCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.ICommandCollection" Collapsed="true">
-    <Position X="3.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>CommandCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.IGeneralFlow&lt;T&gt;">
-    <Position X="7.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>App.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="MPOptions.IArgumentValidator" Collapsed="true">
     <Position X="15.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -236,53 +201,11 @@
       <FileName>IOptionValueValidator.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="MPOptions.NewStyle.IArgumentResult" Collapsed="true">
-    <Position X="8.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAACAgAAAAAAA=</HashCode>
-      <FileName>NewStyle\ArgumentResult.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.IArgumentResultInternal" Collapsed="true">
-    <Position X="8.25" Y="7.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\ArgumentResult.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.IArgumentResultCollection" Collapsed="true">
-    <Position X="2.5" Y="7.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\ArgumentResultCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.ICommandResultCollection" Collapsed="true">
-    <Position X="0.5" Y="7.25" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\CommandResultCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="MPOptions.NewStyle.IOptionResultCollection" Collapsed="true">
     <Position X="5" Y="7.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NewStyle\OptionResultCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.ICommandResultCollectionInternal" Collapsed="true">
-    <Position X="0.5" Y="8.25" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\CommandResultCollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.IArgumentResultCollectionInternal" Collapsed="true">
-    <Position X="2.5" Y="8.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\ArgumentResultCollection.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MPOptions.NewStyle.IOptionResultCollectionInternal" Collapsed="true">
@@ -292,32 +215,109 @@
       <FileName>NewStyle\OptionResultCollection.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="MPOptions.NewStyle.IOptionResultInternal" Collapsed="true">
+    <Position X="12.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAACAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\OptionResult.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.IGeneralFlow&lt;T&gt;">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IGeneralFlow.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.IArgumentCollection" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IArgumentCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.ICommandCollection" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICommandCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.IOptionCollection" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IOptionCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.IArgumentResult" Collapsed="true">
+    <Position X="8.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAACAgAAAAAAA=</HashCode>
+      <FileName>NewStyle\IArgumentResult.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.IArgumentResultInternal" Collapsed="true">
+    <Position X="8.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\IArgumentResultInternal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.IArgumentResultCollection" Collapsed="true">
+    <Position X="2.5" Y="7.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\IArgumentResultCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.IArgumentResultCollectionInternal" Collapsed="true">
+    <Position X="2.5" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\IArgumentResultCollectionInternal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.IMPOptionCollection&lt;T&gt;" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAABAQAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>NewStyle\IMPOptionCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Interface Name="MPOptions.NewStyle.ICommandResult" Collapsed="true">
     <Position X="10.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAQAAAAAAAAAICAAAABBAAA=</HashCode>
-      <FileName>NewStyle\CommandResult.cs</FileName>
+      <FileName>NewStyle\ICommandResult.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MPOptions.NewStyle.ICommandResultInternal" Collapsed="true">
     <Position X="10.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAICAAAABAAAA=</HashCode>
-      <FileName>NewStyle\CommandResult.cs</FileName>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAICAAAABAAAA=</HashCode>
+      <FileName>NewStyle\ICommandResultInternal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.ICommandResultCollection" Collapsed="true">
+    <Position X="0.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\ICommandResultCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MPOptions.NewStyle.ICommandResultCollectionInternal" Collapsed="true">
+    <Position X="0.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NewStyle\ICommandResultCollectionInternal.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MPOptions.NewStyle.IOptionResult" Collapsed="true">
     <Position X="12.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAACAgAAABAAA=</HashCode>
-      <FileName>NewStyle\OptionResult.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="MPOptions.NewStyle.IOptionResultInternal" Collapsed="true">
-    <Position X="12.5" Y="7.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAACAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>NewStyle\OptionResult.cs</FileName>
+      <FileName>NewStyle\IOptionResult.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

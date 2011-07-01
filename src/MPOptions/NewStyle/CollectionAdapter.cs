@@ -7,24 +7,6 @@ using MPOptions.Internal;
 
 namespace MPOptions.NewStyle
 {
-    public interface IMPOptionCollection<T>: ICollection<T>, ICollection where T:Element
-    {
-        bool Contains(string key);
-
-        bool Remove(string key);
-
-        T this[string key]
-        { get; }
-
-        new int Count
-        {
-            get;
-        }
-
-    }
-
-
-
     class CollectionAdapter<T> : IMPOptionCollection<T> where T:Element
     {
         internal CollectionAdapter(IDictionary<string,T> collection, string prekey)

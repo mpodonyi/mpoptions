@@ -6,26 +6,6 @@ using System.Collections;
 
 namespace MPOptions.NewStyle
 {
-
-    public interface ICommandResultCollection: IEnumerable<ICommandResult>
-    {
-        ICommandResult this[string key]
-        {
-            get;
-        }
-      
-    }
-
-    internal interface ICommandResultCollectionInternal :  IEnumerable<ICommandResultInternal>
-    {
-        ICommandResultInternal this[string key]
-        {
-            get;
-        }
-    }
-
-
-
     internal class CommandResultCollection : ICommandResultCollection, ICommandResultCollectionInternal
     {
 

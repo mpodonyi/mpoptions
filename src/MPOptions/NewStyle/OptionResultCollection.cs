@@ -6,23 +6,6 @@ using System.Collections;
 
 namespace MPOptions.NewStyle
 {
-    public interface IOptionResultCollection : IEnumerable<IOptionResult>
-    {
-        IOptionResult this[string key]
-        {
-            get;
-        }
-
-    }
-
-    internal interface IOptionResultCollectionInternal : IEnumerable<IOptionResultInternal>
-    {
-        IOptionResultInternal this[string key]
-        {
-            get;
-        }
-    }
-
     internal class OptionResultCollection : IOptionResultCollection, IOptionResultCollectionInternal
     {
         private ResultStateBag _ResultStateBag;

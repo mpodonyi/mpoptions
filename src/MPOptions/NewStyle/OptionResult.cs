@@ -5,49 +5,6 @@ using System.Text;
 
 namespace MPOptions.NewStyle
 {
-    public interface IOptionResult
-    {
-        bool IsSet
-        { get; }
-
-        string Name
-        {
-            get;
-        }
-
-        string[] Values
-        {
-            get;
-        }
-
-        string Value
-        {
-            get;
-        }
-
-        string Token
-        {
-            get;
-        }
-    }
-
-    internal interface IOptionResultInternal : IOptionResult
-    {
-        new bool IsSet
-        {
-            get;
-            set;
-        }
-
-        ICollection<string> _Values
-        { get; }
-
-        IOptionValueValidator OptionValueValidator
-        { get; }
-    }
-
-
-
     internal class OptionResult : IOptionResultInternal
     {
         private Option _Option;

@@ -5,44 +5,6 @@ using System.Text;
 
 namespace MPOptions.NewStyle
 {
-    public interface IArgumentResult
-    {
-        bool IsSet
-        { get; }
-
-        string Name
-        {
-            get;
-        }
-
-        string[] Values
-        {
-            get;
-        }
-
-        string Value
-        {
-            get;
-        }
-    }
-
-    internal interface IArgumentResultInternal : IArgumentResult
-    {
-        new bool IsSet
-        {
-            get;
-            set;
-        }
-
-        ICollection<string> _Values
-        { get; }
-
-        IArgumentValidator ArgumentValidator
-        { get; }
-    }
-
-
-
     internal class ArgumentResult : IArgumentResultInternal
     {
         private Argument _Argument;

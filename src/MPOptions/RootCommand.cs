@@ -1,5 +1,6 @@
 using MPOptions.Internal;
 using MPOptions.NewStyle;
+using MPOptions.Result;
 
 namespace MPOptions
 {

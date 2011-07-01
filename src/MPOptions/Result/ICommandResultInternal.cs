@@ -1,4 +1,4 @@
-namespace MPOptions.NewStyle
+namespace MPOptions.Result
 {
     internal interface ICommandResultInternal : ICommandResult
     {

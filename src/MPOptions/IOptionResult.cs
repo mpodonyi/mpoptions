@@ -1,6 +1,6 @@
-namespace MPOptions.NewStyle
+namespace MPOptions
 {
-    public interface IArgumentResult
+    public interface IOptionResult
     {
         bool IsSet
         { get; }
@@ -16,6 +16,11 @@ namespace MPOptions.NewStyle
         }
 
         string Value
+        {
+            get;
+        }
+
+        string Token
         {
             get;
         }

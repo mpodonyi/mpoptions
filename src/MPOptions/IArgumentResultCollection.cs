@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MPOptions.NewStyle
+namespace MPOptions
 {
     public interface IArgumentResultCollection : IEnumerable<IArgumentResult>
     {

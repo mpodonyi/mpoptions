@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using MPOptions.NewStyle;
 
-namespace MPOptions.NewStyle
+namespace MPOptions.Result
 {
-    internal interface IOptionResultInternal : IOptionResult
+    internal interface IArgumentResultInternal : IArgumentResult
     {
         new bool IsSet
         {
@@ -13,7 +14,7 @@ namespace MPOptions.NewStyle
         ICollection<string> _Values
         { get; }
 
-        IOptionValueValidator OptionValueValidator
+        IArgumentValidator ArgumentValidator
         { get; }
     }
 }

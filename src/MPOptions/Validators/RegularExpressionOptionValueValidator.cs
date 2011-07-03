@@ -1,19 +1,19 @@
-using System;
 using System.Text.RegularExpressions;
-using MPOptions.Internal;
+using MPOptions.Parser;
 
-namespace MPOptions
+namespace MPOptions.Validators
 {
-    public class RegularExpressionArgumentValidator : IArgumentValidator
+    internal class RegularExpressionOptionValueValidator : IOptionValueValidator
     {
-        public RegularExpressionArgumentValidator(string pattern)
+        public RegularExpressionOptionValueValidator(string pattern)
         {
             this.pattern = pattern;
+            ValueOptional = false;
         }
 
         private readonly string pattern;
 
-        #region IArgumentValidator Members
+        #region IOptionValidator Members
 
         public bool IsMatch(string value)
         {
@@ -30,9 +30,14 @@ namespace MPOptions
             set
             {
                 if (value < 1)
-                    ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionResource.Maximumoccurenceminimum, value);
+                    ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionResource.Maximumoccurenceminimum,value);
                 _MaximumOccurrence = value;
             }
+        }
+
+        public bool ValueOptional
+        {
+            get; set;
         }
 
         #endregion

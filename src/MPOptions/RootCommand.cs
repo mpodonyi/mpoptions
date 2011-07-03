@@ -1,5 +1,4 @@
-using MPOptions.Internal;
-using MPOptions.NewStyle;
+using MPOptions.Parser;
 using MPOptions.Result;
 
 namespace MPOptions
@@ -50,7 +49,7 @@ namespace MPOptions
         /// <returns>Return the current command.</returns>
         public Command Parse()
         {
-            var parser = new Parser(this);
+            var parser = new Parser.Parser(this);
             ParserErrorContext errorContext = parser.Parse();
             if (errorContext != null)
                 ThrowHelper.ThrowParserException(errorContext);
@@ -73,7 +72,7 @@ namespace MPOptions
         internal ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var result = new CommandResult(this,new ResultStateBag());
-            var parser = new Parser(result, commandLine);
+            var parser = new Parser.Parser(result, commandLine);
             parserErrorContext = parser.Parse();
             //return this;
             return result;

@@ -1,4 +1,4 @@
-namespace MPOptions
+namespace MPOptions.Validators
 {
     /// <summary>
     /// Provides functionality to validate OptionValues.

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MPOptions.Internal;
+using MPOptions.ElementTree;
+using MPOptions.Parser;
 
 namespace MPOptions
 {

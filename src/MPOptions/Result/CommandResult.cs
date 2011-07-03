@@ -1,3 +1,5 @@
+using MPOptions.ElementTree;
+
 namespace MPOptions.Result
 {
     //internal class ElementResult

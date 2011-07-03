@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Text;
-using MPOptions.NewStyle;
+using MPOptions.InternalValidation;
 using MPOptions.Result;
+using MPOptions.Validators;
 
-namespace MPOptions.Internal
+namespace MPOptions.Parser
 {
     internal class Parser
     {

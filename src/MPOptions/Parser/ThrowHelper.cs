@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace MPOptions.Internal
+namespace MPOptions.Parser
 {
     internal enum ExceptionArgument
     {

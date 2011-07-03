@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MPOptions.NewStyle;
+using MPOptions.Validators;
 
 namespace MPOptions.Result
 {

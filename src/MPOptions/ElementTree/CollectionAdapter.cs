@@ -1,13 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MPOptions.Internal;
 
-namespace MPOptions.NewStyle
+namespace MPOptions.ElementTree
 {
-    class CollectionAdapter<T> : IMPOptionCollection<T> where T:Element
+    internal class CollectionAdapter<T> : IMPOptionCollection<T> where T:Element
     {
         internal CollectionAdapter(IDictionary<string,T> collection, string prekey)
         {

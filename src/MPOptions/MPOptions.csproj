@@ -67,41 +67,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementTree\ArgumentCollection.cs" />
+    <Compile Include="ElementTree\CollectionAdapter.cs" />
+    <Compile Include="ElementTree\CommandCollection.cs" />
+    <Compile Include="ElementTree\OptionCollection.cs" />
+    <Compile Include="ElementTree\StateBag.cs" />
     <Compile Include="IArgumentCollection.cs" />
     <Compile Include="IArgumentResult.cs" />
     <Compile Include="IArgumentResultCollection.cs" />
     <Compile Include="ICommandCollection.cs" />
     <Compile Include="ICommandResult.cs" />
     <Compile Include="ICommandResultCollection.cs" />
+    <Compile Include="IMPOptionCollection.cs" />
+    <Compile Include="InternalValidation\CommandValidator.cs" />
+    <Compile Include="InternalValidation\IValidator.cs" />
+    <Compile Include="InternalValidation\OptionValidator.cs" />
+    <Compile Include="InternalValidation\ValidationFactory.cs" />
+    <Compile Include="InternalValidation\Validator.cs" />
     <Compile Include="IOptionCollection.cs" />
     <Compile Include="IOptionResult.cs" />
     <Compile Include="IOptionResultCollection.cs" />
     <Compile Include="MPOptions.cs" />
     <Compile Include="Argument.cs" />
-    <Compile Include="ArgumentCollection.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="CommandCollection.cs" />
-    <Compile Include="CustomArgumentValidator.cs" />
-    <Compile Include="FallThroughArgumentValidator.cs" />
-    <Compile Include="FallThroughOptionValueValidator.cs" />
-    <Compile Include="IArgumentValidator.cs" />
     <Compile Include="IGeneralFlow.cs" />
-    <Compile Include="Internal\Experimental.cs" />
-    <Compile Include="Internal\ObjectDumper.cs" />
-    <Compile Include="NewStyle\CollectionAdapter.cs" />
-    <Compile Include="NewStyle\IMPOptionCollection.cs" />
     <Compile Include="ParserErrorContext.cs" />
     <Compile Include="ParserException.cs" />
-    <Compile Include="IOptionValueValidator.cs" />
-    <Compile Include="OptionCollection.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="Internal\Helper.cs" />
     <Compile Include="Option.cs" />
-    <Compile Include="Internal\Parser.cs" />
+    <Compile Include="Parser\Experimental.cs" />
+    <Compile Include="Parser\Helper.cs" />
+    <Compile Include="Parser\ObjectDumper.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\ThrowHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegularExpressionArgumentValidator.cs" />
-    <Compile Include="RegularExpressionOptionValueValidator.cs" />
-    <Compile Include="Internal\StateBag.cs" />
     <Compile Include="Result\ArgumentResult.cs" />
     <Compile Include="Result\ArgumentResultCollection.cs" />
     <Compile Include="Result\CommandResult.cs" />
@@ -116,13 +115,15 @@
     <Compile Include="Result\OptionResultCollection.cs" />
     <Compile Include="Result\ResultStateBag.cs" />
     <Compile Include="RootCommand.cs" />
-    <Compile Include="StaticOptionValueValidator.cs" />
-    <Compile Include="Internal\CommandValidator.cs" />
-    <Compile Include="Internal\Validator.cs" />
-    <Compile Include="Internal\OptionValidator.cs" />
-    <Compile Include="Internal\ThrowHelper.cs" />
-    <Compile Include="Internal\ValidationFactory.cs" />
     <Compile Include="ValidationArgumentException.cs" />
+    <Compile Include="Validators\CustomArgumentValidator.cs" />
+    <Compile Include="Validators\FallThroughArgumentValidator.cs" />
+    <Compile Include="Validators\FallThroughOptionValueValidator.cs" />
+    <Compile Include="Validators\IArgumentValidator.cs" />
+    <Compile Include="Validators\IOptionValueValidator.cs" />
+    <Compile Include="Validators\RegularExpressionArgumentValidator.cs" />
+    <Compile Include="Validators\RegularExpressionOptionValueValidator.cs" />
+    <Compile Include="Validators\StaticOptionValueValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -144,6 +145,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

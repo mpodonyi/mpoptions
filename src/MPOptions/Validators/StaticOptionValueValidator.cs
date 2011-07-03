@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace MPOptions
+namespace MPOptions.Validators
 {
     internal sealed class StaticOptionValueValidator : IOptionValueValidator
     {

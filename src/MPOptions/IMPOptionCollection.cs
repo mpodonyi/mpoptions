@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MPOptions.NewStyle
+namespace MPOptions
 {
     public interface IMPOptionCollection<T>: ICollection<T>, ICollection where T:Element
     {

@@ -3,8 +3,6 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MPOptions.Internal;
-using MPOptions.NewStyle;
 
 namespace MPOptions.Test
 {

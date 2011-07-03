@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using MPOptions.Internal;
-using MPOptions.NewStyle;
+using MPOptions.Parser;
 
-namespace MPOptions
+namespace MPOptions.ElementTree
 {
-    class ArgumentCollection : CollectionAdapter<Argument>, IArgumentCollection
+    internal class ArgumentCollection : CollectionAdapter<Argument>, IArgumentCollection
     {
         private readonly StateBag _StateBag;
 

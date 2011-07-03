@@ -1,9 +1,9 @@
 using System;
-using MPOptions.Internal;
+using MPOptions.Parser;
 
-namespace MPOptions
+namespace MPOptions.Validators
 {
-    public class CustomArgumentValidator : IArgumentValidator
+    internal class CustomArgumentValidator : IArgumentValidator
     {
         public CustomArgumentValidator(Func<string,bool> validator)
         {

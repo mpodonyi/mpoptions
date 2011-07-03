@@ -1,9 +1,7 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace MPOptions.Internal
+namespace MPOptions.Parser
 {
     internal static class StringExtension
     {

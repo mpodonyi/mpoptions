@@ -1,6 +1,6 @@
-namespace MPOptions
+namespace MPOptions.Validators
 {
-    public interface IArgumentValidator
+    internal interface IArgumentValidator
     {
         bool IsMatch(string value);
 

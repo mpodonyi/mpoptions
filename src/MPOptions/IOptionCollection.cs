@@ -1,5 +1,3 @@
-using MPOptions.NewStyle;
-
 namespace MPOptions
 {
     public interface IOptionCollection: IMPOptionCollection<Option>

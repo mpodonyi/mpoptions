@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using MPOptions.Internal;
-using MPOptions.NewStyle;
+using MPOptions.Parser;
 
-namespace MPOptions
+namespace MPOptions.ElementTree
 {
-    class CommandCollection : CollectionAdapter<Command>, ICommandCollection
+    internal class CommandCollection : CollectionAdapter<Command>, ICommandCollection
     {
         private readonly StateBag _StateBag;
 

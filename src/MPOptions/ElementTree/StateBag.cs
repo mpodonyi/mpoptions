@@ -1,10 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MPOptions.NewStyle;
 
-namespace MPOptions.Internal
+namespace MPOptions.ElementTree
 {
     internal class StateBag
     {

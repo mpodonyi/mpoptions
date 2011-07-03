@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MPOptions.Internal;
+using MPOptions.Parser;
+using MPOptions.Validators;
 
 namespace MPOptions
 {
@@ -59,7 +60,7 @@ namespace MPOptions
         /// <returns>Return the current argument.</returns>
         public Argument Parse()
         {
-            var parser = new Parser(this);
+            var parser = new Parser.Parser(this);
             ParserErrorContext errorContext = parser.Parse();
             if (errorContext != null)
                 ThrowHelper.ThrowParserException(errorContext);
@@ -75,7 +76,7 @@ namespace MPOptions
 
         internal Argument Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
-            var parser = new Parser(this, commandLine);
+            var parser = new Parser.Parser(this, commandLine);
             parserErrorContext = parser.Parse();
             return this;
 

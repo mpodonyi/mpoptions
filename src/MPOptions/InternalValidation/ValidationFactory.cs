@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+using MPOptions.Parser;
 
-namespace MPOptions.Internal
+namespace MPOptions.InternalValidation
 {
     internal static class ValidationFactory
     {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MPOptions.Internal;
-using MPOptions.NewStyle;
+using MPOptions.Parser;
+using MPOptions.Validators;
 
-namespace MPOptions
+namespace MPOptions.ElementTree
 {
-    class OptionCollection : CollectionAdapter<Option>, IOptionCollection
+    internal class OptionCollection : CollectionAdapter<Option>, IOptionCollection
     {
 
         private readonly StateBag _StateBag;

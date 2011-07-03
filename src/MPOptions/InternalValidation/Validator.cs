@@ -1,14 +1,5 @@
-using System;
-using System.ComponentModel;
-
-namespace MPOptions.Internal
+namespace MPOptions.InternalValidation
 {
-    interface IValidator
-    {
-        void Validate();
-        void PostValidate();
-    }
-
     internal abstract class Validator<T> : IValidator
     {
 

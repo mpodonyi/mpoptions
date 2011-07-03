@@ -28,7 +28,7 @@ namespace MPOptions.Parser
         private ICommandResultInternal currentCommand2;
 
 
-        //*****new Stuff end*****
+       
 
         private enum Token
         {
@@ -44,12 +44,7 @@ namespace MPOptions.Parser
             // Special = 0x200
         }
 
-        //private ParserErrorContext ErrorContext
-        //{ get; set; }
-
         private readonly char[] charArray = null;
-
-        private Command currentCommand;
 
         private readonly bool cleancls = false;
 
@@ -85,21 +80,21 @@ namespace MPOptions.Parser
 
         }
 
-        private Parser(Element element, char[] charArray, bool cleancls)
-        {
-            //this.currentCommand = element.RootCommand;
-            //this.charArray = charArray;
-            //this.cleancls = cleancls;
-        }
+        //private Parser(Element element, char[] charArray, bool cleancls)
+        //{
+        //    //this.currentCommand = element.RootCommand;
+        //    //this.charArray = charArray;
+        //    //this.cleancls = cleancls;
+        //}
 
-        internal Parser(Element element)
-            : this(element, System.Environment.CommandLine.ToCharArray(),true)
-        {
-        }
+        //internal Parser(Element element)
+        //    : this(element, System.Environment.CommandLine.ToCharArray(),true)
+        //{
+        //}
 
-        internal Parser(Element element, string commandLine):this(element,commandLine.ToCharArray(),false)
-        {
-        }
+        //internal Parser(Element element, string commandLine):this(element,commandLine.ToCharArray(),false)
+        //{
+        //}
 
         private int SwallowExe()
         {
@@ -112,39 +107,14 @@ namespace MPOptions.Parser
             return 0;
         }
 
-        //private void Clean()
-        //{
-            //foreach (var value in currentCommand2.StateBag.Options.Values)
-            //{
-            //    value.Set = false;
-            //    value._Values.Clear();
-            //}
-
-            //foreach (var value in currentCommand2.StateBag.Commands.Values)
-            //{
-            //    value.Set = false;
-            //}
-
-            //foreach (var value in currentCommand2.StateBag.Arguments.Values)
-            //{
-            //    value.Set = false;
-            //}
-        //}
 
         internal ParserErrorContext Parse()
         {
             //foreach(Option opt in currentCommand.StateBag.Options.Values) //MP: optimize this and postvalidation process
             //    ValidationFactory.PostValidate(opt);
-            ValidationFactory.PostValidate(currentCommand);
+            //ValidationFactory.PostValidate(currentCommand);
             
-            //Clean();
             Parse(SwallowExe());
-
-            //if (ErrorContext != null)
-            //{
-            //    currentCommand2.ResultStateBag.ErrorContext = ErrorContext;
-            //    //Clean();
-            //}
 
             return currentCommand2.ResultStateBag.ErrorContext;
         }

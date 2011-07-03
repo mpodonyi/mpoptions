@@ -70,26 +70,6 @@ namespace MPOptions
         }
 
 
-
-        //internal override string Path
-        //{
-        //    get
-        //    {
-        //        return IsRoot ? string.Empty : ParentCommand.Path + Name + " ";
-        //    }
-        //}
-
-        //internal Command():base(new StateBag(), null,null)
-        //{
-        //    //StateBag.RootCommand = this;
-        //}
-
-        //internal Command(Command parentCommand, string name, string token)
-        //    : base(parentCommand.StateBag,parentCommand, name)
-        //{
-        //    this.Token = token;
-        //}
-
         public string Token
         {
             get;
@@ -101,7 +81,6 @@ namespace MPOptions
             get
             {
                 return false;
-                //return this==StateBag.RootCommand;
             }
         }
 

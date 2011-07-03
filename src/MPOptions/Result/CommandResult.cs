@@ -2,24 +2,6 @@ using MPOptions.ElementTree;
 
 namespace MPOptions.Result
 {
-    //internal class ElementResult
-    //{
-
-    //    //private ResultStateBag _ResultStateBag;
-
-    //    protected ElementResult(ResultStateBag resultStateBag)
-    //    { 
-    //        this.ResultStateBag=resultStateBag;
-    //    }
-
-    //    internal ResultStateBag ResultStateBag
-    //    {
-    //        get;
-    //        private set;
-    //    }
-    
-    //}
-
 
     internal class CommandResult :  ICommandResultInternal
     {

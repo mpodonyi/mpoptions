@@ -1,3 +1,4 @@
+using System;
 using MPOptions.Parser;
 using MPOptions.Result;
 
@@ -47,37 +48,31 @@ namespace MPOptions
         /// </summary>
         /// <exception cref="ParserException">Thrown when the Commandline can not be parsed successful.</exception>
         /// <returns>Return the current command.</returns>
-        public Command Parse()
+        public ICommandResult Parse()
         {
-            var parser = new Parser.Parser(this);
-            ParserErrorContext errorContext = parser.Parse();
-            if (errorContext != null)
-                ThrowHelper.ThrowParserException(errorContext);
-            return this;
+            ParserErrorContext parserErrorContext;
+            var result = Parse(Environment.CommandLine, out parserErrorContext);
+            if (parserErrorContext!=null)
+                ThrowHelper.ThrowParserException(parserErrorContext);
+            return result;
         }
 
-        ///// <summary>
-        ///// Parses this instance.
-        ///// </summary>
-        ///// <param name="parserErrorContext">The Error Reported by the Parser. Otherwise Null.</param>
-        ///// <returns>Return the current command.</returns>
-        //public Command Parse(out ParserErrorContext parserErrorContext)
-        //{
-        //    var parser = new Parser(this);
-        //    parserErrorContext = parser.Parse();
-        //    return this;
-        //}
-
+        /// <summary>
+        /// Parses this instance.
+        /// </summary>
+        /// <param name="parserErrorContext">The Error Reported by the Parser. Otherwise Null.</param>
+        /// <returns>Return the current command.</returns>
+        public ICommandResult TryParse(out ParserErrorContext parserErrorContext)
+        {
+            return Parse(Environment.CommandLine, out parserErrorContext);
+        }
 
         internal ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var result = new CommandResult(this,new ResultStateBag());
             var parser = new Parser.Parser(result, commandLine);
             parserErrorContext = parser.Parse();
-            //return this;
             return result;
         }
-
-        
     }
 }

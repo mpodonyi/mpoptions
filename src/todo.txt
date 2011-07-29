@@ -28,7 +28,6 @@
 -implement global fallthrough
 
 -implement generic exceptionmessages
--find a better way to compare optionimpl and option
 -validation for arguments???
 
 ==V 0.5==

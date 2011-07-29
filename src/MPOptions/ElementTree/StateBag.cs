@@ -63,17 +63,17 @@ namespace MPOptions.ElementTree
 
             foreach (var item in stateBag.Options)
             {
-                this.Options.Add(item);
+                this.Options.Add(item); //MP: should here not be the PreKey in consideration
             }
 
             foreach (var item in stateBag.Commands)
             {
-                this.Commands.Add(item);
+                this.Commands.Add(item); //MP: should here not be the PreKey in consideration
             }
 
             foreach (var item in stateBag.Arguments)
             {
-                this.Arguments.Add(item);
+                this.Arguments.Add(item); //MP: should here not be the PreKey in consideration
             }
 
             stateBag._Options = this.Options;

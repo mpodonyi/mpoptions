@@ -53,6 +53,7 @@ namespace MPOptions
             foreach (Option option in options)
             {
                 Options.Add(option);
+                //MP: when option is added to dom set the readonly flag so that changes are nt more allowed
             }
 
             return this;

@@ -14,11 +14,11 @@ namespace MPOptions
             WithNoValidator();
         }
 
-        internal Argument(Command parentCommand, string name, IArgumentValidator argumentValidator)
-            : base(parentCommand.StateBag,parentCommand, name)
-        {
-            ArgumentValidator = argumentValidator;
-        }
+        //internal Argument(Command parentCommand, string name, IArgumentValidator argumentValidator)
+        //    : base(parentCommand.StateBag,parentCommand, name)
+        //{
+        //    ArgumentValidator = argumentValidator;
+        //}
 
         internal IArgumentValidator ArgumentValidator
         {

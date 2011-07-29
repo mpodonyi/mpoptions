@@ -6,12 +6,12 @@ namespace MPOptions.ElementTree
 {
     internal class CommandCollection : CollectionAdapter<Command>, ICommandCollection
     {
-        private readonly StateBag _StateBag;
+        //private readonly StateBag _StateBag;
 
         internal CommandCollection(StateBag stateBag, string preKey)
             : base(stateBag.Commands, preKey)
         {
-            _StateBag = stateBag;
+            //_StateBag = stateBag;
         }
 
         protected override void InsertItem(Command item)

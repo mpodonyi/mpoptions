@@ -9,12 +9,7 @@ namespace MPOptions
 {
     public class Command: Element, IGeneralFlow<Command>
     {
-        //public static Command GetRoot()
-        //{
-        //    return new Command();
-        //}
-
-        private StateBag StateBag2 = new StateBag();
+        private readonly StateBag StateBag2 = new StateBag();
 
 
         public Command(string name, string token):base(name)
@@ -33,7 +28,7 @@ namespace MPOptions
                 bool thisnewvalidate = command.StateBag2.GlobalOptions.Count >0;
                 bool theirnewvalidate = StateBag2.GlobalOptions.Count > 0;
 
-                this.StateBag2.Merge(command.StateBag2);
+                this.StateBag2.MergeIn(command.StateBag2);
 
                 if (thisnewvalidate)
                     ReValidate();

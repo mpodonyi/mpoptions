@@ -14,10 +14,9 @@ namespace MPOptions.ElementTree
         }
 
 
-        private IDictionary<string,T> InnerDict
-        { get; set; }
+        private IDictionary<string, T> InnerDict;
 
-        private string Prekey;
+        private readonly string Prekey;
 
         protected virtual void InsertItem(T item)
         {
@@ -75,7 +74,7 @@ namespace MPOptions.ElementTree
             var keys = from i in InnerDict
                             where i.Key.StartsWith(Prekey) && i.Value == item
                             select i.Key;
-            if(keys.Count()>0)
+            if(keys.Any())
             {
                 foreach (string s in keys)
                 {

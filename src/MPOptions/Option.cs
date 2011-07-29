@@ -17,12 +17,12 @@ namespace MPOptions
         }
 
 
-        internal Option(Command parentCommand, string name, string token,bool globalOption)
-            : base(parentCommand.StateBag,parentCommand, name)
-        {
-            _GlobalOption = globalOption;
-            this.Token = token;
-        }
+        //internal Option(Command parentCommand, string name, string token,bool globalOption)
+        //    : base(parentCommand.StateBag,parentCommand, name)
+        //{
+        //    _GlobalOption = globalOption;
+        //    this.Token = token;
+        //}
 
 
         public string Token
@@ -33,7 +33,7 @@ namespace MPOptions
 
         internal virtual IOptionValueValidator OptionValueValidator
         {
-            set; get;
+            private set; get;
         }
 
         private readonly bool _GlobalOption = false;

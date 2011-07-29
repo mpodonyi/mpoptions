@@ -4,11 +4,11 @@ namespace MPOptions.ElementTree
 {
     internal class StateBag
     {
-        internal RootCommand RootCommand
-        {
-            get; 
-            set;
-        }
+        //internal RootCommand RootCommand
+        //{
+        //    get; 
+        //    set;
+        //}
 
         private IDictionary<string, Command> _Commands;
         internal IDictionary<string, Command> Commands 
@@ -54,7 +54,7 @@ namespace MPOptions.ElementTree
             }
         }
 
-        internal void Merge(StateBag stateBag)
+        internal void MergeIn(StateBag stateBag)
         {
             //if this command or new command has new global options then revalidate
 

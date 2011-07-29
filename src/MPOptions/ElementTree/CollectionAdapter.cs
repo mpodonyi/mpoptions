@@ -20,6 +20,7 @@ namespace MPOptions.ElementTree
 
         protected virtual void InsertItem(T item)
         {
+            item.SetReadOnly();
             InnerDict.Add(Prekey + item.Name, item);
         }
 

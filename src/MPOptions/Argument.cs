@@ -36,6 +36,7 @@ namespace MPOptions
 
         public Argument WithCustomValidator(Func<string,bool> validator, int maximumOccurrence)
         {
+            ThrowErrorWhenReadOnly();
             //IArgumentValidator argumentValueValidator = this.ArgumentValidator;
             //try
             //{
@@ -60,6 +61,7 @@ namespace MPOptions
 
         public Argument WithRegexValidator(string pattern,int maximumOccurrence)
         {
+            ThrowErrorWhenReadOnly();
             //IArgumentValidator argumentValueValidator = this.ArgumentValidator;
             //try
             //{
@@ -83,6 +85,8 @@ namespace MPOptions
 
         public Argument WithNoValidator(int maximumOccurrence) //MP: rename; sounds not good
         {
+            ThrowErrorWhenReadOnly();
+
             //IArgumentValidator argumentValueValidator = this.ArgumentValidator;
             //try
             //{

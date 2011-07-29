@@ -186,8 +186,8 @@ namespace MPOptions.Test
                 new Option("globop", "s;k", true)
                 )
                 .Add(
-                new Command("mike", "fire").Add(
-                    new Option("locop", "v;l", false))
+                    new Command("mike", "fire").Add(
+                        new Option("locop", "v;l", false))
                 );
           
             Assert.IsTrue(cmd.IsRoot);
@@ -533,6 +533,20 @@ namespace MPOptions.Test
 
             //ParserErrorContext error;
             //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
+        }
+
+
+        [TestMethod]
+        public void Element_ChangeOfElementPropertiesAfterAddingToCommandTree_ThrowsException()
+        {
+            RootCommand cmd = MPOptions.GetRoot();
+            Option opt = new Option("mike", "t1", false);
+            Argument arg=new Argument("arg");
+
+            cmd.Add(opt).Add(arg);
+            
+            AssertHelper.Throws<InvalidOperationException>(() => opt.WithStaticValidator("foo","bar"));
+            AssertHelper.Throws<InvalidOperationException>(() => arg.WithNoValidator());
         }
     }
 }

@@ -12,6 +12,20 @@ namespace MPOptions
         internal Element(string name)
         {
             this.Name = name;
+            ReadOnly = false;
+        }
+
+        private bool ReadOnly = false;
+
+        internal void SetReadOnly()
+        {
+            ReadOnly = true;
+        }
+
+        protected void ThrowErrorWhenReadOnly()
+        {
+            if (ReadOnly)
+                throw new InvalidOperationException("Can't change object after adding to Command tree.");
         }
 
         //internal Element(StateBag stateBag, Command parentCommand, string name)

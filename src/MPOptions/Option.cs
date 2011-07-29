@@ -10,7 +10,7 @@ namespace MPOptions
 {
     public class Option : Element
     {
-        public Option(string name, string token,bool globalOption):base(name)
+        public Option(string name, string token,bool globalOption=false):base(name)
         {
             _GlobalOption = globalOption;
             this.Token = token;
@@ -24,6 +24,7 @@ namespace MPOptions
         //    this.Token = token;
         //}
 
+       
 
         public string Token
         {
@@ -45,7 +46,7 @@ namespace MPOptions
             }
         }
 
-
+        
 
         public Option WithStaticValidator(params string[] values)
         {
@@ -54,6 +55,9 @@ namespace MPOptions
 
         public Option WithStaticValidator(bool valueOptional,params string[] values)
         {
+            ThrowErrorWhenReadOnly();
+
+
             //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
             //try
             //{
@@ -86,6 +90,8 @@ namespace MPOptions
 
         public Option WithRegexValidator(string pattern, bool valueOptional, int maximumOccurrence)
         {
+            ThrowErrorWhenReadOnly();
+
             //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
             //try
             //{
@@ -118,6 +124,8 @@ namespace MPOptions
 
         public Option WithNoValidator(bool valueOptional, int maximumOccurrence)
         {
+            ThrowErrorWhenReadOnly();
+
             //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
             //try
             //{
@@ -132,5 +140,7 @@ namespace MPOptions
 
             return this;
         }
+
+       
     }
 }

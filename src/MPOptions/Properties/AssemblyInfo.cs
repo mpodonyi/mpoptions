@@ -37,4 +37,4 @@ using System.Runtime.InteropServices;
 //[assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("MPOptions.Test")]
+//[assembly: InternalsVisibleTo("MPOptions.Test")]

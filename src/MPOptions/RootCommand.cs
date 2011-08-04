@@ -67,7 +67,12 @@ namespace MPOptions
             return Parse(Environment.CommandLine, out parserErrorContext);
         }
 
-        internal ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
+#if TEST
+        public
+#else
+        private
+#endif
+         ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var result = new CommandResult(this,new ResultStateBag());
             var parser = new Parser.Parser(result, commandLine);

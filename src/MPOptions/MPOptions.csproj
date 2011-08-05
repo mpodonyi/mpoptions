@@ -73,6 +73,7 @@
     <Compile Include="ElementTree\OptionCollection.cs" />
     <Compile Include="ElementTree\StateBag.cs" />
     <Compile Include="Extensions\ArgumentExtensions.cs" />
+    <Compile Include="Extensions\GeneralFlowExtensions.cs" />
     <Compile Include="IArgumentCollection.cs" />
     <Compile Include="IArgumentResult.cs" />
     <Compile Include="IArgumentResultCollection.cs" />

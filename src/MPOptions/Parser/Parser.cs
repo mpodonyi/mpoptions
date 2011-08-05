@@ -11,10 +11,10 @@ namespace MPOptions.Parser
     {
         //*****new Stuff*****
 
-       
 
-        internal Parser(ICommandResultInternal element, string commandLine)
-            : this(element, commandLine.ToCharArray(), false)
+
+        internal Parser(ICommandResultInternal element, string commandLine, bool cleancls)
+            : this(element, commandLine.ToCharArray(), cleancls)
         {
         }
 

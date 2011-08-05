@@ -64,7 +64,10 @@ namespace MPOptions
         /// <returns>Return the current command.</returns>
         public ICommandResult TryParse(out ParserErrorContext parserErrorContext)
         {
-            return Parse(Environment.CommandLine, out parserErrorContext);
+            var result = new CommandResult(this, new ResultStateBag());
+            var parser = new Parser.Parser(result, Environment.CommandLine, true);
+            parserErrorContext = parser.Parse();
+            return result;
         }
 
 #if TEST
@@ -75,7 +78,7 @@ namespace MPOptions
          ICommandResult Parse(string commandLine, out ParserErrorContext parserErrorContext)
         {
             var result = new CommandResult(this,new ResultStateBag());
-            var parser = new Parser.Parser(result, commandLine);
+            var parser = new Parser.Parser(result, commandLine, false);
             parserErrorContext = parser.Parse();
             return result;
         }

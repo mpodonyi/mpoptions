@@ -73,10 +73,10 @@ namespace MPOptions
             return this;
         }
 
-        public Option WithRegexValidator(string pattern)
-        {
-            return WithRegexValidator(pattern, false, 1);
-        }
+        //public Option WithRegexValidator(string pattern)
+        //{
+        //    return WithRegexValidator(pattern, false, 1);
+        //}
 
         public Option WithRegexValidator(string pattern,int maximumOccurrence)
         {
@@ -88,7 +88,7 @@ namespace MPOptions
             return WithRegexValidator(pattern, valueOptional, 1);
         }
 
-        public Option WithRegexValidator(string pattern, bool valueOptional, int maximumOccurrence)
+        public Option WithRegexValidator(string pattern, bool valueOptional=false, int maximumOccurrence=1)
         {
             ThrowErrorWhenReadOnly();
 
@@ -107,10 +107,10 @@ namespace MPOptions
             return this;
         }
 
-        public Option WithNoValidator()
-        {
-            return WithNoValidator(false,1);
-        }
+        //public Option WithNoValidator()
+        //{
+        //    return WithNoValidator(false,1);
+        //}
 
         public Option WithNoValidator(int maximumOccurrence)
         {
@@ -122,7 +122,7 @@ namespace MPOptions
             return WithNoValidator(valueOptional, 1);
         }
 
-        public Option WithNoValidator(bool valueOptional, int maximumOccurrence)
+        public Option WithNoValidator(bool valueOptional=false, int maximumOccurrence=1)
         {
             ThrowErrorWhenReadOnly();
 

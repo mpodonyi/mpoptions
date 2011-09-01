@@ -73,7 +73,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MPOptions\MPOptions.csproj">
       <Project>{92C25679-8BF9-424A-B820-2C5EA24E685C}</Project>
-      <Name>MPOptions</Name>
+      <Name>MPOptions %28MPOptions\MPOptions%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

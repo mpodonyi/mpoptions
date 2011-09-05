@@ -198,7 +198,7 @@ namespace MPOptions.Parser
             //    select obj).Concat(
             //    from obj in currentCommand2.Arguments
             //    where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-            //          && obj.ArgumentValidator is FallThroughArgumentValidator
+            //          && obj.ArgumentValidator is NullArgumentValidator
             //    select obj);
 
             var arguments = from obj in currentCommand2.Arguments

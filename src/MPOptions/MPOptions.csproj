@@ -118,8 +118,8 @@
     <Compile Include="RootCommand.cs" />
     <Compile Include="ValidationArgumentException.cs" />
     <Compile Include="Validators\CustomArgumentValidator.cs" />
-    <Compile Include="Validators\FallThroughArgumentValidator.cs" />
-    <Compile Include="Validators\FallThroughOptionValueValidator.cs" />
+    <Compile Include="Validators\NullArgumentValidator.cs" />
+    <Compile Include="Validators\NullOptionValueValidator.cs" />
     <Compile Include="Validators\IArgumentValidator.cs" />
     <Compile Include="Validators\IOptionValueValidator.cs" />
     <Compile Include="Validators\RegularExpressionArgumentValidator.cs" />

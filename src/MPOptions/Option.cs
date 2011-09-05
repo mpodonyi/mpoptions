@@ -129,7 +129,7 @@ namespace MPOptions
             //IOptionValueValidator optionValueValidator = this.OptionValueValidator;
             //try
             //{
-            this.OptionValueValidator = new FallThroughOptionValueValidator() { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
+            this.OptionValueValidator = new NullOptionValueValidator() { MaximumOccurrence = maximumOccurrence, ValueOptional = valueOptional };
             //    ValidationFactory.Validate(this);
             //}
             //catch

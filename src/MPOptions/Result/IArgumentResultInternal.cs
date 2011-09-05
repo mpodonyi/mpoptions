@@ -11,6 +11,11 @@ namespace MPOptions.Result
             set;
         }
 
+        int MaximumOccurrence
+        {
+            get;
+        }
+
         ICollection<string> _Values
         { get; }
 

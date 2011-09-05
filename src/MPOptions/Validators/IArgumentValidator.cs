@@ -4,7 +4,7 @@ namespace MPOptions.Validators
     {
         bool IsMatch(string value);
 
-        int MaximumOccurrence
-        { get; }
+        //int MaximumOccurrence
+        //{ get; }
     }
 }

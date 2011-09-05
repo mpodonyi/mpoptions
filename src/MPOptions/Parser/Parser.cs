@@ -188,18 +188,22 @@ namespace MPOptions.Parser
 
         private bool TestForArgument(string value)
         {
-            var arguments = (from obj in currentCommand2.Arguments
-                             where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                                   && obj.ArgumentValidator is RegularExpressionArgumentValidator
-                             select obj).Concat(
-                from obj in currentCommand2.Arguments
-                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                      && obj.ArgumentValidator is CustomArgumentValidator
-                select obj).Concat(
-                from obj in currentCommand2.Arguments
-                where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
-                      && obj.ArgumentValidator is FallThroughArgumentValidator
-                select obj);
+            //var arguments = (from obj in currentCommand2.Arguments
+            //                 where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+            //                       && obj.ArgumentValidator is RegularExpressionArgumentValidator
+            //                 select obj).Concat(
+            //    from obj in currentCommand2.Arguments
+            //    where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+            //          && obj.ArgumentValidator is CustomArgumentValidator
+            //    select obj).Concat(
+            //    from obj in currentCommand2.Arguments
+            //    where obj._Values.Count < obj.ArgumentValidator.MaximumOccurrence
+            //          && obj.ArgumentValidator is NullArgumentValidator
+            //    select obj);
+
+            var arguments = from obj in currentCommand2.Arguments
+                             where obj._Values.Count < obj.MaximumOccurrence
+                             select obj;
 
             foreach(var argument in arguments)
             {
@@ -395,7 +399,7 @@ namespace MPOptions.Parser
             }
 
             var options3 = (from obj in currentCommand2.Options
-                            where obj.OptionValueValidator is FallThroughOptionValueValidator
+                            where obj.OptionValueValidator is NullOptionValueValidator
                             from obj2 in obj.Token.SplitInternal()
                             where token == obj2
                             select obj).SingleOrDefault();

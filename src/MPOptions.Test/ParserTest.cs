@@ -327,7 +327,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             RootCommand cmd = MPOptions.GetRoot();
-            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$", 2)).Parse(testvalues, out error);
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$").SetMaximumOccurrence(2)).Parse(testvalues, out error);
             var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -380,13 +380,13 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
-        public void Parse_ArgumentFallThroughValidator_Successful()
+        public void Parse_ArgumentNullValidator_Successful()
         {
             string testvalues = " --testoptionb 123 456";
             ParserErrorContext error;
 
             RootCommand cmd = MPOptions.GetRoot();
-            ICommandResult result =  cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithNoValidator(2)).Parse(testvalues, out error);
+            ICommandResult result =  cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithNoValidator().SetMaximumOccurrence(2)).Parse(testvalues, out error);
             var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -396,7 +396,7 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
-        public void Parse_ArgumentFallThroughValidator_UnSuccessful()
+        public void Parse_ArgumentNullValidator_UnSuccessful()
         {
             string testvalues = " --testoptionb 123 456";
             ParserErrorContext error;
@@ -435,7 +435,7 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
-        public void Parse_OptionWithFallThroughOptionValidator_Successful()
+        public void Parse_OptionWithNullOptionValidator_Successful()
         {
             ParserErrorContext error;
             RootCommand cmd = MPOptions.GetRoot();
@@ -478,7 +478,7 @@ namespace MPOptions.Test
         }
 
         [TestMethod]
-        public void Parse_OptionWithFallThroughOptionValidator_UnSuccessful()
+        public void Parse_OptionWithNullOptionValidator_UnSuccessful()
         {
             ParserErrorContext error;
             RootCommand cmd = MPOptions.GetRoot();

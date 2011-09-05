@@ -87,12 +87,12 @@ namespace MPOptions.ElementTree
                 if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional))
                     ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
 
+                //MP: simulate this if i can really retire this
                 ////test that only one option with ValueOptional exist
-                //if (options.vals.Count(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional) > 1)
+                //if (options.vals.Count(opt => opt.OptionValueValidator != null && opt.OptionValueValidator.ValueOptional) > 1)  
                 //    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
 
 
-                //MP: why this validation???
                 //test that only option without validator or with validator exist
                 if (options.vals.Any(opt => opt.OptionValueValidator == null) && options.vals.Any(opt => opt.OptionValueValidator != null))
                     ThrowHelper.ThrowArgumentException(ExceptionResource.Generic);
@@ -105,7 +105,7 @@ namespace MPOptions.ElementTree
                     continue;
 
                 if (ttt.Count() > 1)
-                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed
+                    ThrowHelper.ThrowArgumentException(ExceptionResource.Generic); //only 1 OptionValueValidator by type allowed 
 
                 if (ttt.First().Key == typeof(StaticOptionValueValidator))
                 {

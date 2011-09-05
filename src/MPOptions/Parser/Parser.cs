@@ -418,9 +418,10 @@ namespace MPOptions.Parser
             return false;
         }
 
+        //MP: document the logic behind this method
         private bool CanSetValueOption(IOptionResultInternal option)
         {
-            return (option.OptionValueValidator.ValueOptional && !option.IsSet) ||
+            return (option.OptionValueValidator.ValueOptional && !option.IsSet) ||  
                    (option.OptionValueValidator.ValueOptional && option.IsSet && option._Values.Count > 0) ||
                    (!option.OptionValueValidator.ValueOptional);
         }

@@ -447,12 +447,28 @@ namespace MPOptions.Test
             Assert.IsNull(error);
 
             cmd = MPOptions.GetRoot();
+            result = cmd.Add(new Option("test", "m", false).WithNoValidator(true)).Parse(" -m:k", out error);
+            option = result.Options["test"];
+            Assert.IsTrue(option.IsSet);
+            Assert.AreEqual("k", option.Values[0]);
+            Assert.IsNull(error);
+
+            cmd = MPOptions.GetRoot();
             result = cmd.Add(new Option("test", "m", false).WithNoValidator(2)).Parse(" -m:k -m:l", out error);
             option = result.Options["test"];
             Assert.IsTrue(option.IsSet);
             Assert.AreEqual("k", option.Values[0]);
             Assert.AreEqual("l", option.Values[1]);
             Assert.IsNull(error);
+
+            cmd = MPOptions.GetRoot();
+            result = cmd.Add(new Option("test", "m", false).WithNoValidator(true, 2)).Parse(" -m:k -m:l", out error);
+            option = result.Options["test"];
+            Assert.IsTrue(option.IsSet);
+            Assert.AreEqual("k", option.Values[0]);
+            Assert.AreEqual("l", option.Values[1]);
+            Assert.IsNull(error);
+
 
             cmd = MPOptions.GetRoot();
             result = cmd.Add(new Option("test", "m",false).WithNoValidator( true )).Parse(" -m", out error);
@@ -480,6 +496,10 @@ namespace MPOptions.Test
 
             cmd = MPOptions.GetRoot();
             result = cmd.Add(new Option("test", "m",false).WithNoValidator(true, 2)).Parse(" -m -m:6", out error);
+            Assert.IsNotNull(error);
+
+            cmd = MPOptions.GetRoot();
+            result = cmd.Add(new Option("test", "m", false).WithNoValidator(true, 2)).Parse(" -m:6 -m", out error);
             Assert.IsNotNull(error);
         }
 

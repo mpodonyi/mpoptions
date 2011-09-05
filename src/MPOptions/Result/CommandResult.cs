@@ -1,4 +1,5 @@
 using MPOptions.ElementTree;
+using System.Linq;
 
 namespace MPOptions.Result
 {
@@ -110,6 +111,16 @@ namespace MPOptions.Result
             get
             {
                 return _Command.Name;
+            }
+        }
+
+
+        //MP: test this
+        public ICommandResult ChoosenCommand
+        {
+            get
+            {
+                return _ResultStateBag.HasError ? null : Commands.SingleOrDefault(obj => obj.IsSet);
             }
         }
 

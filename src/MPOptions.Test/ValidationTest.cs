@@ -521,21 +521,6 @@ namespace MPOptions.Test
             //Assert.IsNull(error);
         }
 
-        [TestMethod]
-        public void Parse_2OptionsWithSameValueBut1WithValidatorand1Without_ThrowsException()
-        {
-            RootCommand cmd = MPOptions.GetRoot();
-            cmd.Add(new Option("mike", "t1",false));
-
-            AssertHelper.Throws<ArgumentException>(() => cmd.Add(new Option("mike1", "t1",false).WithStaticValidator("john", "was")));
-
-            //Command cmd = MPOptions.GetRoot();
-            //cmd.AddOption("mike", "t1").AddOption("mike1", "t1").WithStaticValidator("john", "was");
-
-            //ParserErrorContext error;
-            //AssertHelper.Throws<ArgumentException>(() => cmd.Parse(" -t1", out error));
-        }
-
 
         [TestMethod]
         public void Element_ChangeOfElementPropertiesAfterAddingToCommandTree_ThrowsException()

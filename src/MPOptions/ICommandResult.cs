@@ -12,6 +12,10 @@ namespace MPOptions
         { get; }
 
 
+        ICommandResult ChoosenCommand
+        {
+            get;
+        }
 
 
         bool IsSet

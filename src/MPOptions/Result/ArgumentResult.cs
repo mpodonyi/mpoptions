@@ -48,6 +48,14 @@ namespace MPOptions.Result
             }
         }
 
+        public int MaximumOccurrence
+        {
+            get
+            {
+                return _Argument.MaximumOccurrence;
+            }
+        }
+
         private bool _IsSet;
         public bool IsSet
         {

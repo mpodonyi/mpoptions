@@ -11,7 +11,8 @@ namespace MPOptions
     {
         public Argument(string name) : base(name)
         {
-            ArgumentValidator = new FallThroughArgumentValidator() { MaximumOccurrence = 1 };
+            ArgumentValidator = new NullArgumentValidator();
+            MaximumOccurrence = 1;
         }
 
         //internal Argument(Command parentCommand, string name, IArgumentValidator argumentValidator)
@@ -26,10 +27,25 @@ namespace MPOptions
             get;
         }
 
-        public Argument WithValidator(IArgumentValidator validator)
+        public Argument WithValidation(IArgumentValidator validator)
         {
             ThrowErrorWhenReadOnly();
             this.ArgumentValidator = validator;
+            return this;
+        }
+
+        internal int MaximumOccurrence
+        {
+            private set;
+            get;
+        }
+
+        public Argument SetMaximumOccurrence(int value)
+        {
+            if (value< 1)
+                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionResource.Maximumoccurenceminimum, value);
+
+            MaximumOccurrence = value;
             return this;
         }
        

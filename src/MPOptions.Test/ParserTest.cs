@@ -327,7 +327,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             RootCommand cmd = MPOptions.GetRoot();
-            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$", 2)).Parse(testvalues, out error);
+            ICommandResult result = cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithRegexValidator(@"^\d+\s\d+$").SetMaximumOccurrence(2)).Parse(testvalues, out error);
             var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);
@@ -386,7 +386,7 @@ namespace MPOptions.Test
             ParserErrorContext error;
 
             RootCommand cmd = MPOptions.GetRoot();
-            ICommandResult result =  cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithNoValidator(2)).Parse(testvalues, out error);
+            ICommandResult result =  cmd.Add(new Option("testoption", "testoptionb",false)).Add(new Argument("testargument").WithNoValidator().SetMaximumOccurrence(2)).Parse(testvalues, out error);
             var argument = result.Arguments["testargument"];
 
             Assert.IsNull(error);

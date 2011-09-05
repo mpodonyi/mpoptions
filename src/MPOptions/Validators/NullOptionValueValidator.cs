@@ -2,9 +2,9 @@ using MPOptions.Parser;
 
 namespace MPOptions.Validators
 {
-    internal class FallThroughArgumentValidator:IArgumentValidator
+    internal class NullOptionValueValidator : IOptionValueValidator
     {
-        #region IArgumentValidator Members
+        #region IOptionValidator Members
 
         public bool IsMatch(string value)
         {
@@ -24,6 +24,12 @@ namespace MPOptions.Validators
                     ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionResource.Maximumoccurenceminimum, value);
                 _MaximumOccurrence = value;
             }
+        }
+
+        public bool ValueOptional
+        {
+            get;
+            set;
         }
 
         #endregion

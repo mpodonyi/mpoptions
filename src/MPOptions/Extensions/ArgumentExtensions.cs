@@ -23,5 +23,10 @@ namespace MPOptions.Extensions
             return element.WithValidation(new NullArgumentValidator() );
         }
 
+        public static Argument SetNoMaximumOccurrence(this Argument element) 
+        {
+            return element.SetMaximumOccurrence(Int32.MaxValue);
+        }
+
     }
 }

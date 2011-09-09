@@ -71,12 +71,6 @@
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPOptions\MPOptions.csproj">
-      <Project>{92C25679-8BF9-424A-B820-2C5EA24E685C}</Project>
-      <Name>MPOptions %28MPOptions\MPOptions%29</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -97,6 +91,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPOptions\MPOptions.csproj">
+      <Project>{92C25679-8BF9-424A-B820-2C5EA24E685C}</Project>
+      <Name>MPOptions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

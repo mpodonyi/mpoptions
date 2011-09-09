@@ -6,7 +6,7 @@ namespace MPOptions.Validators
     {
         #region IArgumentValidator Members
 
-        public bool IsMatch(string value)
+        public bool IsMatch(string value, int position)
         {
             return true;
         }

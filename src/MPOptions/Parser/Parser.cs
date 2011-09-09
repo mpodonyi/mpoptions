@@ -207,7 +207,7 @@ namespace MPOptions.Parser
 
             foreach(var argument in arguments)
             {
-                if(argument.ArgumentValidator.IsMatch(value))
+                if (argument.ArgumentValidator.IsMatch(value, argument._Values.Count + 1)) //MP: can i really use values count or do i need to manually increment a running variable
                 {
                     argument._Values.Add(value);
                     argument.IsSet = true;
